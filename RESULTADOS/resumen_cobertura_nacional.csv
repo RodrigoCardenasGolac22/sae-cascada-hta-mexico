@@ -1,0 +1,6 @@
+"paso","n_muestra","n_sintetico","n_total","pct_cobertura"
+"AWARE_ESH",587,1879,2466,99.5
+"AWARE_AHA",593,1855,2448,98.8
+"TRAT",576,1893,2469,99.6
+"CONTROL_ESH",557,1891,2448,98.8
+"CONTROL_AHA",557,1891,2448,98.8

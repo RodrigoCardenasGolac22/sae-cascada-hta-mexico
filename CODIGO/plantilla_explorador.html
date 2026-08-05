@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La cascada de atención de la hipertensión en los municipios de México</title>
+<meta name="description" content="Estimación bayesiana de área pequeña de la cascada de atención de la hipertensión arterial en los 2478 municipios de México. ENSANUT Continua 2021-2024.">
+<style>
+:root{
+  --ground:#F5F6F2; --surface:#FFFFFF; --surface-2:#EBEDE6; --border:#DBDED3;
+  --ink:#1B2420; --ink-2:#4B5750; --ink-muted:#7C877E;
+  --accent:#0D8A78; --accent-ink:#0A5F52; --accent-soft:#DCEEEC;
+  --warn:#BF4E28; --gold:#9A6B15;
+  --shadow:0 1px 2px rgba(20,30,25,.05);
+  --radius:10px;
+  --font-display:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,"Times New Roman",serif;
+  --font-body:-apple-system,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+  /* rampa secuencial de PREVALENCIA: un solo tono, luminosidad monotona (verificada) */
+  --p0:#0a5f52; --p1:#0d8a78; --p2:#4aa898; --p3:#87c6b9; --p4:#c0e0d8; --p5:#e9f3f0;
+  /* rampa secuencial de INCERTIDUMBRE: otro tono, tambien monotona */
+  --u0:#7a3b12; --u1:#a95f1e; --u2:#c8862f; --u3:#dcae62; --u4:#eccf9d; --u5:#f7ecd8;
+  --sin-dato:#D8DAD2;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);font-family:var(--font-body);
+     font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;
+     font-variant-numeric:tabular-nums lining-nums}
+/* La prosa larga va en serif, justificada y partida: es un documento para leer, no una interfaz.
+   Sin hyphens la justificacion abre calles blancas horribles en espanol, que tiene palabras
+   largas; por eso van siempre juntas. */
+.lede, .nota p, .muni-ent{font-family:var(--font-display);text-align:justify;
+     hyphens:auto;-webkit-hyphens:auto;text-wrap:pretty}
+.nota p{font-size:15px;line-height:1.62}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+/* ---------- encabezado ---------- */
+header.top{border-bottom:1px solid var(--border);background:var(--surface);padding:36px 0 28px}
+.cab{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(210px,.45fr);gap:46px;align-items:start}
+@media (max-width:860px){.cab{grid-template-columns:1fr;gap:26px}}
+.langToggle{display:inline-flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.langToggle button{appearance:none;border:0;background:transparent;font:inherit;font-size:12px;letter-spacing:.06em;padding:5px 11px;cursor:pointer;color:var(--ink-2);border-right:1px solid var(--border)}
+.langToggle button:last-child{border-right:0}
+.langToggle button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.cintillo{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px}
+.eyebrow{margin:0;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+         color:var(--ink-muted);display:flex;align-items:center;gap:9px}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+h1{font-family:var(--font-display);font-weight:600;font-size:clamp(28px,3.5vw,42px);
+   line-height:1.12;margin:0 0 14px;max-width:26ch;letter-spacing:-.012em;text-wrap:balance}
+.lede{margin:0;color:var(--ink-2);font-size:16.5px}
+.firma{margin:20px 0 0;padding-right:12px;font-size:14px;color:var(--ink-2);line-height:1.5}
+.firma b{font-weight:600;color:var(--ink)}
+.firma em{font-style:normal;color:var(--ink-muted);font-size:13px;display:block;margin-top:3px}
+.stat-row{display:flex;flex-direction:column;gap:0;margin:0;padding:0;border-top:2px solid var(--ink)}
+.stat{padding:9px 0;border-bottom:1px solid var(--border);display:flex;
+      align-items:baseline;justify-content:space-between;gap:12px}
+@media (max-width:860px){.stat-row{flex-direction:row;flex-wrap:wrap;gap:26px;border-top:1px solid var(--border);padding-top:16px}
+  .stat{display:block;border:0;padding:0}}
+.stat b{font-family:var(--font-mono);font-size:20px;font-weight:600;letter-spacing:-.015em;order:2}
+.stat span{font-size:12.5px;color:var(--ink-muted);order:1}
+
+/* ---------- controles ---------- */
+.controls{position:sticky;top:0;z-index:20;background:rgba(245,246,242,.94);
+          backdrop-filter:blur(6px);border-bottom:1px solid var(--border);padding:11px 0}
+.ctl-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.grp{display:flex;align-items:center;gap:8px}
+.grp>label{font-size:12px;color:var(--ink-muted);letter-spacing:.04em;text-transform:uppercase}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:3px;
+     overflow:hidden;background:var(--surface)}
+.seg button{appearance:none;border:0;background:transparent;font:inherit;font-size:13.5px;
+            padding:6px 13px;cursor:pointer;color:var(--ink-2);border-right:1px solid var(--border)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.seg button:disabled{color:#B6BDB4;cursor:not-allowed;background:var(--surface-2)}
+.search{position:relative;margin-left:auto}
+.search input{font:inherit;font-size:14px;padding:7px 12px;width:250px;border:1px solid var(--border);
+              border-radius:3px;background:var(--surface);color:var(--ink)}
+.search input:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+.results{position:absolute;top:calc(100% + 5px);right:0;width:330px;max-height:320px;overflow:auto;
+         background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+         box-shadow:var(--shadow);display:none;z-index:30}
+.results.on{display:block}
+.results button{display:block;width:100%;text-align:left;border:0;background:transparent;font:inherit;
+                font-size:13.5px;padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--surface-2)}
+.results button:hover{background:var(--accent-soft)}
+.results .ent{color:var(--ink-muted);font-size:12px}
+
+/* ---------- cuerpo ---------- */
+main{padding:26px 0 60px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 336px;gap:22px;align-items:start}
+@media (max-width:940px){.layout{grid-template-columns:1fr}}
+/* Superficie plana con un filete arriba, como el encabezado de una tabla impresa. Las tarjetas
+   con esquinas redondeadas y sombra son el aspecto por defecto de cualquier plantilla; un
+   documento cientifico se compone con reglas, no con cajas. */
+.card{background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--ink);
+      border-radius:0;padding:20px 22px}
+.card h2{font-family:var(--font-display);font-size:19px;font-weight:600;margin:0 0 3px}
+.card .sub{margin:0 0 14px;color:var(--ink-muted);font-size:13px}
+.mapaWrap{position:relative}
+#mapa{width:100%;height:auto;display:block;touch-action:none;cursor:grab;
+      background:var(--surface);border-radius:6px}
+#mapa.arrastrando{cursor:grabbing}
+.zoomBtns{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:5}
+.zoomBtns button{width:30px;height:30px;border:1px solid var(--border);background:var(--surface);
+                 border-radius:3px;font:inherit;font-size:16px;line-height:1;cursor:pointer;
+                 color:var(--ink-2);box-shadow:var(--shadow);padding:0}
+.zoomBtns button:hover{background:var(--accent-soft);border-color:var(--accent)}
+.zoomBtns button.rst{font-size:11px;letter-spacing:.02em}
+#mapa path{stroke:#fff;stroke-width:.28;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.notaMapa{font-size:12px;color:var(--ink-muted);margin:14px 0 0;padding-top:11px;border-top:1px solid var(--border);text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+#mapa path.sel{stroke:var(--ink);stroke-width:1.6}
+#mapa path.pred{opacity:.62}
+
+/* leyenda */
+.legend{margin-top:14px;border-top:1px solid var(--surface-2);padding-top:13px;
+        display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.ramp{display:flex;flex-direction:column;gap:5px}
+.ramp .bar{display:flex;height:11px;width:236px;border-radius:3px;overflow:hidden}
+.ramp .bar i{flex:1}
+.ramp .ends{display:flex;justify-content:space-between;font-family:var(--font-mono);
+            font-size:11px;color:var(--ink-muted);width:236px}
+.keys{display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--ink-2)}
+.keys span{display:flex;align-items:center;gap:8px}
+.keys i{width:15px;height:11px;border-radius:2px;border:1px solid var(--border);flex:none}
+
+/* panel de detalle */
+.muni-h{font-family:var(--font-display);font-size:22px;font-weight:600;margin:0;line-height:1.2}
+.muni-ent{color:var(--ink-muted);font-size:13px;margin:2px 0 0}
+.badge{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:99px;margin-top:9px;
+       border:1px solid var(--border);background:var(--surface-2);color:var(--ink-2)}
+.badge.dir{background:var(--accent-soft);border-color:#B9DDD7;color:var(--accent-ink)}
+.badge.sup{background:#F5E3DB;border-color:#E8C6B7;color:#8C3A1C}
+.rows{margin-top:16px;border-top:1px solid var(--surface-2)}
+.row{padding:11px 0;border-bottom:1px solid var(--surface-2)}
+.row .k{font-size:12.5px;color:var(--ink-muted);display:flex;justify-content:space-between}
+.row .v{font-family:var(--font-mono);font-size:18px;font-weight:600;margin-top:1px}
+.row .v small{font-size:12px;font-weight:400;color:var(--ink-muted);margin-left:5px;font-family:var(--font-body)}
+.ic{position:relative;height:7px;background:var(--surface-2);border-radius:99px;margin-top:7px}
+.ic i{position:absolute;top:0;height:7px;background:var(--accent);border-radius:99px;opacity:.34}
+.ic u{position:absolute;top:-2px;width:2px;height:11px;background:var(--accent-ink);border-radius:1px}
+.card.panel-vacio{border-top-color:var(--border);border-top-width:1px;background:transparent}
+.empty{color:var(--ink-muted);font-size:13.5px;padding:14px 0;text-align:left;line-height:1.5}
+
+/* nota al pie */
+.nota{margin-top:22px;font-size:13.5px;color:var(--ink-2);max-width:74ch}
+.nota h3{font-family:var(--font-display);font-size:16px;margin:0 0 7px}
+.nota p{margin:0 0 9px}
+.nota a{color:var(--accent-ink)}
+footer{border-top:1px solid var(--border);padding:20px 0 40px;color:var(--ink-muted);font-size:12.5px}
+
+/* tooltip */
+#tip{position:fixed;pointer-events:none;z-index:60;background:var(--ink);color:#fff;
+     border-radius:7px;padding:7px 10px;font-size:12.5px;line-height:1.4;opacity:0;
+     transition:opacity .1s;max-width:250px;box-shadow:0 6px 20px rgba(0,0,0,.22)}
+#tip b{display:block;font-size:13.5px}
+#tip .n{font-family:var(--font-mono)}
+#tip .e{color:#B7C4BE}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <div class="cintillo">
+    <p class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow"></span></p>
+    <div class="langToggle" id="segLang"><button data-v="es" aria-pressed="true">ES</button><button data-v="en" aria-pressed="false">EN</button></div>
+  </div>
+  <div class="cab"><div>
+  <h1 data-i18n="h1"></h1>
+  <p class="lede" data-i18n="lede"></p>
+  <p class="firma"><span data-i18n="autores"></span></p>
+  </div>
+  <div class="stat-row">
+    <div class="stat"><b>2478</b><span data-i18n="s1"></span></div>
+    <div class="stat"><b>599</b><span data-i18n="s2"></span></div>
+    <div class="stat"><b>25 089</b><span data-i18n="s3"></span></div>
+    <div class="stat"><b>5</b><span data-i18n="s4"></span></div>
+  </div>
+  </div>
+</div></header>
+
+<div class="controls"><div class="wrap ctl-row">
+  <div class="grp"><label data-i18n="lPaso"></label>
+    <div class="seg" id="segPaso">
+      <button data-v="diag" aria-pressed="true" data-i18n="bDiag"></button>
+      <button data-v="trat" aria-pressed="false" data-i18n="bTrat"></button>
+      <button data-v="ctrl" aria-pressed="false" data-i18n="bCtrl"></button>
+    </div></div>
+  <div class="grp"><label data-i18n="lCrit"></label>
+    <div class="seg" id="segCrit">
+      <button data-v="esh" aria-pressed="true">ESH 2023</button>
+      <button data-v="aha" aria-pressed="false">ACC/AHA 2025</button>
+    </div></div>
+  <div class="grp"><label data-i18n="lVer"></label>
+    <div class="seg" id="segVista">
+      <button data-v="est" aria-pressed="true" data-i18n="bEst"></button>
+      <button data-v="inc" aria-pressed="false" data-i18n="bInc"></button>
+    </div></div>
+  <div class="search">
+    <input id="q" type="search" placeholder="Buscar municipio…" autocomplete="off" aria-label="Buscar municipio">
+    <div class="results" id="res"></div>
+  </div>
+</div></div>
+
+<main class="wrap">
+  <div class="layout">
+    <section class="card">
+      <h2 id="mapaT">Diagnóstico entre las personas con hipertensión</h2>
+      <p class="sub" id="mapaS">Criterio ESH 2023 (≥140/90 mmHg). Pasa el cursor por un municipio; haz clic para fijarlo.</p>
+      <div class="mapaWrap">
+        <svg id="mapa" role="img" aria-label="Mapa municipal de México"></svg>
+        <div class="zoomBtns">
+          <button id="zIn"  title="Acercar"  aria-label="Acercar">+</button>
+          <button id="zOut" title="Alejar"   aria-label="Alejar">−</button>
+          <button id="zRst" class="rst" title="Ver todo" aria-label="Ver todo el país">1:1</button>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="ramp">
+          <div class="bar" id="rampBar"></div>
+          <div class="ends"><span id="rampLo"></span><span id="rampHi"></span></div>
+        </div>
+        <div class="keys">
+          <span><i id="k1"></i><span data-i18n="kMuestra"></span></span>
+          <span><i id="k2"></i><span data-i18n="kPred"></span></span>
+          <span><i style="background:var(--sin-dato)"></i><span data-i18n="kSin"></span></span>
+        </div>
+      </div>
+      <p class="notaMapa" data-i18n="notaGeo"></p>
+    </section>
+
+    <aside class="card panel-vacio" id="panel">
+      <div class="empty" id="vacio" data-i18n="vacio"></div>
+      <div id="detalle" hidden>
+        <h3 class="muni-h" id="dNom"></h3>
+        <p class="muni-ent" id="dEnt"></p>
+        <span class="badge" id="dBadge"></span>
+        <div class="rows" id="dRows"></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="nota">
+    <h3 data-i18n="nH3"></h3>
+    <p data-i18n="nP1"></p>
+    <p data-i18n="nP2"></p>
+    <p data-i18n="nP3"></p>
+    <p data-i18n="nP4"></p>
+  </div>
+</main>
+
+<footer><div class="wrap"><span data-i18n="pie"></span></div></footer>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<script>
+const DATOS = /*__DATOS__*/;
+const I18N = /*__I18N__*/;
+let lang = (navigator.language||'es').toLowerCase().startsWith('en') ? 'en' : 'es';
+const t = k => I18N[lang][k];
+
+const P = ['--p0','--p1','--p2','--p3','--p4','--p5'].map(v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+const U = ['--u0','--u1','--u2','--u3','--u4','--u5'].map(v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+const SIN = getComputedStyle(document.documentElement).getPropertyValue('--sin-dato').trim();
+// El separador decimal NO es cosmetico: la propia revista lo exige distinto por idioma --coma
+// en el texto en espanol, punto en el ingles--. Cablearlo a una lengua deja mal escrita la mitad
+// de las cifras de la pagina, y es de las cosas que solo se ven mirandolas.
+const nf = n => lang === 'es' ? n.toLocaleString('es-MX').replace(/[,.]/g, ' ')
+                              : n.toLocaleString('en-US');
+const pc = v => lang === 'es' ? v.toFixed(1).replace('.', ',') : v.toFixed(1);
+
+let paso='diag', crit='esh', vista='est', sel=null;
+const clave = () => paso==='trat' ? 'trat' : paso+'_'+crit;
+
+/* ---------- proyeccion: el bbox llega en km, se voltea la Y ---------- */
+const [x0,y0,x1,y1] = DATOS.bbox;
+const W = 1000, H = Math.round(W*(y1-y0)/(x1-x0));
+const sx = W/(x1-x0);
+const svg = document.getElementById('mapa');
+svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+const d_de = m => m.rings.map(r=>{
+  let s='';
+  for(let i=0;i<r.length;i+=2) s += (i?'L':'M') + ((r[i]-x0)*sx).toFixed(1) + ' ' + ((y1-r[i+1])*sx).toFixed(1);
+  return s+'Z';
+}).join('');
+
+// Zoom y arrastre. Se hace moviendo el viewBox y NO con transform: asi el grosor del trazo se
+// mantiene constante (vector-effect) y los municipios pequeños --63 ocupan menos de un pixel en el
+// mapa impreso-- se separan de verdad al acercarse, que es la razon de que esta pagina exista.
+const VB0 = {x:0, y:0, w:W, h:H};
+let vb = {...VB0};
+const MAXZ = 60;                       // hasta ~60x: suficiente para el municipio mas pequeño
+function aplicaVB(){ svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
+function zoomA(f, cx, cy){
+  const nw = Math.min(VB0.w, Math.max(VB0.w/MAXZ, vb.w*f));
+  const k = nw/vb.w;
+  vb = {w:nw, h:vb.h*k, x:cx-(cx-vb.x)*k, y:cy-(cy-vb.y)*k};
+  // no dejar salir el mapa del encuadre
+  vb.x = Math.max(VB0.x-vb.w*.25, Math.min(vb.x, VB0.w-vb.w+vb.w*.25));
+  vb.y = Math.max(VB0.y-vb.h*.25, Math.min(vb.y, VB0.h-vb.h+vb.h*.25));
+  aplicaVB();
+}
+const enSVG = ev => { const r = svg.getBoundingClientRect();
+  return {x: vb.x + (ev.clientX-r.left)/r.width*vb.w, y: vb.y + (ev.clientY-r.top)/r.height*vb.h}; };
+
+svg.addEventListener('wheel', ev=>{ ev.preventDefault();
+  const p = enSVG(ev); zoomA(ev.deltaY>0 ? 1.22 : 1/1.22, p.x, p.y); }, {passive:false});
+document.getElementById('zIn').onclick  = ()=> zoomA(1/1.6, vb.x+vb.w/2, vb.y+vb.h/2);
+document.getElementById('zOut').onclick = ()=> zoomA(1.6,   vb.x+vb.w/2, vb.y+vb.h/2);
+document.getElementById('zRst').onclick = ()=>{ vb = {...VB0}; aplicaVB(); };
+
+let arr = null;
+// Se guarda el municipio que hay BAJO el puntero al pulsar. Hace falta porque setPointerCapture
+// redirige los eventos siguientes --incluido el click-- al propio <svg>: a partir de ahi
+// ev.target ya no es el <path>, y buscar el municipio en el click devolvia siempre nada.
+svg.addEventListener('pointerdown', ev=>{
+  arr = {p:enSVG(ev), x:vb.x, y:vb.y, movido:false, el:ev.target.closest('path')};
+  svg.setPointerCapture(ev.pointerId); svg.classList.add('arrastrando'); });
+svg.addEventListener('pointermove', ev=>{ if(!arr) return;
+  const r = svg.getBoundingClientRect();
+  const dx = (ev.movementX)/r.width*vb.w, dy = (ev.movementY)/r.height*vb.h;
+  if(Math.abs(ev.movementX)+Math.abs(ev.movementY) > 2) arr.movido = true;
+  vb.x -= dx; vb.y -= dy; aplicaVB(); });
+const soltar = ev=>{
+  if(!arr) return;
+  svg.classList.remove('arrastrando');
+  // Solo es una seleccion si el puntero no se movio: si se arrastro, era desplazar el mapa.
+  if(!arr.movido && arr.el) detalle(DATOS.munis[+arr.el.dataset.i]);
+  arr = null;
+};
+svg.addEventListener('pointerup', soltar);
+svg.addEventListener('pointercancel', soltar);
+
+const frag = document.createDocumentFragment();
+const nodos = new Map();
+DATOS.munis.forEach((m,i)=>{
+  const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+  p.setAttribute('d', d_de(m)); p.dataset.i = i;
+  frag.appendChild(p); nodos.set(m.id, p);
+});
+svg.appendChild(frag);
+
+/* ---------- escala: cortes por cuantiles sobre lo que se muestra ---------- */
+function escala(){
+  const k = clave();
+  const vs = DATOS.munis.map(m=>{
+    const e = m.est[k]; if(!e || e.f===2) return null;
+    return vista==='est' ? e.v : (e.hi-e.lo);
+  }).filter(v=>v!==null).sort((a,b)=>a-b);
+  const q = t => vs[Math.min(vs.length-1, Math.floor(t*vs.length))];
+  return {cortes:[q(.167),q(.333),q(.5),q(.667),q(.833)], lo:vs[0], hi:vs[vs.length-1]};
+}
+const rampa = () => vista==='est' ? P.slice().reverse() : U.slice().reverse();
+
+function color(e, esc){
+  if(!e || e.f===2) return SIN;
+  const v = vista==='est' ? e.v : (e.hi-e.lo);
+  const r = rampa();
+  let i=0; while(i<esc.cortes.length && v>esc.cortes[i]) i++;
+  return r[i];
+}
+
+function pinta(){
+  const k = clave(), esc = escala();
+  DATOS.munis.forEach(m=>{
+    const p = nodos.get(m.id), e = m.est[k];
+    p.setAttribute('fill', color(e, esc));
+    p.classList.toggle('pred', !!e && e.f===1);
+  });
+  const r = rampa();
+  document.getElementById('rampBar').innerHTML = r.map(c=>`<i style="background:${c}"></i>`).join('');
+  // las claves de fuente toman el tono de la rampa activa: con la ocre puesta, un cuadrito verde
+  // le dice al lector que son dos escalas distintas cuando es la misma
+  const medio = r[Math.floor(r.length/2)];
+  document.getElementById('k1').style.background = medio;
+  document.getElementById('k2').style.background = medio;
+  document.getElementById('k2').style.opacity = '.62';
+  document.getElementById('rampLo').textContent = pc(esc.lo)+' %';
+  document.getElementById('rampHi').textContent = pc(esc.hi)+' %';
+  document.getElementById('mapaT').textContent =
+    (vista==='inc' ? t('incPref') : '') + t({diag:'tDiag',trat:'tTrat',ctrl:'tCtrl'}[paso]);
+  document.getElementById('mapaS').textContent =
+    (paso==='trat' ? t('tratIgual') : t(crit==='esh' ? 'critEsh' : 'critAha')) + ' ' +
+    t(vista==='inc' ? 'subInc' : 'subEst');
+  document.querySelectorAll('#segCrit button').forEach(b=>b.disabled = paso==='trat');
+  if(sel) detalle(sel);
+}
+
+/* ---------- panel ---------- */
+const ETQ_K = {diag_esh:'eDiagEsh', diag_aha:'eDiagAha', trat:'eTrat', ctrl_esh:'eCtrlEsh', ctrl_aha:'eCtrlAha'};
+// Al buscar por nombre, llevar el mapa al municipio: sin esto, encontrar uno de 4 px en un pais
+// entero es imposible, que es justo lo que esta pagina viene a resolver.
+function acercarA(m){
+  let x0=1e9, y0=1e9, x1=-1e9, y1=-1e9;
+  m.rings.forEach(r=>{ for(let i=0;i<r.length;i+=2){
+    const X=(r[i]-DATOS.bbox[0])*sx, Y=(DATOS.bbox[3]-r[i+1])*sx;
+    if(X<x0)x0=X; if(X>x1)x1=X; if(Y<y0)y0=Y; if(Y>y1)y1=Y; } });
+  const m0 = Math.max((x1-x0), (y1-y0)) * 2.2 || 20;
+  vb = {w:m0, h:m0*H/W, x:(x0+x1)/2 - m0/2, y:(y0+y1)/2 - m0*H/W/2};
+  aplicaVB();
+}
+function detalle(m){
+  sel = m;
+  document.getElementById('vacio').hidden = true;
+  document.getElementById('panel').classList.remove('panel-vacio');
+  document.getElementById('detalle').hidden = false;
+  document.getElementById('dNom').textContent = m.nom;
+  document.getElementById('dEnt').textContent = m.ent + ' · ' + nf(m.pob) + ' ' + t('adultos');
+  const e0 = m.est[clave()];
+  const b = document.getElementById('dBadge');
+  if(!e0){ b.className='badge'; b.textContent=t('bNada'); }
+  else if(e0.f===0){ b.className='badge dir'; b.textContent = t('bDirecta')+e0.n; }
+  else if(e0.f===2){ b.className='badge sup'; b.textContent = t('bSup')+e0.n+t('bSupFin'); }
+  else { b.className='badge'; b.textContent=t('bPred'); }
+
+  document.getElementById('dRows').innerHTML = Object.keys(ETQ_K).map(k=>{
+    const e = m.est[k];
+    if(!e) return '';
+    if(e.f===2) return `<div class="row"><div class="k"><span>${t(ETQ_K[k])}</span></div>
+      <div class="v" style="color:var(--ink-muted);font-size:15px">${t('noRep')} <small>n = ${e.n}</small></div></div>`;
+    const L=Math.max(0,e.lo), Hh=Math.min(100,e.hi);
+    return `<div class="row">
+      <div class="k"><span>${t(ETQ_K[k])}</span><span>${t('ic')} ${pc(e.lo)}–${pc(e.hi)}</span></div>
+      <div class="v">${pc(e.v)} %<small>${e.f===0?'n = '+e.n:t('sinLocal')}</small></div>
+      <div class="ic"><i style="left:${L}%;width:${Math.max(1,Hh-L)}%"></i><u style="left:calc(${e.v}% - 1px)"></u></div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('#mapa path.sel').forEach(p=>p.classList.remove('sel'));
+  const p = nodos.get(m.id); if(p){ p.classList.add('sel'); p.parentNode.appendChild(p); }
+}
+
+/* ---------- interaccion ---------- */
+const tip = document.getElementById('tip');
+svg.addEventListener('mousemove', ev=>{
+  const t = ev.target.closest('path'); if(!t){ tip.style.opacity=0; return; }
+  const m = DATOS.munis[+t.dataset.i], e = m.est[clave()];
+  let val;
+  if(!e) val = `<span class="e">${t('tipSinEst')}</span>`;
+  else if(e.f===2) val = `<span class="e">${t('tipNoRep')}</span>`;
+  else val = `<span class="n">${pc(vista==='est'?e.v:(e.hi-e.lo))} %</span> <span class="e">${
+        vista==='est' ? t('ic')+' '+pc(e.lo)+'–'+pc(e.hi) : t('tipAncho')}</span>`;
+  tip.innerHTML = `<b>${m.nom}</b><span class="e">${m.ent}</span>${val}`;
+  tip.style.opacity=1;
+  const r = tip.getBoundingClientRect();
+  tip.style.left = Math.min(ev.clientX+14, innerWidth-r.width-10)+'px';
+  tip.style.top  = Math.max(8, ev.clientY-r.height-12)+'px';
+});
+svg.addEventListener('mouseleave', ()=>tip.style.opacity=0);
+
+
+document.querySelectorAll('.seg').forEach(seg=>{
+  seg.addEventListener('click', ev=>{
+    const b = ev.target.closest('button'); if(!b || b.disabled) return;
+    seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', String(x===b)));
+    const v = b.dataset.v;
+    if(seg.id==='segPaso') paso=v; else if(seg.id==='segCrit') crit=v; else vista=v;
+    pinta();
+  });
+});
+
+const q = document.getElementById('q'), res = document.getElementById('res');
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const IDX = DATOS.munis.map(m=>({m, s:norm(m.nom+' '+m.ent)}));
+q.addEventListener('input', ()=>{
+  const t = norm(q.value.trim());
+  if(t.length<2){ res.classList.remove('on'); return; }
+  const hits = IDX.filter(o=>o.s.includes(t)).slice(0,40);
+  res.innerHTML = hits.map(o=>`<button data-id="${o.m.id}">${o.m.nom}<span class="ent"> · ${o.m.ent}</span></button>`).join('')
+                  || `<button disabled style="color:var(--ink-muted)">${t('sinCoinc')}</button>`;
+  res.classList.add('on');
+});
+res.addEventListener('click', ev=>{
+  const b = ev.target.closest('button[data-id]'); if(!b) return;
+  const m = DATOS.munis.find(x=>x.id===b.dataset.id);
+  if(m){ detalle(m); res.classList.remove('on'); q.value=m.nom;
+         acercarA(m); svg.scrollIntoView({behavior:'smooth', block:'center'}); }
+});
+document.addEventListener('click', ev=>{ if(!ev.target.closest('.search')) res.classList.remove('on'); });
+
+function idioma(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.innerHTML = t(el.dataset.i18n); });
+  const q = document.getElementById('q');
+  q.placeholder = t('buscar'); q.setAttribute('aria-label', t('buscarAria'));
+  document.querySelectorAll('#segLang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===lang)));
+  document.title = t('h1');
+  pinta();
+}
+document.getElementById('segLang').addEventListener('click', ev=>{
+  const b = ev.target.closest('button'); if(!b) return;
+  lang = b.dataset.v; idioma();
+});
+idioma();
+</script>
+</body>
+</html>

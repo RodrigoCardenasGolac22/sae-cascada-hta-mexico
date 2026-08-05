@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "Si se usa este material, citarlo con los metadatos de este archivo."
+title: "Estimación bayesiana de área pequeña de la cascada de atención de la hipertensión arterial en los municipios de México (ENSANUT Continua 2021-2024)"
+type: software
+authors:
+  - family-names: "Vílchez-Díaz"
+    given-names: "Vicente J."
+    orcid: "https://orcid.org/0009-0007-3755-8226"
+  - family-names: "García-Ruiz"
+    given-names: "Oriana"
+    orcid: "https://orcid.org/0000-0002-7233-9703"
+  - family-names: "Sifuentes-Vidigal"
+    given-names: "Samar S."
+    orcid: "https://orcid.org/0009-0006-8564-8317"
+  - family-names: "Velarde-Mera"
+    given-names: "Miguel A."
+    orcid: "https://orcid.org/0009-0009-6073-9767"
+  - family-names: "Cárdenas-Golac"
+    given-names: "Rodrigo J."
+    orcid: "https://orcid.org/0009-0005-4444-1523"
+version: "1.1"
+license: MIT
+repository-code: "https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico"
+url: "https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/"
+abstract: >-
+  Pipeline reproducible y explorador municipal del estudio de estimación bayesiana de área pequeña
+  (BYM2 vía INLA, post-estratificado sobre el Censo 2020) de la cascada de atención de la
+  hipertensión arterial en los 2478 municipios de México, con datos de la ENSANUT Continua
+  2021-2024. Los microdatos no se redistribuyen: son de acceso público en el INSP.
+keywords:
+  - hipertensión
+  - estimación de área pequeña
+  - estadística bayesiana
+  - análisis espacial
+  - México

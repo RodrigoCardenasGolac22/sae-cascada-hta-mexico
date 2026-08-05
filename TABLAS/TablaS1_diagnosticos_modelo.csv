@@ -1,0 +1,6 @@
+"Paso","n (denominador del paso)","n (modelo)","Municipios (muestra)","WAIC","Phi (mediana)","RMSE BYM2","RMSE simple (no ajustado)","Reducción RMSE (%)","Cobertura nacional (%)"
+"AWARE_ESH",7756,7748,587,9232.3,0.105,0.2071,0.2231,7.2,99.5
+"AWARE_AHA",11611,11589,593,14291,0.062,0.182,0.2005,9.2,98.8
+"TRAT",5204,5204,576,3913.2,0.81,0.2031,0.2231,8.9,99.6
+"CONTROL_ESH",4389,4380,557,5615.5,0.672,0.2749,0.2855,3.7,98.8
+"CONTROL_AHA",4389,4380,557,5872.3,0.502,0.2795,0.2881,3,98.8

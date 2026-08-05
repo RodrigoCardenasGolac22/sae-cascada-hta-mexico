@@ -1,0 +1,8 @@
+"paso","n","directa_pct","directa_ic_l","directa_ic_u","n_modelo","modelo_simple_pct","modelo_ponderado_pct"
+"PREV_HTA_ESH",25089,27.4,26.3,28.5,NA,NA,NA
+"PREV_HTA_AHA",25089,43,41.7,44.3,NA,NA,NA
+"AWARE_ESH",7756,65.8,63.6,67.9,7748,66.9,64.2
+"AWARE_AHA",11611,41.9,40,43.7,11589,44.8,40.9
+"TRAT",5204,81,78.6,83.3,5204,84,79.7
+"CONTROL_ESH",4389,63.8,61.1,66.4,4380,64.5,65
+"CONTROL_AHA",4389,40.4,37.6,43.2,4380,42.1,42

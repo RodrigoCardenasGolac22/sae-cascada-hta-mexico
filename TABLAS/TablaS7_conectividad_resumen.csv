@@ -1,0 +1,7 @@
+Indicador,Valor
+Municipios en el grafo,2478
+Municipios sin vecinos (componentes aisladas),0
+Vecinos por municipio: mínimo,1
+Vecinos por municipio: mediana,6
+Vecinos por municipio: máximo,22
+Conexiones añadidas por el respaldo de centroide más próximo,0

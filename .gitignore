@@ -1,0 +1,76 @@
+# Insumos externos publicos: se descargan de la fuente oficial (ver README)
+DATOS_ENSANUT/microdatos_por_anio/
+DATOS_ENSANUT/cuestionarios/
+DATOS_ENSANUT/diccionarios/
+DATOS_ENSANUT/documentos_metodologicos/
+DATOS_GEO_MEXICO/dem_cache/
+DATOS_GEO_MEXICO/municipios_INEGI_oficial/inegi_nal_qgis.zip
+DATOS_GEO_MEXICO/iter_00_cpv2020/
+DATOS_GEO_MEXICO/municipios_INEGI_oficial/inegi_extracted/QGis/MapaBaseMultiescala.qgz
+DATOS_GEO_MEXICO/municipios_mxmaps_crosscheck/
+
+# Salidas que regenera el pipeline
+RESULTADOS/*.rds
+RESULTADOS/posterior_prev_*.rds
+RESULTADOS/base_analitica_adultos_2021_2024.csv
+RESULTADOS/postestratificacion_censal.csv
+RESULTADOS/ponderador_calibrado.csv
+
+# Artefactos intermedios
+RESULTADOS/EXPLORATORIO_*.csv
+RESULTADOS/VALIDACION_estrato_*.csv
+RESULTADOS/modelo_prueba_concepto_conciencia_ESH.csv
+RESULTADOS/n_por_celda_municipio_anio_2021_2024.csv
+RESULTADOS/n_pooled_por_municipio_2021_2024.csv
+RESULTADOS/flujo_por_anio_2021_2024.csv
+COVARIABLES/estrato_modal_poblacional_municipal.csv
+COVARIABLES/estrato_localidad_principal_municipal.csv
+COVARIABLES/estrato_proporciones_municipal.csv
+CODIGO/*_log.txt
+out.txt
+
+# Insumo crudo de CLUES (26 MB, Secretaria de Salud). El analisis usa el derivado
+# clues_conteo_municipal.csv, que si esta versionado; el crudo se descarga de su fuente.
+COVARIABLES/clues_establecimientos_salud.xlsx
+
+# Documentacion con datos personales de los autores
+0_ENVIO*/
+DECLARACION_*
+DJ_*
+PLANTILLA_DJ_*
+
+# Notas de trabajo, planes e informes locales
+ESTADO.md
+ADAPTACION_*.md
+PLAN_*.md
+LEEME_*.md
+INFORME_*.md
+AUDITORIA_*.md
+BITACORA_*.md
+COMPARACION_*.md
+CONSTRUIR_*.R
+4_HISTORICO/
+_TRABAJO_INTERNO/
+*_VERIFICACION.pdf
+
+# Preparacion del documento final; el repositorio publica el analisis
+CODIGO/00c_*.R
+CODIGO/19_*.R
+CODIGO/21_*.R
+CODIGO/22_*.R
+CODIGO/23_*.py
+MANUSCRITO_BORRADOR_*.docx
+
+# Material de terceros con derechos reservados: se consulta en local
+*.pdf
+adminojs*
+1726-4642-*
+
+# Respaldos y basura de sistema
+*.bak
+*.xlsx.bak
+*.bundle
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc

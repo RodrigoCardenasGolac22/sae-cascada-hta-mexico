@@ -1,0 +1,9 @@
+Paso,Covariable,VIF
+Diagnóstico (ESH),pobreza_pct,1
+Diagnóstico (AHA),pobreza_pct,1.09
+Diagnóstico (AHA),clues_total,1.09
+Tratamiento,(sin covariables de área),NA
+Control (ESH),pobreza_pct,1.09
+Control (ESH),clues_total,1.09
+Control (AHA),pobreza_pct,1.09
+Control (AHA),clues_total,1.09

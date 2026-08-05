@@ -1,0 +1,6 @@
+"paso","n_municipios","rmse_bym2","rmse_naive","reduccion_rmse_pct","sesgo_bym2","sesgo_naive"
+"AWARE_ESH",587,0.2071,0.2231,7.2,7e-04,0.0113
+"AWARE_AHA",593,0.182,0.2005,9.2,0.0014,0.0084
+"TRAT",576,0.2031,0.2231,8.9,0.0074,0.0276
+"CONTROL_ESH",557,0.2749,0.2855,3.7,0.0074,0.0242
+"CONTROL_AHA",557,0.2795,0.2881,3,0.0211,0.0323

@@ -1,0 +1,6 @@
+Paso,Municipios con residuo,Moran I de los residuos,Moran: p,v: asimetría,v: exceso de curtosis,PIT aleatorizado: media,PIT: p (KS),Fallos de CPO
+Diagnóstico (ESH),587,0.0297,0.226,2.17,5.2,0.499,0.601,0
+Diagnóstico (AHA),593,0.0312,0.213,2.45,7.09,0.497,0.407,0
+Tratamiento,576,-0.0472,0.856,-0.74,-0.31,0.501,0.545,0
+Control (ESH),557,-0.0315,0.748,1.63,2.06,0.498,0.609,0
+Control (AHA),557,-0.0108,0.578,1.13,0.57,0.498,0.756,0

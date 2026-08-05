@@ -1,0 +1,21 @@
+"paso","covariable","n","waic_base","waic_con_cov","delta_waic","se_delta_waic","razon_delta_se","evidencia_waic","evidencia_se","concuerdan","delta_log_cpo","cpo_fallos"
+"AWARE_ESH","pobreza",7748,9241.27398099887,9232.34793693844,-8.93,5.83,-1.53,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,4.47,0
+"AWARE_ESH","clues_total",7756,9248.44523759148,9247.14009996348,-1.31,4.09,-0.32,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.65,0
+"AWARE_ESH","clues_publico",7756,9248.44523759148,9249.34971101315,0.9,2.54,0.36,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.45,0
+"AWARE_ESH","altitud",7756,9248.44523759148,9250.04905204596,1.6,0.87,1.85,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.8,0
+"AWARE_AHA","pobreza",11597,14304.4308117062,14297.8741545111,-6.56,5.98,-1.1,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,3.28,0
+"AWARE_AHA","clues_total",11611,14319.1162531241,14317.05265647,-2.06,5.02,-0.41,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,1.03,0
+"AWARE_AHA","clues_publico",11611,14319.1162531241,14319.0113311845,-0.1,4.1,-0.03,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.05,0
+"AWARE_AHA","altitud",11611,14319.1162531241,14319.2268838742,0.11,0.87,0.13,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.06,0
+"TRAT","pobreza",5197,3905.6074748598,3906.28804285914,0.68,5.32,0.13,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.34,0
+"TRAT","clues_total",5204,3913.2121467412,3912.35311034656,-0.86,3.04,-0.28,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.43,0
+"TRAT","clues_publico",5204,3913.2121467412,3912.54626394478,-0.67,2.99,-0.22,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.33,0
+"TRAT","altitud",5204,3913.2121467412,3912.67450559092,-0.54,2.61,-0.21,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.27,0
+"CONTROL_ESH","pobreza",4383,5627.60512495144,5621.71177168423,-5.89,4.76,-1.24,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,2.94,0
+"CONTROL_ESH","clues_total",4389,5637.0725971182,5630.86727561876,-6.21,5.46,-1.14,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,3.11,0
+"CONTROL_ESH","clues_publico",4389,5637.0725971182,5632.33259218882,-4.74,4.86,-0.98,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,2.37,0
+"CONTROL_ESH","altitud",4389,5637.0725971182,5638.46911245243,1.4,0.29,4.84,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.7,0
+"CONTROL_AHA","pobreza",4383,5885.5739081404,5876.18973182729,-9.38,5.54,-1.69,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,4.7,0
+"CONTROL_AHA","clues_total",4389,5893.58223431811,5889.33864562143,-4.24,4.36,-0.97,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,2.12,0
+"CONTROL_AHA","clues_publico",4389,5893.58223431811,5891.85337969571,-1.73,3.31,-0.52,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.87,0
+"CONTROL_AHA","altitud",4389,5893.58223431811,5894.69378497143,1.11,0.23,4.73,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.56,0
