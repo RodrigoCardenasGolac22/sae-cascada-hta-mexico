@@ -92,13 +92,39 @@ hacer_mapa <- function(d, titulo, con_norte_escala = FALSE) {
   niveles_prevalencia <- setdiff(levels(mm$clase), "Sin dato")
   colores_clase <- setNames(c(viridisLite::viridis(length(niveles_prevalencia), option = "C"), "grey85"),
                              c(niveles_prevalencia, "Sin dato"))
+  # El alpha se aplica ANTES, sobre el color (ver mezclar_con_fondo en 00_comun.R):
+  # asi el grafico no lleva transparencia y el EPS sale vectorial en vez de un mapa
+  # de bits. El aspecto es identico --se comprueba comparando el PNG-- porque los
+  # municipios no se solapan y el fondo es blanco.
+  # Cada clase se desdobla en "clase" y "clase~atenuado" (el mismo color mezclado
+  # al 50 % con el fondo). `breaks` deja en la leyenda solo las seis clases puras,
+  # que es exactamente lo que habia antes. Con scale_fill_identity NO funciona:
+  # sus claves tienen que aparecer en los datos, y los colores puros dejan de
+  # existir en las clases donde ningun municipio tiene muestra directa -- la
+  # leyenda de "Prevalencia" desaparecia entera.
+  ATENUADO <- "~atenuado"
+  mm$relleno <- factor(
+    ifelse(!is.na(mm$fuente) & mm$fuente == "Sin muestra directa",
+           paste0(as.character(mm$clase), ATENUADO), as.character(mm$clase)),
+    levels = c(names(colores_clase), paste0(names(colores_clase), ATENUADO)))
+  valores_relleno <- c(colores_clase,
+                       setNames(mezclar_con_fondo(colores_clase, 0.5),
+                                paste0(names(colores_clase), ATENUADO)))
+  # El borde NO se mezcla. Se probo y empeoro: en geom_sf el alpha se aplica al
+  # relleno y deja la linea opaca, asi que atenuar tambien el borde lo aclaraba
+  # respecto del original (1,57 % de pixeles distintos en vez de 0,92 %). Medido,
+  # no supuesto.
   p <- ggplot(mm) +
-    geom_sf(aes(fill = clase, alpha = fuente), color = "grey40", linewidth = 0.04) +
+    geom_sf(aes(fill = relleno, alpha = fuente), color = "grey40", linewidth = 0.04) +
     geom_sf(data = contorno_pais, fill = NA, color = "black", linewidth = 0.35) +
-    scale_fill_manual(name = "Prevalencia", values = colores_clase, drop = FALSE) +
-    scale_alpha_manual(name = "Fuente", values = c("Muestra directa" = 1, "Sin muestra directa" = 0.5,
+    scale_fill_manual(name = "Prevalencia", values = valores_relleno,
+                      breaks = names(colores_clase), labels = names(colores_clase),
+                      drop = FALSE) +
+    # Todos a 1: la escala se conserva SOLO para que siga existiendo la leyenda
+    # "Fuente"; la diferencia visual ya viaja en el color.
+    scale_alpha_manual(name = "Fuente", values = c("Muestra directa" = 1, "Sin muestra directa" = 1,
                                                     "Suprimido (n<10, privacidad)" = 1),
-                        na.translate = FALSE) +
+                        na.value = 1, na.translate = FALSE) +
     # order fija el orden de los BLOQUES de leyenda. Sin el, ggplot lo decide por panel y en
     # "Tratamiento" salia "Prevalencia" antes que "Fuente", al reves que en los otros dos.
     guides(fill = guide_legend(nrow = 4, byrow = TRUE, title.position = "top", order = 2,
@@ -107,8 +133,14 @@ hacer_mapa <- function(d, titulo, con_norte_escala = FALSE) {
            # la leyenda (el color de relleno de la leyenda de alpha no hereda la escala de fill) --
            # aunque en el mapa real "Suprimido" SI se ve gris solido (fill=NA->grey85) y distinto de
            # "Muestra directa" (coloreado). Sin esto, un lector no podria distinguirlos en la leyenda.
+           # El segundo nivel lleva el gris YA MEZCLADO. Antes su tono claro se lo
+           # daba el alpha; al quitar la transparencia, "Muestra directa" y "Sin
+           # muestra directa" quedaban dos cuadros identicos y la leyenda dejaba
+           # de distinguir lo unico que distingue.
            alpha = guide_legend(ncol = 1, title.position = "top", order = 1,
-                                 override.aes = list(fill = c("grey40", "grey40", "grey85")))) +
+                                 override.aes = list(fill = c("grey40",
+                                                              mezclar_con_fondo("grey40", 0.5),
+                                                              "grey85")))) +
     labs(title = titulo) +
     theme_void(base_size = 12) +
     theme(legend.position = "bottom",
@@ -146,3 +178,8 @@ ggsave(file.path(FIG, "Fig2_cascada_municipal_ESH.png"), fig2, width = 9.5, heig
 cat("Guardado: FIGURAS/Fig2_cascada_municipal_ESH.svg y .png\n")
 
 guardar_figura_pptx(fig2, file.path(FIG, "Fig2_cascada_municipal_ESH.pptx"), ancho = 14, alto = 6.3)
+
+# Exportacion para el envio a la revista mexicana (ver CODIGO/00_comun.R):
+# .eps para la figura y .xlsx con los datos que la generan.
+guardar_figura_eps(fig2, file.path(FIG, "Fig2_cascada_municipal_ESH.eps"), ancho = 9.5, alto = 6.4)
+guardar_datos_figura(pasos, file.path(FIG, "DATOS", "Fig2_datos.xlsx"))

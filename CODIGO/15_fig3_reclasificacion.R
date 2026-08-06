@@ -66,17 +66,37 @@ hacer_mapa <- function(d, titulo, con_norte_escala = FALSE) {
   niveles_delta <- setdiff(levels(mm$clase), "Sin dato")
   colores_clase <- setNames(c(rev(RColorBrewer::brewer.pal(length(niveles_delta), "Reds")), "grey85"),
                              c(niveles_delta, "Sin dato"))
+  # Sin transparencia: cada clase se desdobla en su color y ese mismo color ya
+  # mezclado al 50 % con el fondo (ver mezclar_con_fondo en 00_comun.R). PostScript
+  # no admite alpha y cairo rasterizaria el mapa entero; asi el EPS sale vectorial
+  # y la figura no cambia. El borde NO se mezcla: el alpha de geom_sf solo afecta
+  # al relleno, y atenuarlo tambien empeoraba la comparacion contra el original.
+  ATENUADO <- "~atenuado"
+  mm$relleno <- factor(
+    ifelse(!is.na(mm$fuente) & mm$fuente == "Sin muestra directa",
+           paste0(as.character(mm$clase), ATENUADO), as.character(mm$clase)),
+    levels = c(names(colores_clase), paste0(names(colores_clase), ATENUADO)))
+  valores_relleno <- c(colores_clase,
+                       setNames(mezclar_con_fondo(colores_clase, 0.5),
+                                paste0(names(colores_clase), ATENUADO)))
   p <- ggplot(mm) +
-    geom_sf(aes(fill = clase, alpha = fuente), color = "grey40", linewidth = 0.04) +
+    geom_sf(aes(fill = relleno, alpha = fuente), color = "grey40", linewidth = 0.04) +
     geom_sf(data = contorno_pais, fill = NA, color = "black", linewidth = 0.35) +
-    scale_fill_manual(name = "Diferencia (pp)", values = colores_clase, drop = FALSE) +
-    scale_alpha_manual(name = "Fuente", values = c("Muestra directa" = 1, "Sin muestra directa" = 0.5,
+    scale_fill_manual(name = "Diferencia (pp)", values = valores_relleno,
+                      breaks = names(colores_clase), labels = names(colores_clase),
+                      drop = FALSE) +
+    scale_alpha_manual(name = "Fuente", values = c("Muestra directa" = 1, "Sin muestra directa" = 1,
                                                     "Suprimido (n<10, privacidad)" = 1),
-                        na.translate = FALSE) +
+                        na.value = 1, na.translate = FALSE) +
     guides(fill = guide_legend(nrow = 4, byrow = TRUE, title.position = "top",
                                 override.aes = list(linewidth = 0.2)),
            alpha = guide_legend(ncol = 1, title.position = "top",
-                                 override.aes = list(fill = c("grey40", "grey40", "grey85")))) +
+                                 # el gris del medio va YA MEZCLADO: antes su tono claro
+                                 # se lo daba el alpha, y sin el los dos primeros cuadros
+                                 # de la leyenda quedaban identicos
+                                 override.aes = list(fill = c("grey40",
+                                                              mezclar_con_fondo("grey40", 0.5),
+                                                              "grey85")))) +
     labs(title = titulo) +
     theme_void(base_size = 10) +
     theme(legend.position = "bottom",
@@ -109,3 +129,8 @@ ggsave(file.path(FIG, "Fig3_reclasificacion_ESH_vs_AHA.png"), fig3, width = 10, 
 cat("Guardado: FIGURAS/Fig3_reclasificacion_ESH_vs_AHA.svg y .png\n")
 
 guardar_figura_pptx(fig3, file.path(FIG, "Fig3_reclasificacion_ESH_vs_AHA.pptx"), ancho = 10, alto = 6.3)
+
+# Exportacion para el envio a la revista mexicana (ver CODIGO/00_comun.R):
+# .eps para la figura y .xlsx con los datos que la generan.
+guardar_figura_eps(fig3, file.path(FIG, "Fig3_reclasificacion_ESH_vs_AHA.eps"), ancho = 10, alto = 6.3)
+guardar_datos_figura(datos, file.path(FIG, "DATOS", "Fig3_datos.xlsx"))

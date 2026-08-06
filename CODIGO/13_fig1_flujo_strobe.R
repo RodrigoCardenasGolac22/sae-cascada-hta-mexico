@@ -94,3 +94,8 @@ ggsave(file.path(FIG, "Fig1_flujo_STROBE.png"), fig1, width = 9, height = 10, dp
 cat("Guardado: FIGURAS/Fig1_flujo_STROBE.svg y .png\n")
 
 guardar_figura_pptx(fig1, file.path(FIG, "Fig1_flujo_STROBE.pptx"), ancho = 9, alto = 10)
+
+# Exportacion para el envio a la revista mexicana (ver CODIGO/00_comun.R):
+# .eps para la figura y .xlsx con los datos que la generan.
+guardar_figura_eps(fig1, file.path(FIG, "Fig1_flujo_STROBE.eps"), ancho = 9, alto = 10)
+guardar_datos_figura(list(flujo_STROBE = flujo), file.path(FIG, "DATOS", "Fig1_datos.xlsx"))
