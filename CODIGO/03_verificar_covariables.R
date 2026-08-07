@@ -1,7 +1,8 @@
 # Re-verifica el cruce de las covariables municipales (CONEVAL pobreza, CLUES salud, DEM altitud)
-# contra los municipios REALES que aparecen en la base analitica final (616 municipios, 2021-2024
-# pooled) -- no contra el listado teorico de 2,478 municipios de Mexico. Paso 5 de la secuencia de
-# ejecucion del analisis.
+# contra los municipios REALES que aparecen en la base analitica final (599 municipios en el periodo
+# 2021-2024 agrupado) -- no contra el listado completo de 2 478 municipios de Mexico, que es el marco
+# de la covariable y no de la muestra. El numero de municipios lo imprime este mismo script; no se
+# fija aqui a mano.
 
 library(dplyr)
 library(readr)

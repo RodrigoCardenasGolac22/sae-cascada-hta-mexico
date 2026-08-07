@@ -25,10 +25,11 @@
 # adicional (opacidad reducida), ya que responde una pregunta distinta a la de suprimir celdas
 # pequenas (aqui: "hay observacion directa o no", no "n es demasiado chico para confiar").
 #
-# Control de divulgacion (privacidad): mismo criterio que el script 09
-# (09_modelos_finales.R: n<10 -> no reportar) pero aplicado al denominador EXACTO de cada paso
-# (calculado en 24_extension_nacional_mezcla_poblacional.R, columna suprimir_privacidad), no a un
-# proxy de "adultos totales". Los municipios marcados se muestran en gris solido (relleno NA,
+# Control de divulgacion (privacidad): n<10 -> no reportar, aplicado al denominador EXACTO de cada
+# paso y no a un proxy de "adultos totales". La columna suprimir_privacidad la calcula
+# 09_extension_nacional.R, que es el unico script que la produce (las referencias anteriores a
+# "09_modelos_finales.R" y a "24_extension_nacional_mezcla_poblacional.R" eran a archivos que no
+# existen). Los municipios marcados se muestran en gris solido (relleno NA,
 # misma paleta que "sin cobertura"), a opacidad plena -- visualmente distintos de la prediccion
 # espacial (coloreada, semi-transparente) porque comunican algo distinto: no es que falte
 # informacion, es que la informacion existe pero no se publica por riesgo de identificacion.

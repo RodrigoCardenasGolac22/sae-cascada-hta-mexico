@@ -100,10 +100,26 @@ for (y in as.character(YEARS)) {
 # para las variables de codigos enteros (edad, a0401, a0404, a0808).
 num <- function(x) suppressWarnings(as.numeric(gsub(",", ".", trimws(x), fixed = TRUE)))
 
-# lectura valida por el criterio oficial ENSANUT: PAS>=80 y PAD>=50; si no cumple, NA
+# lectura valida: criterio oficial ENSANUT (PAS>=80 y PAD>=50) MAS un techo fisiologico.
+#
+# POR QUE EL TECHO. ENSANUT codifica la medicion ausente como 999, y 999 >= 80 es verdadero: el
+# centinela PASABA el criterio oficial y se promediaba como si fuera una tension arterial. La regla
+# PAS <= PAD que se aplica mas abajo solo salvaba los casos con 999 en las DOS lecturas
+# (999 <= 999); los mixtos entraban. Medido sobre 2021-2024: 98 lecturas anuladas por este techo,
+# 32 personas que conservan su PA con el valor REAL en vez de un promedio de ~550 mmHg (todas ellas
+# contaban antes como hipertensas por medicion, varias con una lectura perfectamente normal) y 1
+# persona que pierde la PA por tener las dos lecturas invalidas.
+#
+# El criterio oficial de ENSANUT por si solo no descarta el centinela: es un dato reutilizable por
+# cualquiera que use estos modulos, y por eso se declara en Metodos.
 lectura_valida <- function(s, d) {
-  ok <- !is.na(s) & !is.na(d) & s >= 80 & d >= 50
+  ok <- !is.na(s) & !is.na(d) & s >= 80 & d >= 50 & s <= 270 & d <= 180
   list(s = ifelse(ok, s, NA_real_), d = ifelse(ok, d, NA_real_))
+}
+
+# Cuenta las lecturas que el techo anula y el piso oficial habria aceptado, para el flujo STROBE.
+lecturas_fuera_de_rango <- function(s, d) {
+  sum(!is.na(s) & !is.na(d) & s >= 80 & d >= 50 & (s > 270 | d > 180))
 }
 
 all_years <- list()
@@ -184,7 +200,9 @@ for (y in as.character(YEARS)) {
   n_edad_ok <- sum(merged$edad >= 20, na.rm = TRUE)
   merged <- merged %>% filter(edad >= 20)
 
-  # aplicar validez de lectura oficial ENSANUT (PAS>=80, PAD>=50) por lectura
+  # aplicar validez de lectura (piso oficial ENSANUT + techo fisiologico) por lectura
+  n_excl_fuera_rango <- lecturas_fuera_de_rango(merged$s2_raw, merged$d2_raw) +
+                        lecturas_fuera_de_rango(merged$s3_raw, merged$d3_raw)
   l2 <- lectura_valida(merged$s2_raw, merged$d2_raw)
   l3 <- lectura_valida(merged$s3_raw, merged$d3_raw)
   merged$sbp <- rowMeans(cbind(l2$s, l3$s), na.rm = TRUE)
@@ -259,6 +277,7 @@ for (y in as.character(YEARS)) {
     entrevistados = n_entrevistados,
     edad_20mas = n_edad_ok,
     bp_valida_bruta = n_bp_valida_bruta,
+    excl_lectura_fuera_de_rango = n_excl_fuera_rango,
     excl_lectura_invertida = n_excl_invertida,
     excl_sin_bp_valida = n_excl_sin_bp_valida,
     excl_embarazo_actual = n_excl_embarazo,
