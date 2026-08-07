@@ -241,3 +241,174 @@ guardar_datos_figura <- function(datos, archivo) {
                             vapply(datos, nrow, integer(1))), collapse = "; ")))
   invisible(archivo)
 }
+
+# =============================================================================================
+# POBLACION ADULTA MUNICIPAL (Censo 2020, ITER)
+# =============================================================================================
+# Denominador de la densidad de establecimientos CLUES (clues_por_10k, decision B5 opcion 2 del
+# plan, tomada por el autor el 2026-08-06). Es el total censal de poblacion de 20 anios y mas por
+# municipio: las bandas quinquenales 20-59 mas P_60YMAS, los MISMOS margenes de edad con que
+# 09_extension_nacional.R construye la tabla de post-estratificacion (alli 65+ se reconstruye como
+# P_60YMAS - P_60A64; la suma total es identica). Vive aqui y no en 09 porque lo consume
+# 02_covariable_clues.R, que corre antes.
+#
+# Los 9 municipios creados despues del Censo 2020 no existen en el ITER y quedan sin denominador
+# (densidad NA); son exactamente los mismos que quedan sin tabla de post-estratificacion en 09 y
+# ninguno tiene muestra de encuesta (verificado 2026-08-06).
+poblacion_adulta_municipal <- function(iter_csv = Sys.getenv("ITER_CSV",
+    unset = "DATOS_GEO_MEXICO/iter_00_cpv2020/conjunto_de_datos_iter_00CSV20.csv")) {
+  if (!file.exists(iter_csv)) {
+    stop("No se encuentra el ITER del Censo 2020 en: ", iter_csv,
+         "\nDescargarlo de https://www.inegi.org.mx/programas/ccpv/2020/ (ITER, entidad 00) ",
+         "o definir la variable de entorno ITER_CSV.")
+  }
+  bandas <- c("20A24", "25A29", "30A34", "35A39", "40A44", "45A49", "50A54", "55A59")
+  cols_pob <- c(as.vector(outer(paste0("P_", bandas), c("_F", "_M"), paste0)),
+                "P_60YMAS_F", "P_60YMAS_M")
+  it <- readr::read_csv(iter_csv, col_types = do.call(readr::cols_only, c(
+    list(ENTIDAD = readr::col_character(), MUN = readr::col_character(),
+         LOC = readr::col_character()),
+    setNames(rep(list(readr::col_character()), length(cols_pob)), cols_pob))))
+  # "*" (suprimido por confidencialidad) y "N/D" entran como 0, el mismo criterio que el paso 09.
+  num0 <- function(x) { v <- suppressWarnings(as.numeric(x)); ifelse(is.na(v), 0, v) }
+  it %>%
+    dplyr::filter(LOC != "0000", MUN != "000", ENTIDAD != "00") %>%
+    dplyr::mutate(dplyr::across(dplyr::all_of(cols_pob), num0),
+                  muni_id = paste0(ENTIDAD, MUN)) %>%
+    dplyr::group_by(muni_id) %>%
+    dplyr::summarise(pob_adulta = sum(dplyr::across(dplyr::all_of(cols_pob))), .groups = "drop")
+}
+
+# =============================================================================================
+# COVARIABLES MUNICIPALES DE AREA
+# =============================================================================================
+# Vive aqui, y no repetida en cada script, porque la especificacion tiene que ser IDENTICA en la
+# seleccion (07), los modelos finales (08), la post-estratificacion (09), la validacion cruzada
+# (10) y el benchmark (11). Cuando estaba repetida divergio sin que nadie lo notara: 07 probaba la
+# candidata como log1p(clues_total) y 08/09/10 usaban el CONTEO CRUDO, de modo que la evidencia de
+# seleccion no correspondia al modelo publicado.
+#
+# clues_total: el conteo llega ya completo desde 02_covariable_clues.R (marco de 2 478 municipios,
+# con 0 donde no hay establecimientos en operacion). El ifelse de abajo es una red de seguridad
+# para el caso de que alguien regenere el derivado con la version antigua del script, que solo
+# emitia fila para los municipios con >=1 establecimiento.
+#
+# clues_por_10k: la covariable que ENTRA A LOS MODELOS es la densidad por 10 000 adultos
+# (decision B5 opcion 2, 2026-08-06), construida en 02_covariable_clues.R con la poblacion adulta
+# censal como denominador. El conteo -- incluso en escala log -- iba confundido con el tamano del
+# municipio (mas establecimientos <-> municipio mas grande, y la poblacion municipal no esta en el
+# modelo); la densidad desacopla ese efecto y permite llamarla "densidad" con propiedad. Es NA solo
+# en los 9 municipios creados despues del Censo 2020, que no tienen denominador censal (ni tabla de
+# post-estratificacion, ni muestra). Los log1p del conteo se conservan como referencia/diagnostico,
+# pero ninguna formula debe usarlos.
+#
+# pobreza_pct: CONEVAL trae el texto "n.d" en tres municipios creados despues de 2020
+# (04012 Seybaplaya, 07125 Honduras de la Sierra, 29048 La Magdalena Tlaltelulco); as.numeric()
+# los deja NA en silencio. Se dejan NA a proposito y se DECLARAN en el manuscrito (decision A3
+# opcion 1, tomada por el autor el 2026-08-06).
+cargar_covariables_area <- function(datos, COV = "COVARIABLES") {
+  coneval <- readr::read_csv(file.path(COV, "coneval_pobreza_municipal_2020.csv"),
+                             col_types = readr::cols(.default = readr::col_character()))
+  coneval$muni_id <- sprintf("%05d", as.numeric(coneval$clave_municipio))
+  coneval$pobreza_pct <- suppressWarnings(as.numeric(coneval$pobreza))
+  n_nd <- sum(is.na(coneval$pobreza_pct))
+  if (n_nd > 0) {
+    cat(sprintf("CONEVAL: %d municipios sin indicador de pobreza publicado -> NA (%s)\n",
+                n_nd, paste(coneval$muni_id[is.na(coneval$pobreza_pct)], collapse = ", ")))
+  }
+
+  # Si el CSV no trae las columnas de densidad, el select() de abajo aborta con un error claro:
+  # significa que se regenero con la version anterior de 02_covariable_clues.R.
+  clues <- readr::read_csv(file.path(COV, "clues_conteo_municipal.csv"),
+                           col_types = readr::cols(muni_id = readr::col_character()))
+
+  alt <- readr::read_csv(file.path(COV, "altitud_municipal_DEM.csv"),
+                         col_types = readr::cols(.default = readr::col_character()))
+  alt$muni_id <- paste0(alt$cve_ent, alt$cve_mun)
+  alt$altitud_msnm <- as.numeric(alt$altitud_media_msnm)
+
+  out <- datos %>%
+    dplyr::left_join(coneval %>% dplyr::select(muni_id, pobreza_pct), by = "muni_id") %>%
+    dplyr::left_join(clues %>% dplyr::select(muni_id, clues_total, clues_publico, pob_adulta,
+                                             clues_por_10k, clues_publico_por_10k),
+                     by = "muni_id") %>%
+    dplyr::left_join(alt %>% dplyr::select(muni_id, altitud_msnm), by = "muni_id") %>%
+    dplyr::mutate(
+      clues_total       = ifelse(is.na(clues_total), 0, clues_total),
+      clues_publico     = ifelse(is.na(clues_publico), 0, clues_publico),
+      log_clues_total   = log1p(clues_total),
+      log_clues_publico = log1p(clues_publico)
+    )
+
+  n_sin_dens <- dplyr::n_distinct(out$muni_id[is.na(out$clues_por_10k)])
+  if (n_sin_dens > 0) {
+    cat(sprintf("Censo 2020: %d municipios sin poblacion censal -> densidad CLUES NA (creados despues del Censo)\n",
+                n_sin_dens))
+  }
+
+  # Guardias contra la regresion que esto corrige: si la variable que entra a los modelos vuelve a
+  # tener NA donde no debe, abortar en vez de perder municipios en silencio. La densidad solo puede
+  # ser NA donde no hay denominador censal (pob_adulta NA).
+  stopifnot(!any(is.na(out$log_clues_total)), !any(is.na(out$log_clues_publico)),
+            !any(is.na(out$clues_por_10k) & !is.na(out$pob_adulta)))
+  out
+}
+
+# --- Pliegues espacialmente contiguos para la validacion cruzada ------------------------------
+# POR QUE. La CV asignaba los municipios a los pliegues AL AZAR (sample()), pese a que el
+# manuscrito la llama "validacion cruzada espacial" y cita a Roberts et al. 2017, que es sobre
+# bloques espaciales. La diferencia no es cosmetica: un municipio muestreado retenido al azar
+# conserva mediana 2 vecinos muestreados dentro del ajuste, mientras que 680 de los 1 879
+# municipios que el modelo predice (36,2 %) no tienen NINGUN vecino muestreado. Con pliegues
+# aleatorios se mide un regimen mas facil que el que se publica.
+#
+# COMO. Semillas por muestreo de punto mas lejano (farthest-point) sobre el grafo COMPLETO de 2 478
+# municipios --no sobre el subgrafo de los muestreados, que esta desconectado: el 12,8 % de los
+# muestreados no tiene ningun vecino muestreado--, asignacion de cada municipio muestreado a su
+# semilla mas cercana en numero de saltos, y un pase de reequilibrado que mueve nodos de frontera
+# del pliegue mas grande al mas pequeno hasta que la diferencia de tamanos es <= tolerancia.
+# Determinista: depende solo de la semilla que se le pase.
+distancias_bfs <- function(origen, adj, n) {
+  d <- rep(NA_integer_, n); d[origen] <- 0L
+  cola <- origen; i <- 1L
+  while (i <= length(cola)) {
+    v <- cola[i]; i <- i + 1L
+    for (w in adj[[v]]) if (is.na(d[w])) { d[w] <- d[v] + 1L; cola <- c(cola, w) }
+  }
+  d
+}
+
+asignar_pliegues_contiguos <- function(municipios, adj, n_nodos, n_folds = 5, semilla = 20260728,
+                                       tolerancia = 0.05) {
+  set.seed(semilla)
+  municipios <- sort(unique(municipios))
+  # 1. semillas dispersas: la primera al azar, cada siguiente la mas lejana a las ya elegidas
+  semillas <- sample(municipios, 1)
+  dmin <- distancias_bfs(semillas, adj, n_nodos)
+  while (length(semillas) < n_folds) {
+    cand <- setdiff(municipios, semillas)
+    dc <- dmin[cand]; dc[is.na(dc)] <- max(dmin, na.rm = TRUE) + 1L   # inalcanzables: los mas lejanos
+    nueva <- cand[which.max(dc)]
+    semillas <- c(semillas, nueva)
+    dn <- distancias_bfs(nueva, adj, n_nodos)
+    dmin <- pmin(dmin, dn, na.rm = TRUE)
+  }
+  # 2. distancia de cada municipio a cada semilla y asignacion a la mas cercana
+  D <- vapply(semillas, function(s) distancias_bfs(s, adj, n_nodos)[municipios], integer(length(municipios)))
+  D[is.na(D)] <- .Machine$integer.max
+  fold <- apply(D, 1, which.min)
+  # 3. reequilibrado: del pliegue mayor al menor, moviendo el nodo con menor penalizacion de
+  #    distancia (es decir, el que esta mas en la frontera entre los dos)
+  objetivo <- length(municipios) / n_folds
+  # El tope de iteraciones tiene que escalar con el desbalance inicial, no con n_folds: cada
+# iteracion mueve UN nodo, y el desbalance de partida puede ser de mas de 100 municipios.
+  for (iter in seq_len(4L * length(municipios))) {
+    tam <- tabulate(fold, n_folds)
+    if ((max(tam) - min(tam)) <= max(1, ceiling(tolerancia * objetivo))) break
+    grande <- which.max(tam); pequeno <- which.min(tam)
+    cand <- which(fold == grande)
+    coste <- D[cand, pequeno] - D[cand, grande]
+    fold[cand[which.min(coste)]] <- pequeno
+  }
+  setNames(fold, as.character(municipios))
+}

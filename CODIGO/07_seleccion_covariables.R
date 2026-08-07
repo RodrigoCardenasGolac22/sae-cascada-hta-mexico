@@ -16,8 +16,9 @@
 # Estructura: "modelo base" = BYM2 + sexo + edad + escolaridad + estrato (urbanicidad) --
 # covariables de ajuste individual incluidas de forma uniforme en todos los modelos siguientes,
 # como ajuste demografico uniforme, sin testeo individual por paso.
-# Candidatas de area, probadas UNA POR UNA sobre el modelo base: pobreza (CONEVAL), clues_total,
-# clues_publico, altitud.
+# Candidatas de area, probadas UNA POR UNA sobre el modelo base: pobreza (CONEVAL), densidad de
+# establecimientos CLUES por 10 000 adultos (total y publica; decision B5 opcion 2, 2026-08-06) y
+# altitud.
 
 library(dplyr)
 library(readr)
@@ -43,30 +44,13 @@ base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" 
 stopifnot(sum(is.na(base$muni_idx)) == 0)
 base$muni_id <- paste0(base$entidad, base$municipio)
 
-# --- covariables municipales ---
-coneval <- read_csv(file.path(COV, "coneval_pobreza_municipal_2020.csv"), col_types = cols(.default = col_character()))
-coneval$muni_id <- sprintf("%05d", as.numeric(coneval$clave_municipio))
-coneval$pobreza_pct <- as.numeric(coneval$pobreza)
-
-clues <- read_csv(file.path(COV, "clues_conteo_municipal.csv"), col_types = cols(muni_id = col_character()))
-
-alt <- read_csv(file.path(COV, "altitud_municipal_DEM.csv"), col_types = cols(.default = col_character()))
-alt$muni_id <- paste0(alt$cve_ent, alt$cve_mun)
-alt$altitud_msnm <- as.numeric(alt$altitud_media_msnm)
-
-base <- base %>%
-  left_join(coneval %>% select(muni_id, pobreza_pct), by = "muni_id") %>%
-  left_join(clues %>% select(muni_id, clues_total, clues_publico), by = "muni_id") %>%
-  left_join(alt %>% select(muni_id, altitud_msnm), by = "muni_id") %>%
-  mutate(
-    clues_total = ifelse(is.na(clues_total), 0, clues_total),
-    clues_publico = ifelse(is.na(clues_publico), 0, clues_publico),
-    log_clues_total = log1p(clues_total),
-    log_clues_publico = log1p(clues_publico),
-    sexo_f = factor(sexo), estrato_f = factor(estrato),
-    escolaridad_f = factor(escolaridad, levels = NIVELES_ESCOLARIDAD),
-         anio_f = factor(anio)
-  )
+# Covariables de area por el cargador comun (00_comun.R): la especificacion tiene que ser
+# IDENTICA a la de 08/09/10/11. Antes este script tenia su propia copia del bloque de carga, que
+# es exactamente el patron que dejo divergir la seleccion del modelo publicado (ver A1 del plan).
+base <- cargar_covariables_area(base, COV) %>%
+  mutate(sexo_f = factor(sexo), estrato_f = factor(estrato),
+         escolaridad_f = factor(escolaridad, levels = NIVELES_ESCOLARIDAD),
+         anio_f = factor(anio))
 
 cat("Cobertura de covariables en la base modelada (n filas):\n")
 cat("  pobreza_pct NA:", sum(is.na(base$pobreza_pct)), "\n")
@@ -95,11 +79,14 @@ ajustar <- function(formula_rhs, datos) {
 bym2_term <- "f(muni_idx, model='bym2', graph=g, scale.model=TRUE, constr=TRUE, hyper=list(phi=list(prior='pc', param=c(0.5,0.5)), prec=list(prior='pc.prec', param=c(1,0.01))))"
 base_rhs <- paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f")
 
+# CLUES entra como DENSIDAD por 10 000 adultos (B5 opcion 2), no como conteo: el conteo -- aun en
+# log -- iba confundido con el tamano del municipio. Los nombres de las candidatas son los mismos
+# de la variable, para que resumen_covariables_waic_cpo.csv diga exactamente que se probo.
 candidatas <- list(
-  pobreza      = "pobreza_pct",
-  clues_total  = "log_clues_total",
-  clues_publico = "log_clues_publico",
-  altitud      = "altitud_msnm"
+  pobreza               = "pobreza_pct",
+  clues_por_10k         = "clues_por_10k",
+  clues_publico_por_10k = "clues_publico_por_10k",
+  altitud               = "altitud_msnm"
 )
 
 resultados_waic <- list()
