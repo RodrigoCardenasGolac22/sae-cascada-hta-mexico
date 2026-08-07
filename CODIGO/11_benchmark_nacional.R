@@ -46,14 +46,8 @@ idx_tabla <- read_csv(file.path(GEO, "muni_idx_grafo.csv"), col_types = cols(
 base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" = "cve_mun"))
 base$muni_id <- paste0(base$entidad, base$municipio)
 
-coneval <- read_csv(file.path(COV, "coneval_pobreza_municipal_2020.csv"), col_types = cols(.default = col_character()))
-coneval$muni_id <- sprintf("%05d", as.numeric(coneval$clave_municipio))
-coneval$pobreza_pct <- as.numeric(coneval$pobreza)
-clues <- read_csv(file.path(COV, "clues_conteo_municipal.csv"), col_types = cols(muni_id = col_character()))
-
-base <- base %>%
-  left_join(coneval %>% select(muni_id, pobreza_pct), by = "muni_id") %>%
-  left_join(clues %>% select(muni_id, clues_total), by = "muni_id") %>%
+# Covariables de area por el cargador comun (00_comun.R): misma especificacion que 07/08/09/10.
+base <- cargar_covariables_area(base, COV) %>%
   mutate(sexo_f = factor(sexo), estrato_f = factor(estrato),
          escolaridad_f = factor(escolaridad, levels = NIVELES_ESCOLARIDAD),
          anio_f = factor(anio),
@@ -110,7 +104,8 @@ for (nombre in names(especificaciones)) {
   if (nombre %in% c("AWARE_ESH", "AWARE_AHA", "CONTROL_ESH", "CONTROL_AHA")) {
     sub <- sub %>% filter(!is.na(pobreza_pct))
   }
-  if (nombre %in% c("AWARE_AHA", "CONTROL_ESH", "CONTROL_AHA")) sub <- sub %>% filter(!is.na(clues_total))
+  # v1.2: CLUES (densidad) no se selecciono en ningun modelo (ver 08), asi que ya no hay filtro
+  # por esa covariable.
 
   m <- readRDS(file.path(RES, paste0("modelo_FINAL_", nombre, ".rds")))
   stopifnot(nrow(sub) == nrow(m$summary.fitted.values))

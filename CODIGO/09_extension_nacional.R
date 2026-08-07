@@ -168,10 +168,9 @@ base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" 
          anio_f = factor(anio),
          sexo_f = factor(sexo), estrato_f = factor(estrato))
 
-coneval <- read_csv(file.path(COV, "coneval_pobreza_municipal_2020.csv"), col_types = cols(.default = col_character()))
-coneval$muni_id <- sprintf("%05d", as.numeric(coneval$clave_municipio))
-coneval$pobreza_pct <- as.numeric(coneval$pobreza)
-clues <- read_csv(file.path(COV, "clues_conteo_municipal.csv"), col_types = cols(muni_id = col_character()))
+# Covariables de area: se cargan con cargar_covariables_area() (00_comun.R) sobre la tabla de
+# post-estratificacion, mas abajo, con la MISMA especificacion que 07/08/10/11 -- en particular
+# clues_por_10k (densidad por 10 000 adultos), no el conteo.
 
 # Edad representativa de cada banda: la media ponderada observada en la encuesta dentro de la banda
 # (no el punto medio del intervalo), que refleja la distribucion real de edades dentro de ella.
@@ -273,12 +272,13 @@ ps <- bind_rows(celdas) %>% filter(pob > 0.5)
 ps <- ps %>%
   left_join(edad_rep, by = "banda") %>%
   left_join(idx_tabla %>% select(muni_id, muni_idx), by = "muni_id") %>%
-  left_join(coneval %>% select(muni_id, pobreza_pct), by = "muni_id") %>%
-  left_join(clues %>% select(muni_id, clues_total), by = "muni_id") %>%
   filter(!is.na(muni_idx)) %>%
   mutate(sexo_f = factor(sexo, levels = levels(base$sexo_f)),
          estrato_f = factor(estrato, levels = levels(base$estrato_f)),
          escolaridad_f = factor(escolaridad, levels = NIVELES_ESCOLARIDAD))
+
+# Pobreza (CONEVAL), CLUES como densidad por 10 000 adultos y altitud, con el cargador comun.
+ps <- cargar_covariables_area(ps, COV)
 
 cat(sprintf("\nTabla de post-estratificacion: %d celdas en %d municipios (mediana %.0f celdas/municipio)\n",
             nrow(ps), n_distinct(ps$muni_id),
@@ -287,15 +287,32 @@ cat(sprintf("Poblacion adulta 20+ representada: %.1f millones\n", sum(ps$pob) / 
 write.csv(ps %>% select(muni_id, estrato, sexo, banda, escolaridad, pob),
           file.path(RES, "postestratificacion_censal.csv"), row.names = FALSE)
 
+# --- Municipios fuera de la estimacion, nombrados uno a uno (item A4 del plan) -----------------
+# El manuscrito decia "cobertura 98,8-99,6%" sin decir CUALES municipios faltan ni por que; es lo
+# primero que pregunta un revisor de SAE. Dos causas, y este archivo es la fuente de la frase de
+# Metodos: (1) municipios creados despues del Censo 2020, sin tabulado ITER y por tanto sin tabla
+# de post-estratificacion; (2) municipios con pobreza "n.d" en CONEVAL, que caen de los 4 modelos
+# que llevan pobreza_pct (decision A3 opcion 1: se dejan NA y se declaran).
+sin_censo <- setdiff(idx_tabla$muni_id, unique(ps$muni_id))
+sin_pobreza <- sort(unique(ps$muni_id[is.na(ps$pobreza_pct)]))
+municipios_sin_cobertura <- bind_rows(
+  data.frame(muni_id = sin_censo,   motivo = "sin_celdas_censo"),
+  data.frame(muni_id = sin_pobreza, motivo = "sin_pobreza_coneval")) %>%
+  left_join(idx_tabla %>% select(muni_id, nomgeo), by = "muni_id") %>%
+  arrange(motivo, muni_id)
+write.csv(municipios_sin_cobertura, file.path(RES, "municipios_sin_cobertura.csv"), row.names = FALSE)
+cat(sprintf("Municipios fuera de la estimacion: %d sin celdas censales + %d sin pobreza CONEVAL -> municipios_sin_cobertura.csv\n",
+            length(sin_censo), length(sin_pobreza)))
+
 # =============================================================================================
 # 4. POST-ESTRATIFICAR CADA MODELO SOBRE MUESTRAS DE LA POSTERIOR
 # =============================================================================================
 especificaciones <- list(
   AWARE_ESH   = list(denom = "hta_esh",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct),
-  AWARE_AHA   = list(denom = "hta_aha",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct + clues_total),
+  AWARE_AHA   = list(denom = "hta_aha",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct),
   TRAT        = list(denom = "diag_cronico", f = ~ sexo_f + edad + escolaridad_f + estrato_f),
-  CONTROL_ESH = list(denom = "tratado",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct + clues_total),
-  CONTROL_AHA = list(denom = "tratado",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct + clues_total)
+  CONTROL_ESH = list(denom = "tratado",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct),
+  CONTROL_AHA = list(denom = "tratado",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct)
 )
 
 resumen_cobertura <- list()
@@ -308,7 +325,7 @@ for (nombre in names(especificaciones)) {
   # celdas utilizables: las que tienen todas las covariables del modelo
   ps_m <- ps
   if ("pobreza_pct" %in% all.vars(e$f)) ps_m <- ps_m %>% filter(!is.na(pobreza_pct))
-  if ("clues_total" %in% all.vars(e$f)) ps_m <- ps_m %>% filter(!is.na(clues_total))
+  if ("clues_por_10k" %in% all.vars(e$f)) ps_m <- ps_m %>% filter(!is.na(clues_por_10k))
 
   X <- model.matrix(e$f, data = ps_m)
 

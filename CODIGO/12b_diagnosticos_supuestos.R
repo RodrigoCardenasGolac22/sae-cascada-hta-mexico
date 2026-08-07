@@ -37,6 +37,8 @@ suppressPackageStartupMessages({
   library(dplyr); library(readr); library(INLA); library(spdep)
 })
 
+source("CODIGO/00_comun.R")   # cargar_covariables_area(): misma escala de covariables que los modelos
+
 RES <- "RESULTADOS"; GEO <- "DATOS_GEO_MEXICO"; COV <- "COVARIABLES"
 
 pasos <- c("AWARE_ESH", "AWARE_AHA", "TRAT", "CONTROL_ESH", "CONTROL_AHA")
@@ -47,26 +49,27 @@ directa <- c(AWARE_ESH = "directa_conciencia_ESH_municipio.csv",
              TRAT      = "directa_tratamiento_municipio.csv",
              CONTROL_ESH = "directa_control_ESH_municipio.csv",
              CONTROL_AHA = "directa_control_AHA_municipio.csv")
-# covariables de area que el protocolo selecciono en cada modelo (script 07)
+# covariables de area que el protocolo selecciono en cada modelo (script 07). Tienen que ser las
+# MISMAS variables, en la MISMA escala, que las de las formulas de 08: el VIF y la correlacion
+# calculados sobre el conteo crudo no describen el modelo si el modelo lleva log1p del conteo.
+# v1.2 (2026-08-06): con CLUES como densidad por 10 000 adultos, el protocolo de 07 ya no la
+# selecciona en ningun paso; los cuatro modelos con covariable de area llevan SOLO pobreza.
 covs_modelo <- list(AWARE_ESH = "pobreza_pct",
-                    AWARE_AHA = c("pobreza_pct", "clues_total"),
+                    AWARE_AHA = "pobreza_pct",
                     TRAT = character(0),
-                    CONTROL_ESH = c("pobreza_pct", "clues_total"),
-                    CONTROL_AHA = c("pobreza_pct", "clues_total"))
+                    CONTROL_ESH = "pobreza_pct",
+                    CONTROL_AHA = "pobreza_pct")
 
 # --- 1. Multicolinealidad ----------------------------------------------------
 # Se calcula sobre las combinaciones QUE CADA MODELO USA. Calcularlo sobre las
 # cuatro candidatas a la vez inflaria el VIF de clues_total hasta 4,65 por su
 # correlacion de 0,88 con clues_publico -- una variable que ningun modelo final
 # incluye, porque cuando las dos superaban el umbral se tomo solo una.
-coneval <- read_csv(file.path(COV, "coneval_pobreza_municipal_2020.csv"),
-                    col_types = cols(.default = col_character()))
-coneval$muni_id <- sprintf("%05d", as.numeric(coneval$clave_municipio))
-coneval$pobreza_pct <- as.numeric(coneval$pobreza)
 clues <- read_csv(file.path(COV, "clues_conteo_municipal.csv"),
                   col_types = cols(muni_id = col_character()))
-cov_muni <- coneval %>% select(muni_id, pobreza_pct) %>%
-  left_join(clues %>% select(muni_id, clues_total), by = "muni_id")
+# El marco son los municipios del grafo, y las covariables se traen con el cargador comun para que
+# la escala coincida con la de los modelos.
+cov_muni <- cargar_covariables_area(clues %>% select(muni_id), COV)
 
 vif_de <- function(vs, d) {
   if (length(vs) < 2) return(setNames(rep(1, length(vs)), vs))   # con 1 covariable no hay colinealidad
@@ -84,8 +87,8 @@ vif_tab <- bind_rows(vif_filas)
 write_csv(vif_tab, file.path(RES, "diag_multicolinealidad.csv"))
 cat("1. MULTICOLINEALIDAD (VIF sobre la especificacion real de cada modelo)\n")
 print(as.data.frame(vif_tab), row.names = FALSE)
-cat(sprintf("   correlacion pobreza-clues_total: %.3f\n\n",
-            cor(cov_muni$pobreza_pct, cov_muni$clues_total, use = "pairwise.complete.obs")))
+cat(sprintf("   correlacion pobreza-clues_por_10k: %.3f\n\n",
+            cor(cov_muni$pobreza_pct, cov_muni$clues_por_10k, use = "pairwise.complete.obs")))
 
 # --- vecindad: el MISMO grafo que usan los modelos ---------------------------
 g_inla <- inla.read.graph(file.path(GEO, "municipios.graph"))

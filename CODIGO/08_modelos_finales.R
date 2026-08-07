@@ -4,23 +4,28 @@
 #
 # Especificacion vigente. Se decide sobre la muestra completa, que incluye a los adultos sin
 # escolaridad (codigo 0), unas 800 personas por modelo y las de menor escolaridad: excluirlas
-# sesgaria un estudio sobre desigualdad. La evidencia con la muestra completa es:
+# sesgaria un estudio sobre desigualdad.
 #
-#   paso          pobreza          clues_total       -> covariables de area del modelo final
-#   AWARE_ESH     -8,48 REAL       -0,84 ruido          pobreza
-#   AWARE_AHA     -7,26 REAL       -2,05 REAL           pobreza + clues_total   (clues es NUEVO)
-#   TRAT          +1,22 ruido      -0,87 ruido          ninguna
-#   CONTROL_ESH   -6,66 REAL       -4,64 REAL           pobreza + clues_total
-#   CONTROL_AHA  -10,34 REAL       -3,40 REAL           pobreza + clues_total   (clues es NUEVO)
+# DE DONDE SALE. La evidencia por paso y candidata vive en RESULTADOS/resumen_covariables_waic_cpo.csv,
+# que produce el script 07. NO se copia aqui a proposito: la version anterior de esta cabecera listaba
+# los DeltaWAIC de una corrida anterior (-8,48 / -7,26 / -6,66 / -10,34 ...) que ya no coincidian con
+# el CSV vigente, y esta cabecera es la justificacion escrita de los modelos que se publican. Misma
+# politica que el script 01: "un numero fijado en un comentario caduca en cuanto cambia la base".
+# Para leer la decision: ordenar ese CSV por paso y mirar delta_waic junto a razon_delta_se.
 #
-# Dos cambios respecto de la corrida anterior, los dos por recuperar a esa poblacion:
-#  (a) la evidencia de pobreza casi se DUPLICA en los cuatro pasos donde ya estaba;
-#  (b) en TRAT, pobreza pasa de "REAL pero empeora el ajuste" (+2,49) a simple ruido (+1,22): aquel
-#      resultado incomodo era un artefacto de la muestra truncada, no un hallazgo.
-# La altitud sigue sin ser relevante en ningun paso.
+# Resumen cualitativo de la corrida v1.2 (leido de resumen_covariables_waic_cpo.csv, 2026-08-06):
+# la pobreza municipal mejora el ajuste en los cuatro pasos donde entra (DeltaWAIC -5,7 a -9,5,
+# CPO concordante); en TRATAMIENTO ninguna candidata alcanza el umbral; la altitud no es relevante
+# en ningun paso (y en control empeora).
 #
-# Donde clues_total y clues_publico son las dos REAL (CONTROL_ESH) se toma clues_total, de mayor
-# |DeltaWAIC|, para no meter dos variables CLUES casi colineales en el mismo modelo.
+# CLUES YA NO ENTRA EN NINGUN MODELO. Al pasar del conteo a la DENSIDAD por 10 000 adultos
+# censales (clues_por_10k, decision B5 opcion 2 del 2026-08-06), la candidata dejo de superar el
+# protocolo en los 3 pasos donde el conteo entraba (DeltaWAIC +0,2 a +2,0; por la regla del EE
+# llega a "empeora" en AWARE_ESH y CONTROL_ESH). Lectura sustantiva, que el manuscrito debe
+# recoger: la asociacion del CONTEO era en buena parte un artefacto del tamano del municipio
+# (mas establecimientos <-> municipio mas grande); normalizada por poblacion adulta, la oferta de
+# establecimientos no anade capacidad predictiva sobre pobreza + demografia + espacio. Era el
+# escenario previsto al tomar la decision B5 ("podria dejar de seleccionarse").
 # Calcula la reclasificacion espacial ESH -> ACC/AHA para conciencia y control (tratamiento se
 # excluye del mapa de reclasificacion: identico por construccion bajo ambos criterios, ya
 # verificado en el script 06).
@@ -48,15 +53,9 @@ idx_tabla <- read_csv(file.path(GEO, "muni_idx_grafo.csv"), col_types = cols(
 base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" = "cve_mun"))
 base$muni_id <- paste0(base$entidad, base$municipio)
 
-coneval <- read_csv(file.path(COV, "coneval_pobreza_municipal_2020.csv"), col_types = cols(.default = col_character()))
-coneval$muni_id <- sprintf("%05d", as.numeric(coneval$clave_municipio))
-coneval$pobreza_pct <- as.numeric(coneval$pobreza)
-
-clues <- read_csv(file.path(COV, "clues_conteo_municipal.csv"), col_types = cols(muni_id = col_character()))
-
-base <- base %>%
-  left_join(coneval %>% select(muni_id, pobreza_pct), by = "muni_id") %>%
-  left_join(clues %>% select(muni_id, clues_total), by = "muni_id") %>%
+# Covariables de area por el cargador comun de 00_comun.R: la especificacion tiene que ser identica
+# a la que se probo en 07 (clues_por_10k, densidad por 10 000 adultos) y a la de 09/10/11.
+base <- cargar_covariables_area(base, COV) %>%
   mutate(sexo_f = factor(sexo), estrato_f = factor(estrato),
          escolaridad_f = factor(escolaridad, levels = NIVELES_ESCOLARIDAD),
          anio_f = factor(anio))
@@ -76,13 +75,13 @@ especificaciones <- list(
   AWARE_ESH   = list(outcome = "diag_cronico", denom = "hta_esh",
                       rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")),
   AWARE_AHA   = list(outcome = "diag_cronico", denom = "hta_aha",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct + clues_total")),
+                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")),
   TRAT        = list(outcome = "tratado",      denom = "diag_cronico",
                       rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f")),
   CONTROL_ESH = list(outcome = "control_esh",  denom = "tratado",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct + clues_total")),
+                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")),
   CONTROL_AHA = list(outcome = "control_aha",  denom = "tratado",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct + clues_total"))
+                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct"))
 )
 
 modelos_finales <- list()
@@ -94,7 +93,7 @@ for (nombre in names(especificaciones)) {
     mutate(y = as.numeric(.data[[e$outcome]])) %>%
     filter(!is.na(sexo_f), !is.na(edad), !is.na(estrato_f), !is.na(escolaridad_f))
   if (grepl("pobreza_pct", e$rhs)) sub <- sub %>% filter(!is.na(pobreza_pct))
-  if (grepl("clues_total", e$rhs)) sub <- sub %>% filter(!is.na(clues_total))
+  if (grepl("clues_por_10k", e$rhs)) sub <- sub %>% filter(!is.na(clues_por_10k))
 
   t0 <- Sys.time()
   m <- ajustar(e$rhs, sub)
@@ -150,7 +149,7 @@ cat("\nGuardado: modelo_FINAL_<paso>.rds (x5), reclasificacion_conciencia_ESH_vs
 # ANTES: Tabla S1 (27_tablas_1_2_3.R) tomaba WAIC/Phi de resumen_6_modelos_bym2_univariados.csv,
 # el modelo SIN covariables de area (script 06), no el que genera el mapa (este
 # script). Para AWARE_ESH/AWARE_AHA/CONTROL_ESH/CONTROL_AHA el WAIC y el Phi difieren sustancialmente
-# porque esos 4 modelos SI llevan pobreza/clues_total; solo TRAT coincide por poco margen. Verificado
+# porque esos 4 modelos SI llevan pobreza/CLUES; solo TRAT coincide por poco margen. Verificado
 # cargando los .rds ya guardados: Phi mediana pasa de 0,13/0,14/0,76/0,54/0,25 (modelo sin
 # covariables) a 0,087/0,050/0,790/0,720/0,566 (modelo final, el correcto). Esta seccion exporta el
 # diagnostico del modelo QUE REALMENTE SE USA, para que 27_tablas_1_2_3.R deje de leer del CSV

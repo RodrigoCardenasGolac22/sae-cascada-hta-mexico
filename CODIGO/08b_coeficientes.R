@@ -18,8 +18,12 @@ RES <- "RESULTADOS"
 PASOS <- c("AWARE_ESH", "AWARE_AHA", "TRAT", "CONTROL_ESH", "CONTROL_AHA")
 paso_legible <- c(AWARE_ESH = "Diagnóstico (ESH)", AWARE_AHA = "Diagnóstico (AHA)",
                   TRAT = "Tratamiento", CONTROL_ESH = "Control (ESH)", CONTROL_AHA = "Control (AHA)")
+# Etiquetas publicables. La covariable de CLUES entra al modelo como DENSIDAD por 10 000 adultos
+# censales (clues_por_10k, decision B5 opcion 2 del 2026-08-06), asi que llamarla "densidad" en el
+# manuscrito vuelve a ser correcto. El beta se reporta por unidad de densidad (1 establecimiento
+# mas por 10 000 adultos).
 cov_legible <- c(pobreza_pct = "Pobreza municipal (%)",
-                 clues_total = "Establecimientos de salud (n)")
+                 clues_por_10k = "Establecimientos de salud por 10 000 adultos")
 
 anios <- list(); coefs <- list()
 
