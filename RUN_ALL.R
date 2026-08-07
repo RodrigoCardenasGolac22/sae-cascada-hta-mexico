@@ -31,10 +31,12 @@ pasos <- c(
   "08_modelos_finales.R",         # modelos finales + reclasificacion ESH vs ACC/AHA
   "08b_coeficientes.R",           # efecto del anio y coeficientes de area, desde los modelos ya ajustados
   "09_extension_nacional.R",      # extension a los municipios sin muestra directa
-  "10_validacion_cruzada.R",      # validacion cruzada espacial de 5 pliegues
+  "10_validacion_cruzada.R",      # validacion cruzada espacial: pliegues aleatorios y contiguos
+  "06b_baseline_iid.R",           # baseline IID vs BYM2 (corre tras 08 y 10: reusa modelos y pliegues)
   "11_benchmark_nacional.R",      # comparacion con las cifras nacionales publicadas
   "12_sensibilidad_vecindad.R",   # sensibilidad a la definicion de vecindad
   "12b_diagnosticos_supuestos.R", # verificacion de supuestos de los modelos finales
+  "12c_sensibilidad_ponderada.R", # sensibilidad al diseno: verosimilitud ponderada en TRAT y AWARE_ESH
   "13_fig1_flujo_strobe.R",       # Figura 1
   "14_fig2_mapa_cascada.R",       # Figura 2
   "15_fig3_reclasificacion.R",    # Figura 3

@@ -1,0 +1,3 @@
+"paso","n","n_municipios","correlacion","mediana_dif_abs_pp","p95_dif_abs_pp","max_dif_abs_pp","n_cambian_quintil","pct_cambian_quintil","criterio_cumplido"
+"AWARE_ESH",7727,587,0.885,3.33,9.43,17.83,264,45,FALSE
+"TRAT",5203,576,0.9256,2.17,9.15,17.28,211,36.6,FALSE

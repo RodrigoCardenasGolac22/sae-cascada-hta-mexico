@@ -1,0 +1,6 @@
+"paso","n","waic_iid","waic_bym2","delta_waic","se_delta_waic","razon_delta_se","evidencia_waic","evidencia_se","rmse_cv_iid","rmse_cv_bym2","phi_mediana"
+"AWARE_ESH",7727,9190.4,9189,-1.35,3.17,-0.43,"empate (|Delta|<2)","empate (<2 EE)",0.208,0.2077,0.125
+"AWARE_AHA",11583,14286.6,14286.2,-0.38,2.24,-0.17,"empate (|Delta|<2)","empate (<2 EE)",0.1825,0.1825,0.062
+"TRAT",5203,3954.7,3913.2,-41.52,11.16,-3.72,"BYM2 mejora (|Delta|>=2)","BYM2 mejora (>=2 EE)",0.2069,0.2022,0.809
+"CONTROL_ESH",4382,5624.6,5614,-10.54,5.35,-1.97,"BYM2 mejora (|Delta|>=2)","empate (<2 EE)",0.2749,0.2739,0.649
+"CONTROL_AHA",4382,5884.4,5874.7,-9.71,5.96,-1.63,"BYM2 mejora (|Delta|>=2)","empate (<2 EE)",0.281,0.2794,0.512
