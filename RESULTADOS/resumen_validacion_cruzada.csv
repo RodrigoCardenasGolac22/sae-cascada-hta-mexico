@@ -1,6 +1,6 @@
-"paso","n_municipios","rmse_bym2","rmse_naive","reduccion_rmse_pct","sesgo_bym2","sesgo_naive"
-"AWARE_ESH",587,0.2071,0.2231,7.2,7e-04,0.0113
-"AWARE_AHA",593,0.182,0.2005,9.2,0.0014,0.0084
-"TRAT",576,0.2031,0.2231,8.9,0.0074,0.0276
-"CONTROL_ESH",557,0.2749,0.2855,3.7,0.0074,0.0242
-"CONTROL_AHA",557,0.2795,0.2881,3,0.0211,0.0323
+"paso","n_municipios","rmse_bym2","rmse_naive","reduccion_rmse_pct","sesgo_bym2","sesgo_naive","rmse_irreducible","n_municipios_n30","rmse_n30","rmse_naive_n30","pct_retenidos_sin_vecinos","rmse_bym2_contiguo","rmse_naive_contiguo","reduccion_rmse_pct_contiguo","sesgo_bym2_contiguo","rmse_n30_contiguo","pct_retenidos_sin_vecinos_contiguo"
+"AWARE_ESH",587,0.2077,0.2231,6.9,2e-04,0.0111,0.1534,50,0.0728,0.0821,20.3,0.2089,0.2231,6.4,0.0027,0.0749,89.9
+"AWARE_AHA",594,0.1825,0.2006,9,0.0025,0.0083,0.1411,94,0.0964,0.1078,18.2,0.182,0.2006,9.2,0.0041,0.0953,69.5
+"TRAT",576,0.2022,0.2231,9.3,0.007,0.0275,0.1394,32,0.0629,0.0663,17.7,0.2043,0.2231,8.4,0.0088,0.0612,85.2
+"CONTROL_ESH",558,0.2739,0.2854,4,0.0106,0.0244,0.1752,27,0.0771,0.0797,20.3,0.2757,0.2854,3.4,0.0138,0.0755,71.9
+"CONTROL_AHA",558,0.2794,0.288,3,0.0232,0.0326,0.1723,27,0.1083,0.1147,20.3,0.2808,0.288,2.5,0.023,0.1213,71.9
