@@ -1,21 +1,21 @@
-"paso","covariable","n","waic_base","waic_con_cov","delta_waic","se_delta_waic","razon_delta_se","evidencia_waic","evidencia_se","concuerdan","delta_log_cpo","cpo_fallos"
-"AWARE_ESH","pobreza",7727,9197.54144939542,9189.04603193296,-8.5,5.75,-1.48,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,4.25,0
-"AWARE_ESH","clues_por_10k",7735,9204.77596057393,9206.20098872635,1.43,0.49,2.92,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.71,0
-"AWARE_ESH","clues_publico_por_10k",7735,9204.77596057393,9204.34348521027,-0.43,2.81,-0.15,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.22,0
-"AWARE_ESH","altitud",7735,9204.77596057393,9206.45539161287,1.68,0.87,1.94,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.84,0
-"AWARE_AHA","pobreza",11583,14292.4430071976,14286.2211239385,-6.22,5.95,-1.05,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,3.11,0
-"AWARE_AHA","clues_por_10k",11597,14307.1507932954,14308.1640872859,1.01,1.06,0.96,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.51,0
-"AWARE_AHA","clues_publico_por_10k",11597,14307.1507932954,14306.2746077854,-0.88,2.92,-0.3,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.44,0
-"AWARE_AHA","altitud",11597,14307.1507932954,14307.254248933,0.1,0.86,0.12,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.05,0
-"TRAT","pobreza",5196,3905.56287034295,3906.24315087251,0.68,5.32,0.13,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.34,0
-"TRAT","clues_por_10k",5203,3913.1656029521,3914.40796351252,1.24,1.24,1,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.62,0
-"TRAT","clues_publico_por_10k",5203,3913.1656029521,3914.15153505243,0.99,1.65,0.6,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.49,0
-"TRAT","altitud",5203,3913.1656029521,3912.63037961464,-0.54,2.61,-0.21,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.27,0
-"CONTROL_ESH","pobreza",4382,5619.73662174394,5614.03773716897,-5.7,4.72,-1.21,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,2.85,0
-"CONTROL_ESH","clues_por_10k",4388,5629.20973013958,5631.18001718954,1.97,0.33,5.95,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.99,0
-"CONTROL_ESH","clues_publico_por_10k",4388,5629.20973013958,5630.43961014592,1.23,2.08,0.59,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.62,0
-"CONTROL_ESH","altitud",4388,5629.20973013958,5630.86151344874,1.65,0.2,8.29,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.83,0
-"CONTROL_AHA","pobreza",4382,5884.15976301661,5874.65284462896,-9.51,5.58,-1.7,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,4.76,0
-"CONTROL_AHA","clues_por_10k",4388,5892.16583551279,5892.39552578224,0.23,2.42,0.1,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.12,0
-"CONTROL_AHA","clues_publico_por_10k",4388,5892.16583551279,5890.31875423478,-1.85,3.98,-0.46,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.92,0
-"CONTROL_AHA","altitud",4388,5892.16583551279,5893.41943563318,1.25,0.2,6.18,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.63,0
+"paso","covariable","n","waic_base","waic_con_cov","delta_waic","se_delta_waic","razon_delta_se","evidencia_waic","evidencia_se","concuerdan","delta_log_cpo","cpo_fallos","seleccionada","ponderacion_modelo"
+"AWARE_ESH","pobreza",7727,9290.43192991351,9288.64310752606,-1.79,3.38,-0.53,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.98,0,FALSE,"ponde_cal/media_municipal"
+"AWARE_ESH","clues_por_10k",7735,9297.79944525023,9299.34981016069,1.55,0.8,1.94,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.72,0,FALSE,"ponde_cal/media_municipal"
+"AWARE_ESH","clues_publico_por_10k",7735,9297.79944525023,9299.26161024174,1.46,1.26,1.16,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.64,0,FALSE,"ponde_cal/media_municipal"
+"AWARE_ESH","altitud",7735,9297.79944525023,9298.94625730697,1.15,1.19,0.96,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.58,0,FALSE,"ponde_cal/media_municipal"
+"AWARE_AHA","pobreza",11583,13898.4581707325,13897.9315164791,-0.53,3.24,-0.16,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.2,0,FALSE,"ponde_cal/media_municipal"
+"AWARE_AHA","clues_por_10k",11597,13911.5306734647,13913.1289569891,1.6,0.16,9.69,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.71,0,FALSE,"ponde_cal/media_municipal"
+"AWARE_AHA","clues_publico_por_10k",11597,13911.5306734647,13912.5371038087,1.01,1.57,0.64,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.42,0,FALSE,"ponde_cal/media_municipal"
+"AWARE_AHA","altitud",11597,13911.5306734647,13913.1256283606,1.59,0.84,1.9,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.76,0,FALSE,"ponde_cal/media_municipal"
+"TRAT","pobreza",5196,4196.31287767619,4194.83810619595,-1.47,5.25,-0.28,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.6,0,FALSE,"ponde_cal/media_municipal"
+"TRAT","clues_por_10k",5203,4205.79544930421,4207.73710081778,1.94,0.39,5.03,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.94,0,FALSE,"ponde_cal/media_municipal"
+"TRAT","clues_publico_por_10k",5203,4205.79544930421,4207.67993147684,1.88,1.06,1.78,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.91,0,FALSE,"ponde_cal/media_municipal"
+"TRAT","altitud",5203,4205.79544930421,4206.80603277421,1.01,1.88,0.54,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.42,0,FALSE,"ponde_cal/media_municipal"
+"CONTROL_ESH","pobreza",4382,5667.52967654016,5664.49550630248,-3.03,4.38,-0.69,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,1.54,0,TRUE,"ponde_cal/media_municipal"
+"CONTROL_ESH","clues_por_10k",4388,5678.58177627752,5680.60520133231,2.02,1.22,1.66,"REAL (empeora)","ruido (|Delta| < 2 EE)",FALSE,-0.89,0,FALSE,"ponde_cal/media_municipal"
+"CONTROL_ESH","clues_publico_por_10k",4388,5678.58177627752,5679.31720313555,0.74,2.59,0.28,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.3,0,FALSE,"ponde_cal/media_municipal"
+"CONTROL_ESH","altitud",4388,5678.58177627752,5680.54913019847,1.97,0.21,9.49,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.86,0,FALSE,"ponde_cal/media_municipal"
+"CONTROL_AHA","pobreza",4382,5888.3368814104,5886.12792403975,-2.21,3.5,-0.63,"REAL (mejora)","ruido (|Delta| < 2 EE)",FALSE,1.23,0,TRUE,"ponde_cal/media_municipal"
+"CONTROL_AHA","clues_por_10k",4388,5896.56462958324,5897.87930597309,1.31,1.94,0.68,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,-0.52,0,FALSE,"ponde_cal/media_municipal"
+"CONTROL_AHA","clues_publico_por_10k",4388,5896.56462958324,5896.40102257085,-0.16,3.32,-0.05,"ruido (|Delta|<2)","ruido (|Delta| < 2 EE)",FALSE,0.21,0,FALSE,"ponde_cal/media_municipal"
+"CONTROL_AHA","altitud",4388,5896.56462958324,5898.52214388074,1.96,0.9,2.18,"ruido (|Delta|<2)","REAL (empeora)",FALSE,-0.95,0,FALSE,"ponde_cal/media_municipal"

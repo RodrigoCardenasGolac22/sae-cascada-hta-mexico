@@ -1,6 +1,6 @@
-Paso,Covariable,VIF
-Diagnóstico (ESH),pobreza_pct,1
-Diagnóstico (AHA),pobreza_pct,1
-Tratamiento,(sin covariables de área),NA
-Control (ESH),pobreza_pct,1
-Control (AHA),pobreza_pct,1
+Paso,Covariable,VIF,ponderacion_modelo
+Diagnóstico (ESH),(sin covariables de área),NA,ponde_cal/media_municipal
+Diagnóstico (AHA),(sin covariables de área),NA,ponde_cal/media_municipal
+Tratamiento,(sin covariables de área),NA,ponde_cal/media_municipal
+Control (ESH),pobreza_pct,1,ponde_cal/media_municipal
+Control (AHA),pobreza_pct,1,ponde_cal/media_municipal

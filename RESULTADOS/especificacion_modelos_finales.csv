@@ -1,0 +1,6 @@
+"paso","outcome","denom","covariables_area","formula_fija","ponderacion_modelo"
+"AWARE_ESH","diag_cronico","hta_esh","ninguna","sexo_f + edad + escolaridad_f + estrato_f + anio_f","ponde_cal/media_municipal"
+"AWARE_AHA","diag_cronico","hta_aha","ninguna","sexo_f + edad + escolaridad_f + estrato_f + anio_f","ponde_cal/media_municipal"
+"TRAT","tratado","diag_cronico","ninguna","sexo_f + edad + escolaridad_f + estrato_f + anio_f","ponde_cal/media_municipal"
+"CONTROL_ESH","control_esh","tratado","pobreza_pct","sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct","ponde_cal/media_municipal"
+"CONTROL_AHA","control_aha","tratado","pobreza_pct","sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct","ponde_cal/media_municipal"

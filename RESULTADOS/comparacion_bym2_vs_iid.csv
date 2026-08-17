@@ -1,6 +1,6 @@
-"paso","n","waic_iid","waic_bym2","delta_waic","se_delta_waic","razon_delta_se","evidencia_waic","evidencia_se","rmse_cv_iid","rmse_cv_bym2","phi_mediana"
-"AWARE_ESH",7727,9190.4,9189,-1.35,3.17,-0.43,"empate (|Delta|<2)","empate (<2 EE)",0.208,0.2077,0.125
-"AWARE_AHA",11583,14286.6,14286.2,-0.38,2.24,-0.17,"empate (|Delta|<2)","empate (<2 EE)",0.1825,0.1825,0.062
-"TRAT",5203,3954.7,3913.2,-41.52,11.16,-3.72,"BYM2 mejora (|Delta|>=2)","BYM2 mejora (>=2 EE)",0.2069,0.2022,0.809
-"CONTROL_ESH",4382,5624.6,5614,-10.54,5.35,-1.97,"BYM2 mejora (|Delta|>=2)","empate (<2 EE)",0.2749,0.2739,0.649
-"CONTROL_AHA",4382,5884.4,5874.7,-9.71,5.96,-1.63,"BYM2 mejora (|Delta|>=2)","empate (<2 EE)",0.281,0.2794,0.512
+"paso","n","ponderacion_modelo","waic_iid","waic_bym2","delta_waic","se_delta_waic","razon_delta_se","evidencia_waic","evidencia_se","rmse_cv_iid","rmse_cv_bym2","phi_mediana"
+"AWARE_ESH",7735,"ponde_cal/media_municipal",9300.4,9297.8,-2.63,3.45,-0.76,"BYM2 mejora (|Delta|>=2)","empate (<2 EE)",0.2316,0.2308,0.051
+"AWARE_AHA",11597,"ponde_cal/media_municipal",13915.2,13911.5,-3.63,3.56,-1.02,"BYM2 mejora (|Delta|>=2)","empate (<2 EE)",0.1955,0.1949,0.053
+"TRAT",5203,"ponde_cal/media_municipal",4238.6,4205.8,-32.83,12.19,-2.69,"BYM2 mejora (|Delta|>=2)","BYM2 mejora (>=2 EE)",0.2275,0.2218,0.453
+"CONTROL_ESH",4382,"ponde_cal/media_municipal",5674.5,5664.5,-9.97,6.27,-1.59,"BYM2 mejora (|Delta|>=2)","empate (<2 EE)",0.2936,0.2928,0.207
+"CONTROL_AHA",4382,"ponde_cal/media_municipal",5895.6,5886.1,-9.51,6.33,-1.5,"BYM2 mejora (|Delta|>=2)","empate (<2 EE)",0.2998,0.2984,0.227

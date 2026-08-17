@@ -1,6 +1,6 @@
-"paso","n_muestra","n_sintetico","n_total","pct_cobertura"
-"AWARE_ESH",587,1879,2466,99.5
-"AWARE_AHA",594,1872,2466,99.5
-"TRAT",576,1893,2469,99.6
-"CONTROL_ESH",558,1908,2466,99.5
-"CONTROL_AHA",558,1908,2466,99.5
+"paso","ponderacion_modelo","n_muestra","n_sintetico","n_total","pct_cobertura"
+"AWARE_ESH","ponde_cal/media_municipal",589,1880,2469,99.6
+"AWARE_AHA","ponde_cal/media_municipal",596,1873,2469,99.6
+"TRAT","ponde_cal/media_municipal",576,1893,2469,99.6
+"CONTROL_ESH","ponde_cal/media_municipal",558,1908,2466,99.5
+"CONTROL_AHA","ponde_cal/media_municipal",558,1908,2466,99.5

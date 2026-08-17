@@ -1,5 +1,3 @@
-"paso","covariable","beta","beta_l","beta_u","p_beta_negativo","excluye_0"
-"Diagnóstico (ESH)","Pobreza municipal (%)",-0.00732852552294112,-0.0115990656208112,-0.00317398981079873,0.999728761084524,TRUE
-"Diagnóstico (AHA)","Pobreza municipal (%)",-0.00649845834509759,-0.00986831495474739,-0.00306266980776279,0.999856674314446,TRUE
-"Control (ESH)","Pobreza municipal (%)",-0.00657462992425277,-0.0118545070698734,-0.00147418753315556,0.994572149177405,TRUE
-"Control (AHA)","Pobreza municipal (%)",-0.00858272317940447,-0.0142505040077745,-0.00302408843615371,0.99888256485599,TRUE
+"paso","covariable","ponderacion_modelo","beta","beta_l","beta_u","p_beta_negativo","excluye_0"
+"Control (ESH)","Pobreza municipal (%)","ponde_cal/media_municipal",-0.00673381851213963,-0.0128516048933728,-0.000764189145770626,0.986763476166078,TRUE
+"Control (AHA)","Pobreza municipal (%)","ponde_cal/media_municipal",-0.00583444109998024,-0.0123433085914867,0.000529706466292813,0.963876834596168,FALSE

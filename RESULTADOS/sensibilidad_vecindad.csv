@@ -1,2 +1,2 @@
-"paso","n_municipios","waic_reina","waic_torre","delta_waic","phi_reina","phi_torre","delta_phi","vecinos_mediana_reina","vecinos_mediana_torre"
-"TRAT",576,3913.16536053402,3913.4071822671,0.241821733079178,0.80920946429749,0.808252282476269,-0.000957181821221398,6,6
+"ponderacion_modelo","paso","n_municipios","waic_reina","waic_torre","delta_waic","phi_reina","phi_torre","delta_phi","vecinos_mediana_reina","vecinos_mediana_torre"
+"ponde_cal/media_municipal","TRAT",576,4205.79657902576,4205.93874792814,0.142168902380035,0.452681143217284,0.452029808012578,-0.000651335204706172,6,6

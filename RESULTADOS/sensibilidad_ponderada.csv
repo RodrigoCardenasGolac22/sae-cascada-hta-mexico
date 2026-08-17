@@ -1,3 +1,6 @@
-"paso","n","n_municipios","correlacion","mediana_dif_abs_pp","p95_dif_abs_pp","max_dif_abs_pp","n_cambian_quintil","pct_cambian_quintil","criterio_cumplido"
-"AWARE_ESH",7727,587,0.885,3.33,9.43,17.83,264,45,FALSE
-"TRAT",5203,576,0.9256,2.17,9.15,17.28,211,36.6,FALSE
+"paso","n","n_municipios","modelo_principal","modelo_comparacion","ponderacion_modelo","correlacion","mediana_dif_abs_pp","p95_dif_abs_pp","max_dif_abs_pp","n_cambian_quintil","pct_cambian_quintil","cor_absdif_n_pearson","cor_absdif_n_spearman","criterio_diferencia_pequena"
+"AWARE_ESH",7735,589,"ponderado","sin_ponderar","ponde_cal/media_municipal",0.8985,3.5,9.44,18.79,233,39.6,0.1519,0.198,FALSE
+"AWARE_AHA",11597,596,"ponderado","sin_ponderar","ponde_cal/media_municipal",0.9258,2.7,8.18,20.05,228,38.3,0.2183,0.1952,FALSE
+"TRAT",5203,576,"ponderado","sin_ponderar","ponde_cal/media_municipal",0.9279,2.28,9.46,21.23,222,38.5,0.0937,0.1733,FALSE
+"CONTROL_ESH",4382,558,"ponderado","sin_ponderar","ponde_cal/media_municipal",0.877,2.35,7.07,13.41,265,47.5,0.1199,0.2399,FALSE
+"CONTROL_AHA",4382,558,"ponderado","sin_ponderar","ponde_cal/media_municipal",0.8815,2.53,7.68,13.64,259,46.4,0.2753,0.3306,FALSE
