@@ -76,7 +76,8 @@ cat("Pipeline completo.\n")
 # unicamente los paquetes de esos pasos, y quien intentara reproducir el estudio creeria que basta
 # con esos.
 if (desde == 1L && hasta == length(pasos)) {
-  writeLines(capture.output(sessionInfo()), "sessionInfo.txt")
+  info_sesion <- sub("[ \t]+$", "", capture.output(sessionInfo()))
+  writeLines(info_sesion, "sessionInfo.txt")
   cat("Entorno de esta corrida guardado en sessionInfo.txt\n")
 } else {
   cat(sprintf("Corrida parcial (pasos %d a %d): sessionInfo.txt NO se actualiza.\n", desde, hasta))

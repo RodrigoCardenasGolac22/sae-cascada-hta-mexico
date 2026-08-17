@@ -47,7 +47,10 @@ resumen <- read_csv(file.path(RES, "resumen_validacion_cruzada.csv"), col_types 
 panel_a <- ggplot(detalle, aes(x = obs, y = pred_bym2)) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "grey50") +
   geom_point(aes(size = n), alpha = 0.35, color = "#2166ac") +
-  scale_size_continuous(name = "n municipio\n(pliegue de prueba)", range = c(0.5, 3)) +
+  scale_size_continuous(
+    name = "n municipio\n(pliegue de prueba)", range = c(0.5, 3),
+    labels = function(x) fmt_es_rango(format(x, trim = TRUE, scientific = FALSE))
+  ) +
   facet_wrap(~paso, nrow = 1) +
   scale_x_continuous(labels = function(x) fmt_es_rango(format(x, nsmall = 2, trim = TRUE))) +
   scale_y_continuous(labels = function(x) fmt_es_rango(format(x, nsmall = 2, trim = TRUE))) +
@@ -63,7 +66,10 @@ panel_b <- ggplot(resumen, aes(x = paso_label, y = reduccion_rmse_pct)) +
   geom_text(aes(label = fmt_es_rango(sprintf("%.1f%%", reduccion_rmse_pct))), vjust = -0.4, size = 3.3) +
   labs(x = NULL, y = "Reducción de RMSE\nBYM2 vs. promedio nacional simple (%)",
        title = "B) Ganancia del modelo espacial sobre una línea base simple no ajustada, por paso") +
-  ylim(0, max(resumen$reduccion_rmse_pct) * 1.25) +
+  scale_y_continuous(
+    limits = c(0, max(resumen$reduccion_rmse_pct) * 1.25),
+    labels = function(x) fmt_es_rango(format(x, nsmall = 1, trim = TRUE))
+  ) +
   theme_bw(base_size = 10) +
   theme(plot.title = element_text(face = "bold", size = 11),
         axis.text.x = element_text(angle = 20, hjust = 1))
