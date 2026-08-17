@@ -5,21 +5,22 @@ Nutrición (ENSANUT) Continua 2021-2024.
 
 Se estima la prevalencia municipal de cada paso de la cascada de atención de la hipertensión
 —diagnóstico previo, tratamiento y control— mediante modelos bayesianos espaciales BYM2 de
-nivel-unidad ajustados con INLA, bajo dos criterios diagnósticos (ESH 2023, ≥140/90 mmHg; ACC/AHA
-2025, ≥130/80 mmHg), con extensión de la predicción a los municipios sin muestra directa de encuesta.
+nivel-unidad ajustados con una pseudo-verosimilitud ponderada en INLA, bajo dos criterios
+diagnósticos (ESH 2023, ≥140/90 mmHg; ACC/AHA 2025, ≥130/80 mmHg), con extensión de la predicción
+a los municipios sin muestra directa de encuesta.
 
 ## Contenido
 
 | Carpeta | Qué contiene |
 |---|---|
-| `CODIGO/` | Los 21 scripts del pipeline, numerados en orden de ejecución |
+| `CODIGO/` | Scripts públicos de análisis, tablas, figuras y explorador |
 | `RUN_ALL.R` | Punto de entrada: corre el pipeline completo o un rango de pasos |
 | `RESULTADOS/` | Resultados numéricos (estimaciones municipales, validación, resúmenes de modelo) |
 | `TABLAS/` | Tablas del manuscrito y checklist STROBE, en `.csv` y `.xlsx` |
 | `FIGURAS/` | Figuras en `.png`, `.svg` y `.pptx` editable |
 | `COVARIABLES/` | Covariables municipales ya construidas (pobreza, establecimientos de salud, altitud) |
 | `DATOS_GEO_MEXICO/` | Geometría municipal INEGI, grafos de vecindad y el script que calcula la altitud media municipal a partir del modelo digital de elevación (`scripts_verificacion/`) |
-| `MANUSCRITO_BORRADOR.md` | Texto del manuscrito (fuente); el `.docx` se genera desde aquí |
+| `MANUSCRITO_BORRADOR.md` | Fuente pública del texto; la conversión editorial se ejecuta localmente |
 | `sessionInfo.txt` | Entorno de R y versiones de paquetes de la última corrida |
 
 ## Cómo reproducir el análisis
@@ -62,12 +63,14 @@ Desde la **raíz del repositorio** (todos los scripts usan rutas relativas a ell
 
 ```bash
 Rscript RUN_ALL.R          # pipeline completo
-Rscript RUN_ALL.R 13 21    # solo figuras, tablas y documentos
+Rscript RUN_ALL.R 18 25    # solo figuras, tablas, STROBE y datos del explorador
 ```
 
-Los pasos 06 a 10 ajustan los modelos con INLA y son la parte lenta (decenas de minutos en total;
-el paso 10 corre validación cruzada de 5 pliegues sobre 5 desenlaces). Los pasos 13 a 21 producen
-figuras, tablas y documentos en segundos a partir de resultados ya calculados.
+Los pasos 06 a 12c ajustan o reutilizan modelos con INLA y son la parte lenta (decenas de minutos
+en total; el paso 10 corre validación cruzada de 5 pliegues sobre 5 desenlaces). Los pasos 13 a 24
+producen figuras, tablas, STROBE y los datos del explorador a partir de resultados ya calculados.
+`RUN_ALL.R` ejecuta únicamente artefactos públicos y actualiza `sessionInfo.txt` solo después de
+una corrida completa.
 
 ### 4. Qué genera el pipeline y no está versionado aquí
 
@@ -86,24 +89,26 @@ figuras, tablas y documentos en segundos a partir de resultados ya calculados.
 | 04 | `04_estimaciones_directas.R` | Prevalencia directa por municipio, con diseño complejo |
 | 05 | `05_grafo_vecindad.R` | Matrices de vecindad municipal (contigüidad reina y torre) |
 | 06 | `06_modelos_univariados.R` | Modelos BYM2 base, sin covariables de área |
-| 07 | `07_seleccion_covariables.R` | Selección de covariables de área por WAIC, con el error estándar de cada ΔWAIC |
-| 08 | `08_modelos_finales.R` | Modelos finales y reclasificación ESH vs. ACC/AHA |
+| 07 | `07_seleccion_covariables.R` | Selección ponderada de covariables por ΔWAIC, log-CPO y fallos CPO |
+| 08 | `08_modelos_finales.R` | Modelos finales desde una especificación compartida y reclasificación ESH vs. ACC/AHA |
 | 08b | `08b_coeficientes.R` | Efecto del año y coeficientes de área, desde los modelos ya ajustados |
 | 09 | `09_extension_nacional.R` | Post-estratificación censal y predicción en municipios sin muestra directa |
 | 10 | `10_validacion_cruzada.R` | Validación cruzada espacial de 5 pliegues |
+| 06b | `06b_baseline_iid.R` | Comparación IID frente a BYM2 con las mismas filas, pesos y pliegues |
 | 11 | `11_benchmark_nacional.R` | Comparación con las cifras nacionales publicadas |
 | 12 | `12_sensibilidad_vecindad.R` | Sensibilidad a la definición de vecindad |
+| 12b | `12b_diagnosticos_supuestos.R` | Diagnósticos de los modelos finales |
+| 12c | `12c_sensibilidad_ponderada.R` | Modelo principal ponderado frente a sensibilidad sin ponderar |
 | 13-17 | `13_fig1_*` … `17_figS2_*` | Figuras 1-3 y S1-S2 |
 | 18 | `18_tablas.R` | Tablas 1, 2, 2b y S1 |
-| 19 | `19_manuscrito_docx.R` | Manuscrito `.docx` desde `MANUSCRITO_BORRADOR.md` |
 | 20 | `20_checklist_strobe.R` | Checklist STROBE |
-| 21 | `21_material_suplementario.R` | Material suplementario `.docx` |
-| 22 | `22_paquete_envio.R` | Arma el paquete de envio y verifica que cada entregable se propagó (md5 origen vs. destino) |
+| 24 | `24_datos_explorador.R` | Datos derivados para el explorador municipal |
 
-Los pasos 01-22 los encadena `RUN_ALL.R`. El 23 es un script de Python que se corre aparte
-
-El manuscrito no se edita en el `.docx`: la fuente es `MANUSCRITO_BORRADOR.md` y el `.docx` se
-regenera con el paso 19.
+La construcción de manuscritos `.docx`, material suplementario y paquetes de envío se mantiene en
+scripts locales ignorados por Git. Esos scripts consumen `MANUSCRITO_BORRADOR.md` y las salidas
+versionadas, pero no forman parte del pipeline reproducible público.
+El marcador de correspondencia del borrador se completa localmente desde
+`LEEME_CORRESPONDENCIA.txt`, también ignorado, para no publicar dirección, teléfono ni correo.
 
 ## Fuentes de datos
 
@@ -137,6 +142,13 @@ en los cuatro años, el paso **02b** calibra el ponderador por celdas de post-es
 de esa validación (`RESULTADOS/validacion_calibracion_2023.csv` y
 `comparacion_ponderadores_nacional.csv`) son las que sustentan qué ponderador se usa en el análisis
 principal.
+
+En los modelos, `ponde_cal` se normaliza a media 1 dentro de cada municipio después de aplicar el
+denominador analítico de cada desenlace. El peso resultante (`peso_modelo`) conserva la composición
+relativa de la muestra sin tratar la suma de pesos poblacionales como tamaño de muestra. Esta
+pseudo-verosimilitud ponderada se usa en modelos base, selección, modelos finales, validación,
+comparación IID, sensibilidad de vecindad y diagnósticos. El paso 12c reajusta los cinco desenlaces
+sin ponderar como análisis de sensibilidad y reporta la discrepancia por tamaño muestral municipal.
 
 ## Licencia
 
