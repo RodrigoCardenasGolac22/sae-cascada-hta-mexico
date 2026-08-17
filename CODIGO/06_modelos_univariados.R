@@ -14,6 +14,8 @@ library(dplyr)
 library(readr)
 library(INLA)
 
+source("CODIGO/00_comun.R")
+
 RES <- "RESULTADOS"
 GEO <- "DATOS_GEO_MEXICO"
 
@@ -30,6 +32,7 @@ idx_tabla <- read_csv(file.path(GEO, "muni_idx_grafo.csv"), col_types = cols(
 
 base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" = "cve_mun"))
 stopifnot(sum(is.na(base$muni_idx)) == 0)
+base <- agregar_ponderador_calibrado(base, RES)
 
 g <- inla.read.graph(file.path(GEO, "municipios.graph"))
 
@@ -42,13 +45,12 @@ modelos <- list(
   CONTROL_AHA = list(outcome = "control_aha",  denom = "tratado")
 )
 
-ajustar_bym2 <- function(y, muni_idx) {
-  d <- data.frame(y = as.numeric(y), muni_idx = muni_idx)
+ajustar_bym2 <- function(d) {
   inla(
     y ~ 1 + f(muni_idx, model = "bym2", graph = g, scale.model = TRUE, constr = TRUE,
               hyper = list(phi = list(prior = "pc", param = c(0.5, 0.5)),
                            prec = list(prior = "pc.prec", param = c(1, 0.01)))),
-    family = "binomial", Ntrials = 1, data = d,
+    family = "binomial", Ntrials = 1, data = d, weights = d$peso_modelo,
     control.compute = list(waic = TRUE, dic = TRUE, cpo = TRUE),
     control.predictor = list(compute = TRUE, link = 1)
   )
@@ -60,9 +62,11 @@ modelos_ajustados <- list()
 for (nombre in names(modelos)) {
   p <- modelos[[nombre]]
   sub <- base[base[[p$denom]] & !is.na(base[[p$denom]]), ]
+  sub$y <- as.numeric(sub[[p$outcome]])
+  sub <- normalizar_ponderador_modelo(sub)
 
   t0 <- Sys.time()
-  m <- ajustar_bym2(sub[[p$outcome]], sub$muni_idx)
+  m <- ajustar_bym2(sub)
   t1 <- Sys.time()
   tiempo <- round(as.numeric(difftime(t1, t0, units = "secs")), 1)
 
@@ -72,6 +76,7 @@ for (nombre in names(modelos)) {
 
   resumen[[nombre]] <- data.frame(
     desenlace = nombre, n = nrow(sub), n_municipios = n_distinct(sub$muni_idx),
+    ponderacion_modelo = PONDERACION_MODELO,
     tiempo_seg = tiempo, waic = m$waic$waic, dic = m$dic$dic,
     cpo_fallos = sum(m$cpo$failure > 0, na.rm = TRUE),
     phi_mediana = round(phi_mediana, 3),

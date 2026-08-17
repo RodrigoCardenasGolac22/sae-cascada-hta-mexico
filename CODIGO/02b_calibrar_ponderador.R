@@ -2,7 +2,7 @@
 #
 # EL PROBLEMA
 # La medicion de presion arterial se hace en una SUBMUESTRA del modulo de adultos: de los 45 011
-# adultos entrevistados en 2021-2024 solo 25 089 tienen lectura valida (43,5 % de perdida). El
+# adultos entrevistados en 2021-2024 solo 25 088 integran la base analitica (43,5 % de perdida). El
 # pipeline usaba `ponde_f` del modulo de adultos sobre esa submuestra, lo que equivale a asumir que
 # la submuestra es un subconjunto aleatorio simple de los adultos. La suma de `ponde_f` sobre la
 # base analitica lo desmiente: 45,1 millones en 2023 frente a los 86,0 millones de adultos que

@@ -14,6 +14,8 @@
 library(dplyr)
 library(INLA)
 
+source("CODIGO/00_comun.R")
+
 RES <- "RESULTADOS"
 PASOS <- c("AWARE_ESH", "AWARE_AHA", "TRAT", "CONTROL_ESH", "CONTROL_AHA")
 paso_legible <- c(AWARE_ESH = "Diagnóstico (ESH)", AWARE_AHA = "Diagnóstico (AHA)",
@@ -23,7 +25,9 @@ paso_legible <- c(AWARE_ESH = "Diagnóstico (ESH)", AWARE_AHA = "Diagnóstico (A
 # manuscrito vuelve a ser correcto. El beta se reporta por unidad de densidad (1 establecimiento
 # mas por 10 000 adultos).
 cov_legible <- c(pobreza_pct = "Pobreza municipal (%)",
-                 clues_por_10k = "Establecimientos de salud por 10 000 adultos")
+                 clues_por_10k = "Establecimientos de salud por 10 000 adultos",
+                 clues_publico_por_10k = "Establecimientos públicos por 10 000 adultos",
+                 altitud_msnm = "Altitud media municipal (m s. n. m.)")
 
 anios <- list(); coefs <- list()
 
@@ -40,6 +44,7 @@ for (p in PASOS) {
     r <- fx[f, ]
     anios[[paste(p, f)]] <- data.frame(
       paso = paso_legible[[p]], anio = sub("^anio_f", "", f),
+      ponderacion_modelo = PONDERACION_MODELO,
       or = exp(r[["mean"]]), or_l = exp(r[["0.025quant"]]), or_u = exp(r[["0.975quant"]]),
       excluye_1 = r[["0.025quant"]] > 0 || r[["0.975quant"]] < 0)
   }
@@ -52,6 +57,7 @@ for (p in PASOS) {
     pneg <- INLA::inla.pmarginal(0, m$marginals.fixed[[v]])
     coefs[[paste(p, v)]] <- data.frame(
       paso = paso_legible[[p]], covariable = cov_legible[[v]],
+      ponderacion_modelo = PONDERACION_MODELO,
       beta = r[["mean"]], beta_l = r[["0.025quant"]], beta_u = r[["0.975quant"]],
       p_beta_negativo = pneg,
       excluye_0 = r[["0.025quant"]] > 0 || r[["0.975quant"]] < 0)

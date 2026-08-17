@@ -19,11 +19,11 @@
 # municipio retenido (0 / 1-2 / 3+), que es la unica que responde directamente "¿como estima el
 # modelo donde no hay nada alrededor?" -- el estrato 0 es el que corresponde al 36,1% real.
 #
-# COMPARADOR RUIDOSO, DECLARADO Y CUANTIFICADO (item B3): lo "observado" es la proporcion NO
+# COMPARADOR RUIDOSO, DECLARADO Y CUANTIFICADO (item B3): lo "observado" es la proporcion
 # ponderada del municipio, con mediana n = 8 encuestados; con n = 8 y p ~ 0,66 el error estandar
 # de la propia "verdad" es ~0,17, asi que la mayor parte del RMSE absoluto es varianza de muestreo
 # del comparador, no error del modelo. Se reporta (a) el RMSE irreducible esperado
-# sqrt(mean(obs*(1-obs)/n)) -- la parte del error que es puro ruido del comparador -- y (b) el
+# sqrt(mean(obs*(1-obs)/n_efectivo)) -- la parte del error que es puro ruido del comparador -- y (b) el
 # RMSE restringido a municipios con n >= 30, donde la comparacion tiene sentido. Lo interpretable
 # es la diferencia relativa entre modelos, no el RMSE absoluto.
 
@@ -49,6 +49,7 @@ base <- read_csv(file.path(RES, "base_analitica_adultos_2021_2024.csv"),
 idx_tabla <- read_csv(file.path(GEO, "muni_idx_grafo.csv"), col_types = cols(
   cve_ent = col_character(), cve_mun = col_character()))
 base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" = "cve_mun"))
+base <- agregar_ponderador_calibrado(base, RES)
 
 # Covariables de area por el cargador comun (00_comun.R): misma especificacion que 07/08/09/11.
 base <- base %>% mutate(muni_id = paste0(entidad, municipio))
@@ -64,18 +65,7 @@ adj <- lapply(seq_len(g$n), function(i) as.integer(g$nbs[[i]]))
 
 bym2_term <- "f(muni_idx, model='bym2', graph=g, scale.model=TRUE, constr=TRUE, hyper=list(phi=list(prior='pc', param=c(0.5,0.5)), prec=list(prior='pc.prec', param=c(1,0.01))))"
 
-especificaciones <- list(
-  AWARE_ESH   = list(outcome = "diag_cronico", denom = "hta_esh",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")),
-  AWARE_AHA   = list(outcome = "diag_cronico", denom = "hta_aha",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")),
-  TRAT        = list(outcome = "tratado",      denom = "diag_cronico",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f")),
-  CONTROL_ESH = list(outcome = "control_esh",  denom = "tratado",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")),
-  CONTROL_AHA = list(outcome = "control_aha",  denom = "tratado",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct"))
-)
+especificaciones <- especificaciones_modelo_final(RES, bym2_term)
 
 resumen_cv <- list()
 estratificado <- list()
@@ -85,8 +75,8 @@ for (nombre in names(especificaciones)) {
   sub <- base %>% filter(.data[[e$denom]], !is.na(.data[[e$denom]])) %>%
     mutate(y_real = as.numeric(.data[[e$outcome]])) %>%
     filter(!is.na(sexo_f), !is.na(edad), !is.na(estrato_f), !is.na(escolaridad_f))
-  if (grepl("pobreza_pct", e$rhs)) sub <- sub %>% filter(!is.na(pobreza_pct))
-  if (grepl("clues_por_10k", e$rhs)) sub <- sub %>% filter(!is.na(clues_por_10k))
+  for (v in e$covariables) sub <- sub %>% filter(!is.na(.data[[v]]))
+  sub <- normalizar_ponderador_modelo(sub)
 
   municipios_unicos <- sort(unique(sub$muni_idx))
 
@@ -107,7 +97,7 @@ for (nombre in names(especificaciones)) {
   vecinos_m <- lapply(municipios_unicos, function(m) intersect(adj[[m]], municipios_unicos))
   names(vecinos_m) <- as.character(municipios_unicos)
 
-  promedio_nacional <- mean(sub$y_real)
+  promedio_nacional <- weighted.mean(sub$y_real, sub$ponde_cal)
 
   for (esquema in c("aleatorio", "contiguo")) {
     fold_de_municipio <- if (esquema == "aleatorio") fold_ale else fold_con
@@ -119,6 +109,7 @@ for (nombre in names(especificaciones)) {
       sub_k <- sub %>% mutate(y = ifelse(fold == k, NA_real_, y_real))
       t0 <- Sys.time()
       m_k <- inla(as.formula(paste("y ~", e$rhs)), family = "binomial", Ntrials = 1, data = sub_k,
+                  weights = sub_k$peso_modelo,
                   control.predictor = list(compute = TRUE, link = 1))
       t1 <- Sys.time()
       cat(sprintf("[%s | %s] fold %d/%d: %.1fs\n", nombre, esquema, k, N_FOLDS,
@@ -128,13 +119,16 @@ for (nombre in names(especificaciones)) {
       preds_todas[[k]] <- data.frame(
         muni_idx = sub_k$muni_idx[idx_out],
         y_real = sub_k$y_real[idx_out],
-        y_pred = m_k$summary.fitted.values$mean[idx_out]
+        y_pred = m_k$summary.fitted.values$mean[idx_out],
+        ponde_cal = sub_k$ponde_cal[idx_out]
       )
     }
 
     preds_df <- bind_rows(preds_todas)
     por_muni <- preds_df %>% group_by(muni_idx) %>%
-      summarise(obs = mean(y_real), pred_bym2 = mean(y_pred), n = n(), .groups = "drop") %>%
+      summarise(obs = weighted.mean(y_real, ponde_cal),
+                pred_bym2 = weighted.mean(y_pred, ponde_cal),
+                n = n(), n_efectivo = sum(ponde_cal)^2 / sum(ponde_cal^2), .groups = "drop") %>%
       mutate(pred_naive = promedio_nacional)
 
     # Cuantos vecinos muestreados CONSERVA dentro del ajuste cada municipio retenido: la variable
@@ -148,8 +142,9 @@ for (nombre in names(especificaciones)) {
     }, integer(1))
     por_muni$estrato_vecinos <- cut(por_muni$vecinos_retenidos, breaks = c(-Inf, 0, 2, Inf),
                                     labels = c("0", "1-2", "3+"))
-    # Varianza de muestreo del propio comparador (B3): obs*(1-obs)/n por municipio.
-    por_muni$var_comparador <- por_muni$obs * (1 - por_muni$obs) / por_muni$n
+    # Varianza de muestreo del propio comparador (B3): al ser una proporcion ponderada, el
+    # denominador apropiado es el tamano efectivo de Kish, no el conteo crudo de entrevistas.
+    por_muni$var_comparador <- por_muni$obs * (1 - por_muni$obs) / por_muni$n_efectivo
 
     rmse_bym2  <- sqrt(mean((por_muni$obs - por_muni$pred_bym2)^2))
     rmse_naive <- sqrt(mean((por_muni$obs - por_muni$pred_naive)^2))
@@ -169,6 +164,7 @@ for (nombre in names(especificaciones)) {
 
     resumen_cv[[paste(nombre, esquema)]] <- data.frame(
       paso = nombre, esquema = esquema, n_municipios = nrow(por_muni),
+      ponderacion_modelo = PONDERACION_MODELO,
       rmse_bym2 = round(rmse_bym2, 4), rmse_naive = round(rmse_naive, 4),
       reduccion_rmse_pct = round(100 * (1 - rmse_bym2 / rmse_naive), 1),
       sesgo_bym2 = round(sesgo_bym2, 4), sesgo_naive = round(sesgo_naive, 4),
@@ -186,12 +182,13 @@ for (nombre in names(especificaciones)) {
                 rmse_naive = round(sqrt(mean((obs - pred_naive)^2)), 4),
                 rmse_irreducible = round(sqrt(mean(var_comparador)), 4),
                 .groups = "drop") %>%
-      mutate(paso = nombre, esquema = esquema, .before = 1)
+      mutate(paso = nombre, esquema = esquema,
+             ponderacion_modelo = PONDERACION_MODELO, .before = 1)
 
     # El detalle del esquema aleatorio conserva el nombre historico (16_figS1 lo consume tal
     # cual); el contiguo lleva sufijo.
     sufijo <- if (esquema == "contiguo") "_contiguo" else ""
-    write.csv(por_muni %>% select(muni_idx, obs, pred_bym2, pred_naive, n,
+    write.csv(por_muni %>% select(muni_idx, obs, pred_bym2, pred_naive, n, n_efectivo,
                                   vecinos_retenidos, estrato_vecinos),
               file.path(RES, paste0("cv_detalle_", nombre, sufijo, ".csv")), row.names = FALSE)
   }
@@ -201,8 +198,8 @@ resumen_long <- bind_rows(resumen_cv)
 estrat_df <- bind_rows(estratificado)
 
 # resumen_validacion_cruzada.csv mantiene UNA FILA POR PASO con los nombres de columna historicos
-# (que 16_figS1 y 18_tablas leen) referidos al esquema ALEATORIO -- la cota superior, comparable
-# con v1.1 -- y anade las columnas _contiguo (cota inferior) y las metricas de B3.
+# (que 16_figS1 y 18_tablas leen) referidos al esquema ALEATORIO -- la cota superior -- y anade
+# las columnas _contiguo (cota inferior) y las metricas de B3.
 ale <- resumen_long %>% filter(esquema == "aleatorio") %>% select(-esquema)
 con <- resumen_long %>% filter(esquema == "contiguo") %>%
   select(paso, rmse_bym2, rmse_naive, reduccion_rmse_pct, sesgo_bym2, rmse_n30,
@@ -220,7 +217,7 @@ cat("\n--- RMSE estratificado por vecinos muestreados retenidos ---\n")
 print(as.data.frame(estrat_df), row.names = FALSE)
 
 write.csv(resumen_df, file.path(RES, "resumen_validacion_cruzada.csv"), row.names = FALSE)
-write.csv(estrat_df %>% select(paso, esquema, estrato_vecinos, n_municipios,
+write.csv(estrat_df %>% select(paso, esquema, ponderacion_modelo, estrato_vecinos, n_municipios,
                                rmse_bym2, rmse_naive, rmse_irreducible),
           file.path(RES, "cv_rmse_estratificado.csv"), row.names = FALSE)
 cat("\nGuardado: cv_detalle_<paso>.csv y cv_detalle_<paso>_contiguo.csv (x5 cada uno),\n")

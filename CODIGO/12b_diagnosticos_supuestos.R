@@ -19,11 +19,10 @@
 #
 #   * Moran I sobre el EFECTO BYM2: da 0,30-0,99 con p<0,001 en los cinco pasos,
 #     pero es que el efecto espacial DEBE estar autocorrelacionado, es su
-#     proposito. De hecho sigue a Phi punto por punto (Phi 0,105 -> I 0,46;
-#     Phi 0,81 -> I 0,99): mide lo mismo que Phi, no lo que sobra. Lo que hay
+#     proposito. De hecho sigue a Phi: mide la estructura incorporada, no lo que sobra. Lo que hay
 #     que mirar es el Moran de los RESIDUOS.
 #   * PIT sin aleatorizar: con desenlace binario sigue a la prevalencia
-#     (65,8 % -> 0,797; 81,0 % -> 0,886), no a la calidad de la calibracion.
+#     a la prevalencia, no a la calidad de la calibracion.
 #     Se usa el PIT aleatorizado de Czado et al. (2009).
 #   * Shapiro sobre el efecto TOTAL del BYM2 (u+v): ese efecto es una mezcla de
 #     un componente ICAR y uno gaussiano, y no tiene por que ser normal. El
@@ -49,16 +48,9 @@ directa <- c(AWARE_ESH = "directa_conciencia_ESH_municipio.csv",
              TRAT      = "directa_tratamiento_municipio.csv",
              CONTROL_ESH = "directa_control_ESH_municipio.csv",
              CONTROL_AHA = "directa_control_AHA_municipio.csv")
-# covariables de area que el protocolo selecciono en cada modelo (script 07). Tienen que ser las
-# MISMAS variables, en la MISMA escala, que las de las formulas de 08: el VIF y la correlacion
-# calculados sobre el conteo crudo no describen el modelo si el modelo lleva log1p del conteo.
-# v1.2 (2026-08-06): con CLUES como densidad por 10 000 adultos, el protocolo de 07 ya no la
-# selecciona en ningun paso; los cuatro modelos con covariable de area llevan SOLO pobreza.
-covs_modelo <- list(AWARE_ESH = "pobreza_pct",
-                    AWARE_AHA = "pobreza_pct",
-                    TRAT = character(0),
-                    CONTROL_ESH = "pobreza_pct",
-                    CONTROL_AHA = "pobreza_pct")
+# Covariables de area de la especificacion ponderada real del paso 08.
+especificaciones <- especificaciones_modelo_final(RES)
+covs_modelo <- lapply(especificaciones, `[[`, "covariables")
 
 # --- 1. Multicolinealidad ----------------------------------------------------
 # Se calcula sobre las combinaciones QUE CADA MODELO USA. Calcularlo sobre las
@@ -80,8 +72,10 @@ vif_de <- function(vs, d) {
 }
 vif_filas <- lapply(names(covs_modelo), function(p) {
   vs <- covs_modelo[[p]]
-  if (length(vs) == 0) return(tibble(Paso = etiqueta[[p]], Covariable = "(sin covariables de área)", VIF = NA_real_))
-  tibble(Paso = etiqueta[[p]], Covariable = vs, VIF = round(as.numeric(vif_de(vs, cov_muni)), 2))
+  if (length(vs) == 0) return(tibble(Paso = etiqueta[[p]], Covariable = "(sin covariables de área)",
+                                    VIF = NA_real_, ponderacion_modelo = PONDERACION_MODELO))
+  tibble(Paso = etiqueta[[p]], Covariable = vs, VIF = round(as.numeric(vif_de(vs, cov_muni)), 2),
+         ponderacion_modelo = PONDERACION_MODELO)
 })
 vif_tab <- bind_rows(vif_filas)
 write_csv(vif_tab, file.path(RES, "diag_multicolinealidad.csv"))
@@ -169,6 +163,7 @@ for (p in pasos) {
 
   filas[[p]] <- tibble(
     Paso = etiqueta[[p]],
+    ponderacion_modelo = PONDERACION_MODELO,
     `Municipios con residuo` = length(r_ord),
     `Moran I de los residuos` = if (is.null(mi)) NA_real_ else round(unname(mi$estimate[1]), 4),
     `Moran: p` = if (is.null(mi)) NA_real_ else round(mi$p.value, 3),

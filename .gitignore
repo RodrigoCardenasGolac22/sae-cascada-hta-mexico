@@ -44,6 +44,7 @@ ESTADO.md
 ADAPTACION_*.md
 PLAN_*.md
 LEEME_*.md
+LEEME_*.txt
 INFORME_*.md
 AUDITORIA_*.md
 BITACORA_*.md
@@ -78,3 +79,4 @@ adminojs*
 Thumbs.db
 __pycache__/
 *.pyc
+.venv/

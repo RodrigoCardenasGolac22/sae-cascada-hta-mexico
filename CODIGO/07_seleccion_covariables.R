@@ -43,6 +43,7 @@ idx_tabla <- read_csv(file.path(GEO, "muni_idx_grafo.csv"), col_types = cols(
 base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" = "cve_mun"))
 stopifnot(sum(is.na(base$muni_idx)) == 0)
 base$muni_id <- paste0(base$entidad, base$municipio)
+base <- agregar_ponderador_calibrado(base, RES)
 
 # Covariables de area por el cargador comun (00_comun.R): la especificacion tiene que ser
 # IDENTICA a la de 08/09/10/11. Antes este script tenia su propia copia del bloque de carga, que
@@ -58,36 +59,26 @@ cat("  altitud_msnm NA:", sum(is.na(base$altitud_msnm)), "\n")
 
 g <- inla.read.graph(file.path(GEO, "municipios.graph"))
 
-pasos <- list(
-  AWARE_ESH   = list(outcome = "diag_cronico", denom = "hta_esh"),
-  AWARE_AHA   = list(outcome = "diag_cronico", denom = "hta_aha"),
-  TRAT        = list(outcome = "tratado",      denom = "diag_cronico"),
-  CONTROL_ESH = list(outcome = "control_esh",  denom = "tratado"),
-  CONTROL_AHA = list(outcome = "control_aha",  denom = "tratado")
-)
+pasos <- PASOS_CASCADA
 # TRAT se corre una sola vez (identico bajo ESH/AHA por construccion, verificado en el script 06):
 # se etiqueta
 # igual para los dos criterios al reportar, para no duplicar computo sin necesidad.
 
 ajustar <- function(formula_rhs, datos) {
+  datos <- normalizar_ponderador_modelo(datos)
   f <- as.formula(paste("y ~", formula_rhs))
-  inla(f, family = "binomial", Ntrials = 1, data = datos,
+  inla(f, family = "binomial", Ntrials = 1, data = datos, weights = datos$peso_modelo,
        control.compute = list(waic = TRUE, cpo = TRUE),
        control.predictor = list(compute = TRUE, link = 1))
 }
 
 bym2_term <- "f(muni_idx, model='bym2', graph=g, scale.model=TRUE, constr=TRUE, hyper=list(phi=list(prior='pc', param=c(0.5,0.5)), prec=list(prior='pc.prec', param=c(1,0.01))))"
-base_rhs <- paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f")
+base_rhs <- paste("1 +", bym2_term, "+", PARTE_FIJA_DEMOGRAFICA)
 
 # CLUES entra como DENSIDAD por 10 000 adultos (B5 opcion 2), no como conteo: el conteo -- aun en
 # log -- iba confundido con el tamano del municipio. Los nombres de las candidatas son los mismos
 # de la variable, para que resumen_covariables_waic_cpo.csv diga exactamente que se probo.
-candidatas <- list(
-  pobreza               = "pobreza_pct",
-  clues_por_10k         = "clues_por_10k",
-  clues_publico_por_10k = "clues_publico_por_10k",
-  altitud               = "altitud_msnm"
-)
+candidatas <- as.list(COVARIABLES_AREA)
 
 resultados_waic <- list()
 modelos_base_ajustados <- list()
@@ -170,6 +161,11 @@ for (nombre in names(pasos)) {
 }
 
 resumen_df <- do.call(rbind, resultados_waic)
+resumen_df$seleccionada <- with(
+  resumen_df,
+  delta_waic <= -2 & delta_log_cpo > 0 & cpo_fallos == 0
+)
+resumen_df$ponderacion_modelo <- PONDERACION_MODELO
 cat("\n\n=== RESUMEN COMPLETO: EVIDENCIA DE COVARIABLES POR PASO ===\n")
 print(resumen_df, row.names = FALSE)
 

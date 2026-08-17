@@ -71,7 +71,7 @@ panel_b <- ggplot(resumen, aes(x = paso_label, y = reduccion_rmse_pct)) +
 figS1 <- panel_a / panel_b +
   plot_layout(heights = c(1.1, 1)) +
   plot_annotation(
-    caption = "Compromiso computacional declarado: 5 pliegues por grupo de municipios, no dejar-un-municipio-fuera exhaustivo (~7,5 h estimadas).\n\"Observado\" = proporción NO ponderada dentro del municipio (más simple que la estimación directa con diseño complejo del script 05).",
+    caption = "Compromiso computacional declarado: 5 pliegues por grupo de municipios, no dejar-un-municipio-fuera exhaustivo (~7,5 h estimadas).\n\"Observado\" y predicción = promedios municipales con el ponderador calibrado; BYM2 e IID usan las mismas filas, pesos y pliegues.",
     theme = theme(plot.caption = element_text(hjust = 0.5, size = 7.5))
   )
 

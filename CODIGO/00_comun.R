@@ -39,11 +39,23 @@ verificar_escolaridad <- function(x) {
 # sesga. Validado contra el t_ponde que ENSANUT 2023 publica: la calibracion reduce la discrepancia
 # media con ese ponderador de 0,92 pp (ponde_f) a 0,48 pp. Ver 02b_calibrar_ponderador.R.
 agregar_ponderador_calibrado <- function(d, res_dir = "RESULTADOS") {
+  if ("ponde_cal" %in% names(d)) {
+    if (any(!is.finite(d$ponde_cal)) || any(d$ponde_cal <= 0)) {
+      stop("ponde_cal contiene valores ausentes, no finitos o no positivos")
+    }
+    return(d)
+  }
   pc <- readr::read_csv(file.path(res_dir, "ponderador_calibrado.csv"),
                         col_types = readr::cols(FOLIO_I = readr::col_character(),
                                                 FOLIO_INT = readr::col_character(),
-                                                anio = readr::col_character(),
-                                                .default = readr::col_guess()))
+                                                 anio = readr::col_character(),
+                                                 .default = readr::col_guess()))
+  claves <- c("FOLIO_I", "FOLIO_INT", "anio")
+  if (!all(claves %in% names(d))) {
+    stop("Faltan claves para unir el ponderador: ", paste(setdiff(claves, names(d)), collapse = ", "))
+  }
+  d[claves] <- lapply(d[claves], as.character)
+  pc[claves] <- lapply(pc[claves], as.character)
   n0 <- nrow(d)
   d <- dplyr::left_join(d, pc[, c("FOLIO_I", "FOLIO_INT", "anio", "ponde_cal")],
                         by = c("FOLIO_I", "FOLIO_INT", "anio"))
@@ -53,6 +65,76 @@ agregar_ponderador_calibrado <- function(d, res_dir = "RESULTADOS") {
          "¿Se corrio 02b_calibrar_ponderador.R despues del ultimo 01_base_analitica.R?")
   }
   d
+}
+
+# Pseudo-verosimilitud del analisis principal. Los ponderadores absolutos no se pasan a INLA:
+# su suma representa poblacion, no tamano efectivo de muestra, e inflaria artificialmente la
+# precision. Se conserva la composicion relativa dentro de cada municipio y se reescala a media 1
+# DESPUES de construir el denominador analitico de cada paso.
+PONDERACION_MODELO <- "ponde_cal/media_municipal"
+
+normalizar_ponderador_modelo <- function(d, grupo = "muni_idx") {
+  if (!grupo %in% names(d)) stop("Falta la columna de agrupacion para el ponderador: ", grupo)
+  if (!"ponde_cal" %in% names(d)) stop("Falta ponde_cal: llamar antes agregar_ponderador_calibrado()")
+  if (any(!is.finite(d$ponde_cal)) || any(d$ponde_cal <= 0)) {
+    stop("ponde_cal contiene valores ausentes, no finitos o no positivos")
+  }
+
+  out <- dplyr::group_by(d, .data[[grupo]]) %>%
+    dplyr::mutate(peso_modelo = ponde_cal / mean(ponde_cal)) %>%
+    dplyr::ungroup()
+  medias <- dplyr::summarise(dplyr::group_by(out, .data[[grupo]]),
+                             media_peso = mean(peso_modelo), .groups = "drop")
+  if (any(!is.finite(out$peso_modelo)) || any(out$peso_modelo <= 0) ||
+      any(abs(medias$media_peso - 1) > 1e-10)) {
+    stop("Fallo al normalizar el ponderador de modelado a media 1 por municipio")
+  }
+  out
+}
+
+# Registro unico de desenlaces, denominadores y covariables candidatas. Los scripts 07-12 lo
+# consumen para que seleccion, ajuste final, post-estratificacion, CV y sensibilidades no puedan
+# divergir por tener formulas copiadas a mano.
+PASOS_CASCADA <- list(
+  AWARE_ESH   = list(outcome = "diag_cronico", denom = "hta_esh"),
+  AWARE_AHA   = list(outcome = "diag_cronico", denom = "hta_aha"),
+  TRAT        = list(outcome = "tratado",      denom = "diag_cronico"),
+  CONTROL_ESH = list(outcome = "control_esh", denom = "tratado"),
+  CONTROL_AHA = list(outcome = "control_aha", denom = "tratado")
+)
+
+COVARIABLES_AREA <- c(
+  pobreza               = "pobreza_pct",
+  clues_por_10k         = "clues_por_10k",
+  clues_publico_por_10k = "clues_publico_por_10k",
+  altitud               = "altitud_msnm"
+)
+
+PARTE_FIJA_DEMOGRAFICA <- "sexo_f + edad + escolaridad_f + estrato_f + anio_f"
+
+especificaciones_modelo_final <- function(res_dir = "RESULTADOS", termino_espacial = NULL) {
+  archivo <- file.path(res_dir, "resumen_covariables_waic_cpo.csv")
+  if (!file.exists(archivo)) stop("Falta ", archivo, ": correr antes 07_seleccion_covariables.R")
+  sel <- readr::read_csv(archivo, show_col_types = FALSE)
+  requeridas <- c("paso", "covariable", "seleccionada")
+  if (!all(requeridas %in% names(sel))) {
+    stop("La seleccion de covariables no contiene: ",
+         paste(setdiff(requeridas, names(sel)), collapse = ", "))
+  }
+
+  lapply(names(PASOS_CASCADA), function(nombre) {
+    p <- PASOS_CASCADA[[nombre]]
+    elegidas <- sel$covariable[sel$paso == nombre & sel$seleccionada]
+    desconocidas <- setdiff(elegidas, names(COVARIABLES_AREA))
+    if (length(desconocidas)) stop(nombre, ": covariables seleccionadas desconocidas: ",
+                                   paste(desconocidas, collapse = ", "))
+    elegidas <- names(COVARIABLES_AREA)[names(COVARIABLES_AREA) %in% elegidas]
+    vars_area <- unname(COVARIABLES_AREA[elegidas])
+    fija <- paste(c(PARTE_FIJA_DEMOGRAFICA, vars_area), collapse = " + ")
+    rhs <- if (is.null(termino_espacial)) fija else paste("1 +", termino_espacial, "+", fija)
+    list(paso = nombre, outcome = p$outcome, denom = p$denom, fija = fija, rhs = rhs,
+         covariables = vars_area, covariables_etiqueta = elegidas)
+  }) |> stats::setNames(names(PASOS_CASCADA))
 }
 
 # --- Figuras editables para la revista -------------------------------------------------------

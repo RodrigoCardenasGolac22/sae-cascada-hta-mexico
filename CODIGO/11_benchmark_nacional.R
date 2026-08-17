@@ -68,13 +68,7 @@ cat(sprintf("Prevalencia HTA-AHA (n=%d): %.1f%% (IC95%%: %.1f-%.1f)\n", nrow(bas
             100*coef(prev_hta_aha), 100*(coef(prev_hta_aha)-1.96*SE(prev_hta_aha)),
             100*(coef(prev_hta_aha)+1.96*SE(prev_hta_aha))))
 
-especificaciones <- list(
-  AWARE_ESH   = list(outcome = "diag_cronico", denom = "hta_esh"),
-  AWARE_AHA   = list(outcome = "diag_cronico", denom = "hta_aha"),
-  TRAT        = list(outcome = "tratado",      denom = "diag_cronico"),
-  CONTROL_ESH = list(outcome = "control_esh",  denom = "tratado"),
-  CONTROL_AHA = list(outcome = "control_aha",  denom = "tratado")
-)
+especificaciones <- especificaciones_modelo_final(RES)
 
 directa_nacional <- list()
 for (nombre in names(especificaciones)) {
@@ -101,11 +95,7 @@ for (nombre in names(especificaciones)) {
   sub <- base %>% filter(.data[[e$denom]], !is.na(.data[[e$denom]])) %>%
     mutate(y = as.numeric(.data[[e$outcome]])) %>%
     filter(!is.na(sexo_f), !is.na(edad), !is.na(estrato_f), !is.na(escolaridad_f))
-  if (nombre %in% c("AWARE_ESH", "AWARE_AHA", "CONTROL_ESH", "CONTROL_AHA")) {
-    sub <- sub %>% filter(!is.na(pobreza_pct))
-  }
-  # v1.2: CLUES (densidad) no se selecciono en ningun modelo (ver 08), asi que ya no hay filtro
-  # por esa covariable.
+  for (v in e$covariables) sub <- sub %>% filter(!is.na(.data[[v]]))
 
   m <- readRDS(file.path(RES, paste0("modelo_FINAL_", nombre, ".rds")))
   stopifnot(nrow(sub) == nrow(m$summary.fitted.values))
@@ -116,6 +106,7 @@ for (nombre in names(especificaciones)) {
   cat(sprintf("[%s] n=%d, promedio simple ajustados=%.1f%%, promedio ponderado (ponde_cal)=%.1f%%\n",
               nombre, nrow(sub), 100*prom_simple, 100*prom_ponderado))
   modelo_nacional[[nombre]] <- data.frame(paso = nombre, n_modelo = nrow(sub),
+                                           ponderacion_modelo = PONDERACION_MODELO,
                                            modelo_simple_pct = round(100*prom_simple, 1),
                                            modelo_ponderado_pct = round(100*prom_ponderado, 1))
 }

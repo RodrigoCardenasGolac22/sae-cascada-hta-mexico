@@ -288,7 +288,8 @@ write.csv(ps %>% select(muni_id, estrato, sexo, banda, escolaridad, pob),
           file.path(RES, "postestratificacion_censal.csv"), row.names = FALSE)
 
 # --- Municipios fuera de la estimacion, nombrados uno a uno (item A4 del plan) -----------------
-# El manuscrito decia "cobertura 98,8-99,6%" sin decir CUALES municipios faltan ni por que; es lo
+# El manuscrito reporta la cobertura agregada, pero tambien hay que registrar CUALES municipios
+# faltan y por que; es lo
 # primero que pregunta un revisor de SAE. Dos causas, y este archivo es la fuente de la frase de
 # Metodos: (1) municipios creados despues del Censo 2020, sin tabulado ITER y por tanto sin tabla
 # de post-estratificacion; (2) municipios con pobreza "n.d" en CONEVAL, que caen de los 4 modelos
@@ -307,15 +308,16 @@ cat(sprintf("Municipios fuera de la estimacion: %d sin celdas censales + %d sin 
 # =============================================================================================
 # 4. POST-ESTRATIFICAR CADA MODELO SOBRE MUESTRAS DE LA POSTERIOR
 # =============================================================================================
-especificaciones <- list(
-  AWARE_ESH   = list(denom = "hta_esh",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct),
-  AWARE_AHA   = list(denom = "hta_aha",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct),
-  TRAT        = list(denom = "diag_cronico", f = ~ sexo_f + edad + escolaridad_f + estrato_f),
-  CONTROL_ESH = list(denom = "tratado",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct),
-  CONTROL_AHA = list(denom = "tratado",      f = ~ sexo_f + edad + escolaridad_f + estrato_f + pobreza_pct)
-)
+especificaciones <- especificaciones_modelo_final(RES)
+for (nombre in names(especificaciones)) {
+  e <- especificaciones[[nombre]]
+  fija_post <- paste(c("sexo_f", "edad", "escolaridad_f", "estrato_f", e$covariables),
+                     collapse = " + ")
+  especificaciones[[nombre]]$f <- as.formula(paste("~", fija_post))
+}
 
 resumen_cobertura <- list()
+semillas_post <- setNames(20260730L + seq_along(especificaciones), names(especificaciones))
 
 for (nombre in names(especificaciones)) {
   e <- especificaciones[[nombre]]
@@ -324,13 +326,16 @@ for (nombre in names(especificaciones)) {
 
   # celdas utilizables: las que tienen todas las covariables del modelo
   ps_m <- ps
-  if ("pobreza_pct" %in% all.vars(e$f)) ps_m <- ps_m %>% filter(!is.na(pobreza_pct))
-  if ("clues_por_10k" %in% all.vars(e$f)) ps_m <- ps_m %>% filter(!is.na(clues_por_10k))
+  vars_area <- intersect(e$covariables, names(ps_m))
+  for (v in vars_area) ps_m <- ps_m %>% filter(!is.na(.data[[v]]))
 
   X <- model.matrix(e$f, data = ps_m)
 
   t0 <- Sys.time()
-  smp <- inla.posterior.sample(N_MUESTRAS, m, verbose = FALSE)
+  # set.seed() de R no controla el generador interno de INLA. La semilla se pasa de forma
+  # explicita y el muestreo se serializa para que dos corridas produzcan los mismos CSV.
+  smp <- inla.posterior.sample(N_MUESTRAS, m, seed = semillas_post[[nombre]],
+                               num.threads = 1L, parallel.configs = FALSE, verbose = FALSE)
   nm <- rownames(smp[[1]]$latent)
 
   # efectos fijos: INLA los nombra igual que model.matrix, con sufijo ":1"
@@ -428,7 +433,8 @@ for (nombre in names(especificaciones)) {
   saveRDS(prev_post, file.path(RES, paste0("posterior_prev_", nombre, ".rds")))
 
   resumen_cobertura[[nombre]] <- data.frame(
-    paso = nombre, n_muestra = n_dir, n_sintetico = nrow(nacional) - n_dir,
+    paso = nombre, ponderacion_modelo = PONDERACION_MODELO,
+    n_muestra = n_dir, n_sintetico = nrow(nacional) - n_dir,
     n_total = nrow(nacional), pct_cobertura = round(100 * nrow(nacional) / N_MUNI, 1))
 }
 

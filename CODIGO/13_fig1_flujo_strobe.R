@@ -6,10 +6,10 @@
 # la imagen (va en el manuscrito, junto a la leyenda), como en el resto de las figuras.
 #
 # Aritmetica del diagrama: el n de "PA valida" se calcula como edad_20mas - excl_sin_bp_valida
-# (45,011 - 19,600 = 25,411). NO se suma aparte excl_lectura_invertida: las lecturas con
+# (45,011 - 19,601 = 25,410). NO se suma aparte excl_lectura_invertida: las lecturas con
 # sistolica <= diastolica se anulan ANTES de contar excl_sin_bp_valida (script 01), asi que ya
 # estan contenidas en esa exclusion y sumarlas de nuevo las contaria dos veces. La cadena cierra
-# exacto: 25,411 - 321 (embarazo) - 1 (sin peso de diseno) = 25,089 = n final.
+# exacto: 25,410 - 321 (embarazo) - 1 (sin peso de diseno) = 25,088 = n final.
 #
 # Cada caja de excluidos se dibuja ANTES de la caja a la que se aplica, sobre la flecha que entra.
 

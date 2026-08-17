@@ -3,8 +3,8 @@
 #
 # POR QUE. El titulo y el aporte del estudio son "bayesiano espacial", y la validacion solo
 # contrastaba contra el promedio nacional. Falta el baseline que decide: el MISMO modelo con un
-# efecto aleatorio IID por municipio en lugar del termino BYM2. Con Phi = 0,06-0,11 en el
-# desenlace principal (diagnostico), un revisor puede sostener que un multinivel simple habria
+# efecto aleatorio IID por municipio en lugar del termino BYM2. Con Phi bajo en diagnostico, un
+# revisor puede sostener que un multinivel simple habria
 # dado lo mismo; este script responde esa objecion con evidencia predictiva, no solo con Phi.
 #
 # COMO SE LEE EL RESULTADO (los dos escenarios previstos en el plan):
@@ -20,8 +20,8 @@
 # mismos pliegues). Se llama 06b porque conceptualmente es el baseline de los modelos (06-08),
 # pero RUN_ALL.R lo encadena tras el paso 10.
 #
-# La parte fija DEBE ser identica a la de 08_modelos_finales.R. Si el protocolo de 07 cambia la
-# especificacion final, hay que actualizar 08 y este script a la vez.
+# La parte fija se deriva del mismo registro que usa 08_modelos_finales.R, por lo que un cambio en
+# la seleccion ponderada del paso 07 se propaga sin copiar formulas.
 
 library(dplyr)
 library(readr)
@@ -51,6 +51,7 @@ idx_tabla <- read_csv(file.path(GEO, "muni_idx_grafo.csv"), col_types = cols(
   cve_ent = col_character(), cve_mun = col_character()))
 base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" = "cve_mun"))
 base$muni_id <- paste0(base$entidad, base$municipio)
+base <- agregar_ponderador_calibrado(base, RES)
 base <- cargar_covariables_area(base, COV) %>%
   mutate(sexo_f = factor(sexo), estrato_f = factor(estrato),
          escolaridad_f = factor(escolaridad, levels = NIVELES_ESCOLARIDAD),
@@ -59,19 +60,8 @@ base <- cargar_covariables_area(base, COV) %>%
 # Mismo prior pc.prec que el BYM2 de 08; solo cambia la estructura (iid vs bym2).
 iid_term <- "f(muni_idx, model='iid', hyper=list(prec=list(prior='pc.prec', param=c(1,0.01))))"
 
-# Parte fija IDENTICA a 08_modelos_finales.R (ver la nota de cabecera).
-especificaciones <- list(
-  AWARE_ESH   = list(outcome = "diag_cronico", denom = "hta_esh",
-                      fija = "sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct"),
-  AWARE_AHA   = list(outcome = "diag_cronico", denom = "hta_aha",
-                      fija = "sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct"),
-  TRAT        = list(outcome = "tratado",      denom = "diag_cronico",
-                      fija = "sexo_f + edad + escolaridad_f + estrato_f + anio_f"),
-  CONTROL_ESH = list(outcome = "control_esh",  denom = "tratado",
-                      fija = "sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct"),
-  CONTROL_AHA = list(outcome = "control_aha",  denom = "tratado",
-                      fija = "sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")
-)
+# Parte fija IDENTICA a 08_modelos_finales.R, derivada de la seleccion ponderada del paso 07.
+especificaciones <- especificaciones_modelo_final(RES)
 
 rmse_cv_bym2_tab <- read_csv(file.path(RES, "resumen_validacion_cruzada.csv"), col_types = cols())
 
@@ -82,8 +72,8 @@ for (nombre in names(especificaciones)) {
   sub <- base %>% filter(.data[[e$denom]], !is.na(.data[[e$denom]])) %>%
     mutate(y_real = as.numeric(.data[[e$outcome]])) %>%
     filter(!is.na(sexo_f), !is.na(edad), !is.na(estrato_f), !is.na(escolaridad_f))
-  if (grepl("pobreza_pct", e$fija)) sub <- sub %>% filter(!is.na(pobreza_pct))
-  if (grepl("clues_por_10k", e$fija)) sub <- sub %>% filter(!is.na(clues_por_10k))
+  for (v in e$covariables) sub <- sub %>% filter(!is.na(.data[[v]]))
+  sub <- normalizar_ponderador_modelo(sub)
 
   # --- lado BYM2: el modelo final YA AJUSTADO en 08, sobre las mismas observaciones ---
   m_bym2 <- readRDS(file.path(RES, paste0("modelo_FINAL_", nombre, ".rds")))
@@ -99,6 +89,7 @@ for (nombre in names(especificaciones)) {
   sub$y <- sub$y_real
   t0 <- Sys.time()
   m_iid <- inla(as.formula(paste("y ~", rhs_iid)), family = "binomial", Ntrials = 1, data = sub,
+                weights = sub$peso_modelo,
                 control.compute = list(waic = TRUE),
                 control.predictor = list(compute = TRUE, link = 1))
   cat(sprintf("[%s] IID completo: n=%d, %.1fs, WAIC=%.1f (BYM2: %.1f)\n", nombre, nrow(sub),
@@ -125,16 +116,19 @@ for (nombre in names(especificaciones)) {
     sub_k <- sub %>% mutate(y = ifelse(fold == k, NA_real_, y_real))
     t0 <- Sys.time()
     m_k <- inla(as.formula(paste("y ~", rhs_iid)), family = "binomial", Ntrials = 1, data = sub_k,
+                weights = sub_k$peso_modelo,
                 control.predictor = list(compute = TRUE, link = 1))
     cat(sprintf("[%s] CV IID fold %d/%d: %.1fs\n", nombre, k, N_FOLDS,
                 as.numeric(difftime(Sys.time(), t0, units = "secs"))))
     idx_out <- which(sub_k$fold == k)
     preds_todas[[k]] <- data.frame(muni_idx = sub_k$muni_idx[idx_out],
                                    y_real = sub_k$y_real[idx_out],
-                                   y_pred = m_k$summary.fitted.values$mean[idx_out])
+                                   y_pred = m_k$summary.fitted.values$mean[idx_out],
+                                   ponde_cal = sub_k$ponde_cal[idx_out])
   }
   por_muni <- bind_rows(preds_todas) %>% group_by(muni_idx) %>%
-    summarise(obs = mean(y_real), pred_iid = mean(y_pred), .groups = "drop")
+    summarise(obs = weighted.mean(y_real, ponde_cal),
+              pred_iid = weighted.mean(y_pred, ponde_cal), .groups = "drop")
   rmse_cv_iid <- sqrt(mean((por_muni$obs - por_muni$pred_iid)^2))
   rmse_cv_bym2 <- rmse_cv_bym2_tab$rmse_bym2[rmse_cv_bym2_tab$paso == nombre]
 
@@ -149,6 +143,7 @@ for (nombre in names(especificaciones)) {
 
   filas[[nombre]] <- data.frame(
     paso = nombre, n = nrow(sub),
+    ponderacion_modelo = PONDERACION_MODELO,
     waic_iid = round(m_iid$waic$waic, 1), waic_bym2 = round(m_bym2$waic$waic, 1),
     delta_waic = round(delta_waic, 2), se_delta_waic = round(se_delta, 2),
     razon_delta_se = round(delta_waic / se_delta, 2),

@@ -1,5 +1,5 @@
 # Paso 9 de la secuencia: ajusta los modelos FINALES con la especificacion que sale del protocolo
-# WAIC+CPO del script 07 (mejora del WAIC >= 2 unidades confirmada por CPO en la misma direccion),
+# WAIC+CPO del script 07 (DeltaWAIC <= -2, mejora concordante del log-CPO y cero fallos CPO),
 # no de una eleccion a priori uniforme.
 #
 # Especificacion vigente. Se decide sobre la muestra completa, que incluye a los adultos sin
@@ -13,19 +13,8 @@
 # politica que el script 01: "un numero fijado en un comentario caduca en cuanto cambia la base".
 # Para leer la decision: ordenar ese CSV por paso y mirar delta_waic junto a razon_delta_se.
 #
-# Resumen cualitativo de la corrida v1.2 (leido de resumen_covariables_waic_cpo.csv, 2026-08-06):
-# la pobreza municipal mejora el ajuste en los cuatro pasos donde entra (DeltaWAIC -5,7 a -9,5,
-# CPO concordante); en TRATAMIENTO ninguna candidata alcanza el umbral; la altitud no es relevante
-# en ningun paso (y en control empeora).
-#
-# CLUES YA NO ENTRA EN NINGUN MODELO. Al pasar del conteo a la DENSIDAD por 10 000 adultos
-# censales (clues_por_10k, decision B5 opcion 2 del 2026-08-06), la candidata dejo de superar el
-# protocolo en los 3 pasos donde el conteo entraba (DeltaWAIC +0,2 a +2,0; por la regla del EE
-# llega a "empeora" en AWARE_ESH y CONTROL_ESH). Lectura sustantiva, que el manuscrito debe
-# recoger: la asociacion del CONTEO era en buena parte un artefacto del tamano del municipio
-# (mas establecimientos <-> municipio mas grande); normalizada por poblacion adulta, la oferta de
-# establecimientos no anade capacidad predictiva sobre pobreza + demografia + espacio. Era el
-# escenario previsto al tomar la decision B5 ("podria dejar de seleccionarse").
+# La especificacion no se escribe a mano: se deriva de la columna `seleccionada` que deja el paso
+# 07 tras aplicar el protocolo preespecificado al ajuste ponderado.
 # Calcula la reclasificacion espacial ESH -> ACC/AHA para conciencia y control (tratamiento se
 # excluye del mapa de reclasificacion: identico por construccion bajo ambos criterios, ya
 # verificado en el script 06).
@@ -52,6 +41,7 @@ idx_tabla <- read_csv(file.path(GEO, "muni_idx_grafo.csv"), col_types = cols(
   cve_ent = col_character(), cve_mun = col_character()))
 base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" = "cve_mun"))
 base$muni_id <- paste0(base$entidad, base$municipio)
+base <- agregar_ponderador_calibrado(base, RES)
 
 # Covariables de area por el cargador comun de 00_comun.R: la especificacion tiene que ser identica
 # a la que se probo en 07 (clues_por_10k, densidad por 10 000 adultos) y a la de 09/10/11.
@@ -65,24 +55,19 @@ bym2_term <- "f(muni_idx, model='bym2', graph=g, scale.model=TRUE, constr=TRUE, 
 
 ajustar <- function(formula_rhs, datos) {
   f <- as.formula(paste("y ~", formula_rhs))
-  inla(f, family = "binomial", Ntrials = 1, data = datos,
+  inla(f, family = "binomial", Ntrials = 1, data = datos, weights = datos$peso_modelo,
        control.compute = list(waic = TRUE, cpo = TRUE, config = TRUE),
        control.predictor = list(compute = TRUE, link = 1))
 }
 
-# Especificacion final, resultante del protocolo WAIC+CPO del script 07:
-especificaciones <- list(
-  AWARE_ESH   = list(outcome = "diag_cronico", denom = "hta_esh",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")),
-  AWARE_AHA   = list(outcome = "diag_cronico", denom = "hta_aha",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")),
-  TRAT        = list(outcome = "tratado",      denom = "diag_cronico",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f")),
-  CONTROL_ESH = list(outcome = "control_esh",  denom = "tratado",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct")),
-  CONTROL_AHA = list(outcome = "control_aha",  denom = "tratado",
-                      rhs = paste("1 +", bym2_term, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f + pobreza_pct"))
-)
+# Especificacion final, resultante del protocolo WAIC+CPO ponderado del script 07.
+especificaciones <- especificaciones_modelo_final(RES, bym2_term)
+especificacion_df <- bind_rows(lapply(especificaciones, function(e) data.frame(
+  paso = e$paso, outcome = e$outcome, denom = e$denom,
+  covariables_area = if (length(e$covariables)) paste(e$covariables, collapse = ";") else "ninguna",
+  formula_fija = e$fija, ponderacion_modelo = PONDERACION_MODELO
+)))
+write.csv(especificacion_df, file.path(RES, "especificacion_modelos_finales.csv"), row.names = FALSE)
 
 modelos_finales <- list()
 fitted_por_muni <- list()
@@ -92,8 +77,8 @@ for (nombre in names(especificaciones)) {
   sub <- base %>% filter(.data[[e$denom]], !is.na(.data[[e$denom]])) %>%
     mutate(y = as.numeric(.data[[e$outcome]])) %>%
     filter(!is.na(sexo_f), !is.na(edad), !is.na(estrato_f), !is.na(escolaridad_f))
-  if (grepl("pobreza_pct", e$rhs)) sub <- sub %>% filter(!is.na(pobreza_pct))
-  if (grepl("clues_por_10k", e$rhs)) sub <- sub %>% filter(!is.na(clues_por_10k))
+  for (v in e$covariables) sub <- sub %>% filter(!is.na(.data[[v]]))
+  sub <- normalizar_ponderador_modelo(sub)
 
   t0 <- Sys.time()
   m <- ajustar(e$rhs, sub)
@@ -108,7 +93,8 @@ for (nombre in names(especificaciones)) {
   # cada municipio, ya que el modelo es de nivel-unidad con covariables individuales -- no un
   # unico valor por municipio como en un modelo puramente de area)
   sub$fitted <- m$summary.fitted.values$mean
-  prom_muni <- sub %>% group_by(muni_idx) %>% summarise(prev_prom = mean(fitted), .groups = "drop")
+  prom_muni <- sub %>% group_by(muni_idx) %>%
+    summarise(prev_prom = weighted.mean(fitted, ponde_cal), .groups = "drop")
   fitted_por_muni[[nombre]] <- prom_muni
 }
 
@@ -148,12 +134,8 @@ cat("\nGuardado: modelo_FINAL_<paso>.rds (x5), reclasificacion_conciencia_ESH_vs
 # --- Diagnosticos del modelo FINAL (WAIC, Phi) ---
 # ANTES: Tabla S1 (27_tablas_1_2_3.R) tomaba WAIC/Phi de resumen_6_modelos_bym2_univariados.csv,
 # el modelo SIN covariables de area (script 06), no el que genera el mapa (este
-# script). Para AWARE_ESH/AWARE_AHA/CONTROL_ESH/CONTROL_AHA el WAIC y el Phi difieren sustancialmente
-# porque esos 4 modelos SI llevan pobreza/CLUES; solo TRAT coincide por poco margen. Verificado
-# cargando los .rds ya guardados: Phi mediana pasa de 0,13/0,14/0,76/0,54/0,25 (modelo sin
-# covariables) a 0,087/0,050/0,790/0,720/0,566 (modelo final, el correcto). Esta seccion exporta el
-# diagnostico del modelo QUE REALMENTE SE USA, para que 27_tablas_1_2_3.R deje de leer del CSV
-# equivocado.
+# script). Esta seccion exporta el diagnostico del modelo QUE REALMENTE SE USA para impedir que
+# las tablas lean el resumen del modelo base por error.
 diagnosticos_finales <- data.frame()
 for (nombre in names(modelos_finales)) {
   m <- modelos_finales[[nombre]]
@@ -161,6 +143,7 @@ for (nombre in names(modelos_finales)) {
   fila_phi <- hp[grepl("^Phi", rownames(hp)), ]
   diagnosticos_finales <- rbind(diagnosticos_finales, data.frame(
     paso = nombre,
+    ponderacion_modelo = PONDERACION_MODELO,
     waic = m$waic$waic,
     phi_mediana = fila_phi[["0.5quant"]],
     phi_ic_l = fila_phi[["0.025quant"]],

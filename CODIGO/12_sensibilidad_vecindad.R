@@ -17,6 +17,7 @@ source("CODIGO/00_comun.R")   # NIVELES_ESCOLARIDAD
 SHP <- "DATOS_GEO_MEXICO/municipios_INEGI_oficial/inegi_extracted/QGis/MapaBaseMultiescala.gpkg"
 GEO <- "DATOS_GEO_MEXICO"
 RES <- "RESULTADOS"
+COV <- "COVARIABLES"
 
 m <- st_read(SHP, layer = "municipios_4m", quiet = TRUE)
 stopifnot(sum(st_is_empty(m)) == 0, sum(!st_is_valid(m)) == 0)
@@ -60,6 +61,9 @@ base <- read_csv(file.path(RES, "base_analitica_adultos_2021_2024.csv"),
 idx_tabla <- read_csv(file.path(GEO, "muni_idx_grafo.csv"), col_types = cols(
   cve_ent = col_character(), cve_mun = col_character()))
 base <- base %>% left_join(idx_tabla, by = c("entidad" = "cve_ent", "municipio" = "cve_mun")) %>%
+  mutate(muni_id = paste0(entidad, municipio))
+base <- agregar_ponderador_calibrado(base, RES)
+base <- cargar_covariables_area(base, COV) %>%
   mutate(sexo_f = factor(sexo), estrato_f = factor(estrato),
          escolaridad_f = factor(escolaridad, levels = NIVELES_ESCOLARIDAD),
          anio_f = factor(anio))
@@ -70,10 +74,14 @@ sub <- base %>% filter(diag_cronico, !is.na(diag_cronico)) %>%
 
 g_rook <- inla.read.graph(file.path(GEO, "municipios_rook.graph"))
 bym2_term_rook <- "f(muni_idx, model='bym2', graph=g_rook, scale.model=TRUE, constr=TRUE, hyper=list(phi=list(prior='pc', param=c(0.5,0.5)), prec=list(prior='pc.prec', param=c(1,0.01))))"
+e <- especificaciones_modelo_final(RES, bym2_term_rook)$TRAT
+for (v in e$covariables) sub <- sub %>% filter(!is.na(.data[[v]]))
+sub <- normalizar_ponderador_modelo(sub)
 
 t0 <- Sys.time()
-m_rook <- inla(as.formula(paste("y ~ 1 +", bym2_term_rook, "+ sexo_f + edad + escolaridad_f + estrato_f + anio_f")),
+m_rook <- inla(as.formula(paste("y ~", e$rhs)),
                family = "binomial", Ntrials = 1, data = sub,
+               weights = sub$peso_modelo,
                control.compute = list(waic = TRUE, cpo = TRUE),
                control.predictor = list(compute = TRUE, link = 1))
 t1 <- Sys.time()
@@ -90,7 +98,8 @@ phi_rook  <- m_rook$summary.hyperpar["Phi for muni_idx", "0.5quant"]
 cat(sprintf("Phi    queen=%.3f  rook=%.3f  (diferencia=%.3f)\n", phi_queen, phi_rook, phi_rook - phi_queen))
 
 sub$fitted_rook <- m_rook$summary.fitted.values$mean
-prom_muni_rook <- sub %>% group_by(muni_idx) %>% summarise(prev_rook = mean(fitted_rook), .groups = "drop")
+prom_muni_rook <- sub %>% group_by(muni_idx) %>%
+  summarise(prev_rook = weighted.mean(fitted_rook, ponde_cal), .groups = "drop")
 
 cat(sprintf("Prevalencia suavizada (rook): min=%.3f mediana=%.3f max=%.3f\n",
             min(prom_muni_rook$prev_rook), median(prom_muni_rook$prev_rook), max(prom_muni_rook$prev_rook)))
@@ -100,6 +109,7 @@ cat(sprintf("Prevalencia suavizada (rook): min=%.3f mediana=%.3f max=%.3f\n",
 # 18_tablas.R, que no se habria enterado si esta corrida cambiara. Se deja en disco para que la
 # tabla lo lea del pipeline.
 sensibilidad <- data.frame(
+  ponderacion_modelo = PONDERACION_MODELO,
   paso = "TRAT",
   n_municipios = length(unique(sub$muni_idx)),
   waic_reina = m_queen$waic$waic,

@@ -4,7 +4,7 @@
 # (ENSANUT Continua 2021-2024)
 #
 # USO:  Rscript RUN_ALL.R            (desde la RAIZ del repositorio)
-#       Rscript RUN_ALL.R 13 21      (solo los pasos 13 a 21)
+#       Rscript RUN_ALL.R 18 25      (solo figuras, tablas, STROBE y explorador)
 #
 # Todos los scripts usan rutas relativas a la raiz del repositorio, asi que
 # este archivo debe ejecutarse desde ahi y no desde CODIGO/.
@@ -36,17 +36,14 @@ pasos <- c(
   "11_benchmark_nacional.R",      # comparacion con las cifras nacionales publicadas
   "12_sensibilidad_vecindad.R",   # sensibilidad a la definicion de vecindad
   "12b_diagnosticos_supuestos.R", # verificacion de supuestos de los modelos finales
-  "12c_sensibilidad_ponderada.R", # sensibilidad al diseno: verosimilitud ponderada en TRAT y AWARE_ESH
+  "12c_sensibilidad_ponderada.R", # principal ponderado vs sensibilidad sin ponderar (cinco pasos)
   "13_fig1_flujo_strobe.R",       # Figura 1
   "14_fig2_mapa_cascada.R",       # Figura 2
   "15_fig3_reclasificacion.R",    # Figura 3
   "16_figS1_validacion.R",        # Figura S1
   "17_figS2_incertidumbre.R",     # Figura S2
   "18_tablas.R",                  # Tablas 1, 2, 2b y S1
-  "19_manuscrito_docx.R",         # manuscrito .docx
   "20_checklist_strobe.R",        # checklist STROBE
-  "21_material_suplementario.R",  # material suplementario .docx
-  "22_paquete_envio.R",           # arma 0_ENVIO/ y verifica que se propago
   "24_datos_explorador.R"         # docs/datos.json para el explorador municipal
 )
 
