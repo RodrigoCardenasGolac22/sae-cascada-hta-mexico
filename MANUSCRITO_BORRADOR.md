@@ -971,7 +971,7 @@ Los microdatos de ENSANUT Continua son de acceso público en https://ensanut.ins
 redistribuyen. El código que reproduce íntegramente el análisis, desde
 los microdatos hasta las tablas y figuras, es público en
 https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico bajo licencia MIT. La versión
-exacta que produjo los resultados aquí presentados se publicará como `v1.2`. Las estimaciones de los 2478 municipios, con su intervalo de
+exacta que produjo los resultados aquí presentados está etiquetada como `v1.2`. Las estimaciones de los 2478 municipios, con su intervalo de
 credibilidad, se consultan en un mapa interactivo en https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/
 <!--/SOLO-->
 
@@ -981,7 +981,7 @@ credibilidad, se consultan en un mapa interactivo en https://rodrigocardenasgola
 Los microdatos de ENSANUT Continua son de acceso público en https://ensanut.insp.mx/ y no se
 redistribuyen. El código que reproduce íntegramente el análisis, desde los microdatos hasta las
 tablas y figuras, es público en https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico
-bajo licencia MIT; la versión que produjo estos resultados se publicará como `v1.2`. Las
+bajo licencia MIT; la versión que produjo estos resultados está etiquetada como `v1.2`. Las
 estimaciones de los 2478 municipios, con su intervalo de credibilidad, se consultan en
 https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/
 <!--/SOLO-->
