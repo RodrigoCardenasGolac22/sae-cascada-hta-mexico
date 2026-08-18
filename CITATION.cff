@@ -18,7 +18,7 @@ authors:
   - family-names: "Cárdenas-Golac"
     given-names: "Rodrigo J."
     orcid: "https://orcid.org/0009-0005-4444-1523"
-version: "1.2"
+version: "1.3"
 license: MIT
 repository-code: "https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico"
 url: "https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/"

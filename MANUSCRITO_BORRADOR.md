@@ -105,15 +105,15 @@ sobre la composición censal, y cuantificar cómo el criterio diagnóstico (ESH 
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-**Objetivos.** Estimar la cascada municipal de atención de la hipertensión en México mediante un
-modelo bayesiano de área pequeña post-estratificado.
+**Objetivos.** Estimar la prevalencia municipal de cada paso de la cascada de atención de la
+hipertensión (diagnóstico, tratamiento, control) en México mediante un modelo bayesiano de área
+pequeña post-estratificado sobre la composición censal.
 <!--/SOLO-->
 
 **Materiales y métodos.** Estudio ecológico transversal, análisis secundario de la ENSANUT
 Continua 2021-2024 (25 088 adultos ≥20 años, 599 municipios). Se ajustaron modelos BYM2 de
-nivel-unidad mediante pseudo-verosimilitud ponderada, con covariables de área seleccionadas por
-el criterio de información ampliamente aplicable (WAIC) y la ordenada predictiva condicional
-(CPO), y se post-estratificaron sobre la composición censal adulta. Se validaron mediante
+nivel-unidad mediante pseudo-verosimilitud ponderada, con covariables de área seleccionadas por WAIC y CPO, y se post-estratificaron sobre la
+composición censal adulta. Se validaron mediante
 validación cruzada espacial, una sensibilidad sin ponderar y cifras nacionales publicadas.
 
 <!--SOLO:EXTENSA-->
@@ -141,8 +141,9 @@ la desplaza de forma amplia y bastante uniforme, no desigual según el lugar.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-**Conclusiones.** La cascada presentó brechas municipales; el agrupamiento geográfico se concentró
-en tratamiento y control, no en diagnóstico.
+**Conclusiones.** Existe una cascada con brechas municipales, cuantificable mediante estimación
+bayesiana de área pequeña post-estratificada. El agrupamiento geográfico fue claro en tratamiento,
+intermedio en control y ausente en diagnóstico.
 <!--/SOLO-->
 
 **Palabras clave:** hipertensión; atención a la salud; análisis de área pequeña; teorema de Bayes;
@@ -158,9 +159,9 @@ these estimates by location.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-**Objectives.** To estimate municipal-level prevalence of the hypertension care cascade
-(awareness, treatment, control) in Mexico using a Bayesian small area model poststratified on
-census composition.
+**Objectives.** To estimate municipal-level prevalence of each step of the hypertension care
+cascade (awareness, treatment, control) in Mexico using a Bayesian small area model
+poststratified on census composition.
 <!--/SOLO-->
 
 **Materials and methods.** Cross-sectional ecological study, secondary analysis of ENSANUT
@@ -195,8 +196,8 @@ substantially and fairly uniformly, rather than unequally across locations.
 
 <!--SOLO:BREVE-->
 **Conclusions.** A hypertension care cascade with municipal gaps exists in Mexico, quantifiable
-with poststratified Bayesian small area estimation. Geographical clustering concentrates in
-treatment and control rather than awareness.
+with poststratified Bayesian small area estimation. Geographical clustering was clear for
+treatment, intermediate for control and absent for awareness.
 <!--/SOLO-->
 
 **Keywords:** hypertension; delivery of health care; small-area analysis; Bayes theorem; spatial
@@ -270,19 +271,17 @@ mmHg (6).
 <!--/SOLO-->
 
 Una búsqueda en PubMed, SciELO y LILACS no halló ningún registro que combine hipertensión,
-estimación de área pequeña bayesiana y nivel municipal en México; los más cercanos fueron el
-antecedente de INEGI (4) y un estudio de deprivación municipal.
+estimación de área pequeña bayesiana y nivel municipal en México; el más cercano es el antecedente de INEGI (4).
 
 <!--SOLO:EXTENSA-->
 Los modelos bayesianos de área pequeña con estructura espacial explícita (Besag-York-Mollié 2,
 BYM2) permiten estimar indicadores de salud donde la muestra de encuesta es insuficiente,
 aprovechando la correlación entre áreas vecinas y produciendo intervalos de credibilidad explícitos
-(7,8). Ahora bien, un modelo ajustado sobre individuos no da por sí solo la prevalencia de un área: hay que
-promediar sus predicciones sobre la composición real de esa población, porque con enlace no lineal
-la probabilidad del individuo promedio no equivale a la promedio de la población (9). El procedimiento estándar —post-estratificación con regresión multinivel— predice la
-probabilidad en cada celda demográfica y la pondera por la población censal de esa celda (10); es
-el método con que agencias nacionales publican prevalencias de enfermedad crónica en decenas de
-miles de áreas pequeñas (11). El diseño replica el de un estudio análogo del mismo grupo
+(7,8). Ahora bien, con enlace no lineal la probabilidad del individuo promedio no equivale a la promedio
+de la población (9), de modo que el procedimiento estándar —post-estratificación con regresión
+multinivel— predice la probabilidad en cada celda demográfica y la pondera por la población censal
+de esa celda (10); es el método con que agencias nacionales publican prevalencias de enfermedad
+crónica en decenas de miles de áreas pequeñas (11). El diseño replica el de un estudio análogo del mismo grupo
 sobre la cascada de HTA en distritos de Perú, en preparación y aún no publicado, sin su
 componente temporal por municipio.
 <!--/SOLO-->
@@ -667,10 +666,9 @@ La prevalencia directa nacional de HTA-ESH fue 27,3% (intervalo de confianza al 
 26,2-28,4), frente al 29,1-29,4% reportado por Campos-Nonato et al. con los mismos datos (3)
 (Tabla S6). El diagnóstico previo (65,9%, 63,8-68,1) y el control-ESH (64,0%, 61,3-66,7) fueron 3,0
 y 3,9 puntos porcentuales (pp) más altos que en ese estudio, y la prevalencia 1,8-2,1 pp más baja.
-Tres diferencias metodológicas explican el sentido de las brechas: la definición puntual de
-tratamiento frente a la de uso habitual —que eleva diagnóstico y control—, la calibración del
-ponderador y el promedio de la 2ª y 3ª lectura en vez de las dos primeras —que bajan la
-prevalencia—. El promedio nacional de los 5 modelos coincidió con la estimación directa dentro de
+El sentido de las brechas lo explican tres decisiones metodológicas declaradas en Métodos y
+en Limitaciones: la definición puntual de tratamiento, la calibración del ponderador y el
+promedio de la 2ª y 3ª lectura. El promedio nacional de los 5 modelos coincidió con la estimación directa dentro de
 1,0 pp en todos los pasos (Tabla 2).
 <!--/SOLO-->
 
@@ -681,13 +679,17 @@ Los 5 modelos finales ponderados convergieron sin fallos CPO (Tabla S1, material
 La fracción de varianza espacial estructurada (Phi) fue baja en diagnóstico —0,05 bajo criterio
 ESH (intervalo de credibilidad al 95% [ICr95%]: 0,01-0,27) y 0,05 bajo ACC/AHA
 (0,00-0,35)— y mayor en los pasos posteriores: 0,45 en tratamiento (0,17-0,78), 0,21 en
-control-ESH (0,04-0,58) y 0,23 en control-AHA (0,06-0,55).
+control-ESH (0,04-0,58) y 0,23 en control-AHA (0,06-0,55). Frente al mismo modelo sin estructura espacial, el término espacial mejoró el ajuste de forma
+clara solo en tratamiento (ΔWAIC −32,8; 2,7 errores estándar); en control la mejora fue de 1,5
+errores estándar y en diagnóstico quedó dentro de uno (Tabla S1).
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
 Los 5 modelos finales ponderados convergieron sin fallos CPO. La fracción de varianza espacial
 estructurada (Phi) fue 0,05 en diagnóstico, 0,45 en tratamiento y 0,21-0,23 en control
-(Tabla S1).
+(Tabla S1). Frente al mismo modelo sin estructura espacial, el término espacial mejoró el ajuste
+de forma clara solo en tratamiento (ΔWAIC −32,8; 2,7 errores estándar); en control la mejora fue
+de 1,5 errores estándar y en diagnóstico quedó dentro de uno.
 <!--/SOLO-->
 
 <!--SOLO:EXTENSA-->
@@ -795,19 +797,16 @@ interpretación en ordenamientos municipales finos.
 ### Validación cruzada
 
 <!--SOLO:EXTENSA-->
-El modelo BYM2 superó a un promedio nacional simple no ajustado en las 5 comparaciones, con
-reducciones de RMSE de 6,5% (diagnóstico-ESH), 9,8% (diagnóstico-AHA), 9,8% (tratamiento), 2,3%
-(control-ESH) y 1,3% (control-AHA) (Figura S1, material suplementario). La ganancia fue más modesta
-en control. No hubo colinealidad ni autocorrelación espacial residual (I de Moran −0,06 a 0,04;
+El modelo BYM2 superó a un promedio nacional simple no ajustado en las 5 comparaciones, con reducciones de RMSE de 1,3% a 9,8%, mayores en diagnóstico y tratamiento y más modestas en
+control (Figura S1, material suplementario). No hubo colinealidad ni autocorrelación espacial residual (I de Moran −0,06 a 0,04;
 p≥0,169), pero el componente no estructurado mostró asimetría de −0,61 a 2,03 y exceso de
 curtosis de −0,21 a 5,43; además, el PIT se apartó de la uniformidad en los cinco modelos
 (p<0,001), señal de calibración predictiva imperfecta (Tabla S5).
 
 La comparación con el ajuste sin ponderar incumplió el criterio preespecificado en los 5
 desenlaces: correlaciones de 0,88-0,93 y diferencias absolutas municipales medianas de 2,28-3,50
-pp. La discrepancia persistió en municipios con n≥30 (medianas 2,36-4,55 pp), por lo que no se
-atribuyó al ruido de las muestras municipales pequeñas y el ponderado se mantuvo como principal
-(Tabla S2).
+pp. La discrepancia persistió con n≥30 (medianas 2,36-4,55 pp), así que no es ruido de las muestras
+pequeñas y el ponderado se mantuvo como principal (Tabla S2).
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
@@ -825,17 +824,15 @@ incumplió y la discrepancia persistió con n≥30, por lo que el ponderado se m
 <!--SOLO:EXTENSA-->
 Este estudio produjo el primer mapa municipal de la cascada completa de atención de la HTA en
 México con marco bayesiano, intervalos de credibilidad, post-estratificación censal y comparación
-bajo dos criterios diagnósticos, extendiendo el antecedente de INEGI (4). Sus cifras nacionales
-quedaron entre 1,8 y 3,9 pp de las de un estudio independiente con los mismos datos (3), por las
-tres decisiones metodológicas ya declaradas y no por los datos de partida.
+bajo dos criterios diagnósticos, extendiendo el antecedente de INEGI (4). Sus cifras nacionales quedaron a 1,8-3,9 pp de las de un estudio independiente con los mismos
+datos (3), por esas decisiones y no por los datos de partida.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
 Este estudio produjo el primer mapa municipal de la cascada completa de atención de la HTA en
 México con marco bayesiano, intervalos de credibilidad y post-estratificación censal, extendiendo
-el antecedente de INEGI (4). Sus cifras nacionales quedaron entre 1,8 y 3,9 pp de las de un estudio
-independiente con los mismos datos (3), por las tres decisiones metodológicas ya declaradas y no
-por los datos de partida.
+el antecedente de INEGI (4). Sus cifras nacionales quedaron a 1,8-3,9 pp de las de un estudio independiente con los mismos
+datos (3), por esas decisiones y no por los datos de partida.
 <!--/SOLO-->
 
 <!--SOLO:EXTENSA-->
@@ -874,6 +871,10 @@ municipales finos. La conclusión robusta está en el agregado: las metas absolu
 son comparables entre criterios.
 <!--/SOLO-->
 
+La incertidumbre municipal es amplia —mediana de 46,7 pp— y es en sí un resultado: la muestra
+que ENSANUT asigna a cada municipio alcanza para describir el patrón regional y señalar dónde
+medir mejor, no para ordenar municipios. Declararla menor sería ocultarla, no reducirla.
+
 ### Fortalezas
 
 <!--SOLO:EXTENSA-->
@@ -893,27 +894,23 @@ sensibilidades de ponderación y vecindad; el código es público.
 ### Limitaciones
 
 <!--SOLO:EXTENSA-->
-Este estudio tiene límites. Primero, la presión arterial se mide en una submuestra del módulo de adultos, de modo que 19 601 de los 45 011 entrevistados (43,5%) quedaron
-fuera de la muestra analítica. Esa submuestra se selecciona con fracciones de muestreo declaradas, no
-según características de salud, y la calibración corrige la no respuesta que depende de sexo, edad,
-estrato y año; no puede descartarse que difiera en factores no medidos. Segundo, el diseño rotativo de ENSANUT (la
-mayoría de los municipios aparece en un solo año) impide una tendencia temporal por municipio. Los
-indicadores no fueron estables en el periodo (Tabla S3), de modo que el año se incluyó como efecto
-fijo en todos los modelos y la estimación municipal publicada corresponde al promedio de 2021-2024;
-no puede separarse una trayectoria propia de cada municipio. Tercero, la definición de tratamiento (uso
+Este estudio tiene límites. Primero, la presión arterial se mide en una submuestra del módulo de adultos: 19 601 de los
+45 011 entrevistados (43,5%) quedaron fuera de la muestra analítica. Esa submuestra se selecciona
+con fracciones declaradas, no según características de salud, y la calibración corrige la no
+respuesta por sexo, edad, estrato y año; no puede descartarse que difiera en factores no medidos. Segundo, el diseño rotativo de ENSANUT —la mayoría de los municipios aparece en un solo año—
+impide estimar una trayectoria propia de cada municipio: como los indicadores no fueron estables
+en el periodo (Tabla S3), el año se incluyó como efecto fijo y la estimación publicada
+corresponde al promedio de 2021-2024. Tercero, la definición de tratamiento (uso
 puntual referido) es menos precisa que la de uso habitual de otro estudio con los mismos datos: un
 intercambio deliberado a favor del tamaño muestral municipal. Cuarto, la tabla de post-estratificación se reconstruyó
-desde los márgenes censales, no desde la tabla conjunta, que no se publica por municipio; y el
-margen de escolaridad, disponible para la población de 15 años y más, sesga levemente la
-distribución hacia los niveles bajos. Quinto, el componente no estructurado del BYM2 se aparta de
-la normalidad que el modelo le supone, con asimetría de −0,61 a 2,03 y exceso de curtosis de −0,21
-a 5,43; además, el PIT no fue uniforme, de modo que la calibración predictiva y los intervalos de
-efectos extremos requieren cautela.
+desde los márgenes censales, no desde la tabla conjunta, que no se publica por municipio; y el margen de escolaridad, disponible desde los 15 años, sesga levemente la distribución hacia
+los niveles bajos. Quinto, el componente no estructurado del BYM2 se aparta de la normalidad supuesta, con asimetría
+de −0,61 a 2,03 y exceso de curtosis de −0,21 a 5,43; el PIT tampoco fue uniforme, así que la
+calibración predictiva y los intervalos de efectos extremos requieren cautela.
 Sexto, no se intentó un modelo de componente compartido entre los 3 pasos. Séptimo, las asociaciones ecológicas no permiten inferencia
 causal a nivel individual. Octavo, la búsqueda de brecha no fue una revisión sistemática.
-Noveno, los hallazgos son específicos de México; el patrón general —estructura espacial baja en
-diagnóstico y alta en tratamiento y control— es plausible en otros sistemas con gobierno local de
-salud, pero no puede asumirse sin verificación.
+Noveno, los hallazgos son específicos de México; el patrón general —estructura espacial ausente en diagnóstico y clara en tratamiento— es
+plausible en otros sistemas con gobierno local de salud, pero no puede asumirse sin verificación.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
@@ -935,9 +932,8 @@ de la normalidad supuesta, con asimetría de −0,61 a 2,03, exceso de curtosis 
 no uniforme, de modo que los intervalos de efectos extremos requieren cautela. Sexto, no
 se intentó un modelo de componente compartido entre los 3 pasos. Séptimo, las asociaciones
 ecológicas no permiten inferencia causal a nivel individual. Octavo, la búsqueda de brecha no fue
-una revisión sistemática. Noveno, los hallazgos son específicos de México; el patrón general
-—estructura espacial baja en diagnóstico y alta en tratamiento y control— es plausible en otros
-sistemas con gobierno local de salud, pero no puede asumirse sin verificación.
+una revisión sistemática. Noveno, los hallazgos son específicos de México; el patrón general —estructura espacial ausente en diagnóstico y clara en tratamiento— es
+plausible en otros sistemas con gobierno local de salud, pero no puede asumirse sin verificación.
 <!--/SOLO-->
 
 ### Conclusiones
@@ -945,8 +941,8 @@ sistemas con gobierno local de salud, pero no puede asumirse sin verificación.
 <!--SOLO:EXTENSA-->
 La cascada de atención de la hipertensión en México tiene brechas municipales sustanciales, ahora
 cuantificables con incertidumbre explícita mediante un modelo bayesiano de área pequeña
-post-estratificado. El agrupamiento geográfico se concentra en el tratamiento y el control, no en
-el diagnóstico. La pobreza mejoró modestamente la predicción del control, mientras que las
+post-estratificado. El agrupamiento geográfico es claro en el tratamiento, intermedio en el control y ausente en el
+diagnóstico. La pobreza mejoró modestamente la predicción del control, mientras que las
 covariables probadas no explicaron el patrón de tratamiento. La planeación local debería atender
 la continuidad de la atención, con cautela ante ordenamientos municipales finos; las metas
 absolutas de cobertura no son comparables entre umbrales diagnósticos.
@@ -955,8 +951,8 @@ absolutas de cobertura no son comparables entre umbrales diagnósticos.
 <!--SOLO:BREVE-->
 La cascada de atención de la hipertensión en México tiene brechas municipales sustanciales, ahora
 cuantificables con incertidumbre explícita mediante un modelo bayesiano de área pequeña
-post-estratificado. El agrupamiento geográfico se concentra en el tratamiento y el control, no en
-el diagnóstico. La pobreza mejoró modestamente la predicción del control, mientras que las
+post-estratificado. El agrupamiento geográfico es claro en el tratamiento, intermedio en el control y ausente en el
+diagnóstico. La pobreza mejoró modestamente la predicción del control, mientras que las
 covariables probadas no explicaron el patrón de tratamiento. La planeación local debería atender
 la continuidad de la atención, con cautela ante ordenamientos municipales finos.
 <!--/SOLO-->
@@ -971,7 +967,7 @@ Los microdatos de ENSANUT Continua son de acceso público en https://ensanut.ins
 redistribuyen. El código que reproduce íntegramente el análisis, desde
 los microdatos hasta las tablas y figuras, es público en
 https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico bajo licencia MIT. La versión
-exacta que produjo los resultados aquí presentados está etiquetada como `v1.2`. Las estimaciones de los 2478 municipios, con su intervalo de
+exacta que produjo los resultados aquí presentados está etiquetada como `v1.3`. Las estimaciones de los 2478 municipios, con su intervalo de
 credibilidad, se consultan en un mapa interactivo en https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/
 <!--/SOLO-->
 
@@ -981,7 +977,7 @@ credibilidad, se consultan en un mapa interactivo en https://rodrigocardenasgola
 Los microdatos de ENSANUT Continua son de acceso público en https://ensanut.insp.mx/ y no se
 redistribuyen. El código que reproduce íntegramente el análisis, desde los microdatos hasta las
 tablas y figuras, es público en https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico
-bajo licencia MIT; la versión que produjo estos resultados está etiquetada como `v1.2`. Las
+bajo licencia MIT; la versión que produjo estos resultados está etiquetada como `v1.3`. Las
 estimaciones de los 2478 municipios, con su intervalo de credibilidad, se consultan en
 https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/
 <!--/SOLO-->
@@ -1106,13 +1102,10 @@ junto a cada tabla/figura.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-El cuerpo principal lleva 2 cuadros y 3 figuras: el máximo que admite un artículo original.
-Los cuadros y las figuras se envían en archivos independientes de este texto; aquí constan
-sus títulos y leyendas. Los anexos —7 cuadros y 2 figuras suplementarios, citados en el
-texto como Tabla S1 a S7 y Figura S1 a S2— no viajan con el manuscrito, porque la revista no
-aloja material suplementario: están en el repositorio público del estudio,
-https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico, en la carpeta
-`SUPLEMENTARIO/`, junto con el código que los genera.
+El cuerpo lleva 2 cuadros y 3 figuras, el máximo permitido; se envían en archivos aparte y aquí
+constan sus títulos y leyendas. Los anexos citados como Tabla S1 a S7 y Figura S1 a S2 no viajan
+con el manuscrito: están en https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico,
+carpeta `SUPLEMENTARIO/`, con el código que los genera.
 <!--/SOLO-->
 
 <!-- EMBEBER_TABLAS_FIGURAS -->
