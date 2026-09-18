@@ -318,8 +318,8 @@ Estudio transversal, de estimación de área pequeña, análisis secundario de l
 Continua 2021-2024, las 4 rondas anuales públicas con módulo de enfermedades crónicas y presión
 arterial medida (la ronda 2020, especial COVID-19, no incluye estas preguntas). Se usaron el módulo de adultos (diagnóstico y tratamiento
 autorreportados) y el de antropometría/tensión arterial (presión medida con esfigmomanómetro
-digital Omron HEM907 XL, protocolo de la American Heart Association), enlazados por folio
-individual con la geografía del hogar.
+digital Omron HEM907 XL, protocolo de la American Heart Association), enlazados por folio con la
+geografía del hogar.
 
 ### Diseño muestral complejo
 
@@ -342,10 +342,10 @@ calibrado reduce la diferencia media con él de 0,92 a 0,48 puntos porcentuales.
 
 <!--SOLO:BREVE-->
 La presión arterial se mide en una submuestra del módulo de adultos, de modo que sus ponderadores
-originales no re-expanden a la población adulta: sumaban entre 33,1 y 59,8 millones según el año,
-frente a los 83,5-85,1 millones de adultos elegibles. Se calibraron por post-estratificación dentro
-de celdas de año, estrato de urbanidad, sexo y grupo quinquenal de edad (13), con factores de
-corrección de entre 1,12 y 3,67. La ronda 2023, la única con ponderador propio del módulo de
+originales no re-expanden a la población adulta: sumaban 33,1-59,8 millones según el año, frente a
+83,5-85,1 millones de adultos elegibles. Se calibraron por post-estratificación dentro de celdas de
+año, estrato de urbanidad, sexo y grupo quinquenal de edad (13), con factores de corrección
+1,12-3,67. La ronda 2023, la única con ponderador propio del módulo de
 tensión arterial, validó la calibración: el calibrado reduce la diferencia media con él de 0,92 a
 0,48 puntos porcentuales. Los ponderadores sin calibrar se reportan como sensibilidad (Tabla S2).
 <!--/SOLO-->
@@ -371,8 +371,8 @@ previo con los mismos datos (3).
 La presión arterial se consideró válida por lectura si sistólica ≥80 y diastólica ≥50 mmHg
 (criterio oficial ENSANUT), promediando la 2ª y 3ª lectura. La HTA se definió como presión
 arterial medida ≥140/90 mmHg (ESH) o ≥130/80 mmHg (ACC/AHA), o diagnóstico médico previo
-referido. El diagnóstico previo se definió como respuesta afirmativa a la pregunta
-correspondiente, excluyendo el código exclusivo del embarazo. El tratamiento se definió como uso
+referido. El diagnóstico previo se definió como respuesta afirmativa a la pregunta,
+excluyendo el código exclusivo del embarazo. El tratamiento se definió como uso
 actual referido de medicación antihipertensiva entre los diagnosticados, y el control como
 presión por debajo del umbral vigente entre quienes referían tratamiento; ningún año de ENSANUT
 pregunta por el control, así que derivarlo de la medición es la única vía. Los tres pasos quedan
@@ -391,7 +391,7 @@ Esta definición puntual es idéntica en los 4 años, lo que permitió agrupar e
 el tamaño muestral municipal (ver Limitaciones).
 <!--/SOLO-->
 
-Se excluyeron las mujeres con embarazo actual referido y el registro sin ponderador de diseño; el flujo completo de selección está en la Figura 1.
+Se excluyeron las mujeres con embarazo actual referido y el registro sin ponderador de diseño; el flujo de selección está en la Figura 1.
 
 ### Covariables
 
@@ -492,10 +492,10 @@ estructura de vecindad.
 
 <!--SOLO:BREVE-->
 La prevalencia de cada municipio se obtuvo post-estratificando las predicciones del modelo sobre
-la composición de su población adulta (10), no evaluándolas en un individuo representativo. Se
-construyó una tabla de celdas definidas por sexo, grupo quinquenal de edad, escolaridad y estrato
-de urbanidad, con la población que el Censo 2020 cuenta en cada celda; se predijo la probabilidad
-del desenlace en cada celda y se promedió ponderando por su población. El mismo procedimiento se
+la composición de su población adulta (10). Se construyó una tabla de celdas definidas por sexo,
+grupo quinquenal de edad, escolaridad y estrato
+de urbanidad, con la población que el Censo 2020 cuenta en cada celda, prediciendo la probabilidad
+del desenlace por celda y promediando por su población. El mismo procedimiento se
 aplicó a todos los municipios, tuvieran o no muestra directa; el efecto BYM2 de los que no la
 tienen se estima por estructura de vecindad.
 <!--/SOLO-->
@@ -516,8 +516,8 @@ en la encuesta dentro del mismo estrato como semilla.
 <!--/SOLO-->
 
 Los intervalos de credibilidad se obtuvieron tomando 1000 muestras de la posterior conjunta y
-post-estratificando dentro de cada una, de modo que reflejan la incertidumbre de todos los
-parámetros y respetan la correlación entre celdas.
+post-estratificando dentro de cada una, reflejando la incertidumbre de todos los parámetros y la
+correlación entre celdas.
 
 ### Reclasificación y validación
 
@@ -542,12 +542,12 @@ aleatorizada (18).
 Se calculó la diferencia de prevalencia suavizada por municipio entre los criterios ESH y ACC/AHA
 para diagnóstico y control (el tratamiento es idéntico, pues su definición no depende del
 umbral). El modelo se validó con validación cruzada espacial de 5 pliegues municipales (17)
-—comparando error cuadrático medio y sesgo contra un promedio nacional simple— y
-con una prueba de sensibilidad a la matriz de vecindad, "reina" contra "torre". Los mismos 5
+—comparando RMSE y sesgo contra un promedio nacional simple— y con sensibilidad a la
+matriz de vecindad ("reina" vs. "torre"). Los mismos 5
 desenlaces se reajustaron sin ponderar, con idénticas filas, fórmulas y previas; para
 considerarse coherentes con el modelo principal tenían que quedar dentro de lo que el criterio
-fijado de antemano toleraba —mediana absoluta menor a 2 puntos porcentuales y correlación mayor a
-0,95—, revisado por n municipal. Colinealidad, autocorrelación espacial de los residuos, forma
+fijado de antemano toleraba (mediana absoluta <2 pp y correlación >0,95), revisado por n
+municipal. Colinealidad, autocorrelación espacial de los residuos, forma
 del componente no estructurado y calibración predictiva vía la transformada integral de
 probabilidad aleatorizada (18) completan los supuestos verificados (Tabla S5).
 <!--/SOLO-->
@@ -570,8 +570,8 @@ incierta— se generó un mapa con el ancho del intervalo de credibilidad al 95%
 
 Se adoptaron dos medidas de protección. Se omitió toda estimación basada en menos de 10 encuestados
 en el denominador de ese paso, para evitar la identificación indirecta; no aplica donde no hay dato
-individual que proteger. Un mapa del ancho del intervalo de credibilidad al 95% por municipio (Figura S2) comunica el
-grado de certidumbre de cada estimación.
+individual que proteger. Un mapa del ancho del intervalo de credibilidad al 95% por municipio
+(Figura S2) comunica la certidumbre de cada estimación.
 <!--/SOLO-->
 
 <!--SOLO:EXTENSA-->
@@ -598,8 +598,8 @@ sin identificadores individuales ni coordenadas: el municipio es la máxima reso
 El protocolo de 2021 fue aprobado por las Comisiones de Ética, Investigación y Bioseguridad del
 Instituto Nacional de Salud Pública bajo el proyecto CI-450-2021; los de rondas posteriores fueron
 aprobados por las comisiones del INSP según su documentación, sin atribuirles ese número (12). La
-documentación informa la obtención del consentimiento informado. Los autores no solicitaron una
-aprobación adicional para este análisis secundario.
+documentación informa la obtención del consentimiento informado. Los autores no solicitaron
+aprobación adicional.
 <!--/SOLO-->
 
 <!--SOLO:EXTENSA-->
@@ -617,8 +617,8 @@ repositorio indicado en la sección de disponibilidad de datos y código.
 ### Software
 
 El análisis se realizó en R 4.6.0 (20) con `survey` 4.5 para el diseño muestral complejo (21) e
-`INLA` 25.10.19 para los modelos bayesianos (22); el resto de paquetes, con sus versiones, y el
-entorno completo constan en el repositorio.
+`INLA` 25.10.19 para los modelos bayesianos (22); el resto, con versiones, y el entorno completo
+constan en el repositorio.
 <!--/SOLO-->
 
 ## Resultados
@@ -637,9 +637,9 @@ los modelos no descartaron observaciones por ese motivo.
 <!--SOLO:BREVE-->
 De 45 011 adultos entrevistados en 2021-2024, 25 088 (599 municipios distintos) formaron la base
 analítica final tras excluir presión arterial no válida (n=19 601), embarazo actual (n=321) y peso
-de diseño faltante (n=1) (Figura 1, Tabla 1). El tamaño muestral disponible decreció en cada
-eslabón sucesivo de la cascada, reflejo de su propia estructura. Ninguna de las cuatro
-covariables demográficas tuvo dato faltante.
+de diseño faltante (n=1) (Figura 1, Tabla 1). El tamaño muestral decreció en cada
+eslabón de la cascada, reflejo de su estructura. Ninguna covariable demográfica
+tuvo dato faltante.
 <!--/SOLO-->
 
 ### Prevalencia nacional y comparación con literatura
@@ -664,8 +664,8 @@ La prevalencia directa nacional de HTA-ESH fue 27,3% (intervalo de confianza al 
 26,2-28,4), frente al 29,1-29,4% reportado por Campos-Nonato et al. con los mismos datos (3)
 (Tabla S6). El diagnóstico previo (65,9%, 63,8-68,1) y el control-ESH (64,0%, 61,3-66,7) fueron 3,0
 y 3,9 puntos porcentuales (pp) más altos que en ese estudio, y la prevalencia 1,8-2,1 pp más baja.
-El sentido de las brechas lo explican tres decisiones metodológicas declaradas en Métodos y
-en Limitaciones: la definición puntual de tratamiento, la calibración del ponderador y el
+El sentido de las brechas lo explican tres decisiones metodológicas: la definición puntual de
+tratamiento, la calibración del ponderador y el
 promedio de la 2ª y 3ª lectura. El promedio nacional de los 5 modelos coincidió con la estimación directa dentro de
 1,0 pp en todos los pasos (Tabla 2).
 <!--/SOLO-->
@@ -686,8 +686,8 @@ errores estándar y en diagnóstico quedó dentro de uno (Tabla S1).
 Los 5 modelos finales ponderados convergieron sin fallos CPO. La fracción de varianza espacial
 estructurada (Phi) fue 0,05 en diagnóstico, 0,45 en tratamiento y 0,21-0,23 en control
 (Tabla S1). Frente al mismo modelo sin estructura espacial, el término espacial mejoró el ajuste
-de forma clara solo en tratamiento (ΔWAIC −32,8; 2,7 errores estándar); en control la mejora fue
-de 1,5 errores estándar y en diagnóstico quedó dentro de uno.
+solo en tratamiento (ΔWAIC −32,8; 2,7 errores estándar); en control, 1,5 errores estándar, y en
+diagnóstico quedó dentro de uno.
 <!--/SOLO-->
 
 <!--SOLO:EXTENSA-->
@@ -715,7 +715,7 @@ fueron mayores para diagnóstico y control (OR 1,29-1,57) y menores para tratami
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-Por cada 10 puntos porcentuales más de pobreza municipal, la razón de momios ajustada de control
+Por cada 10 pp más de pobreza municipal, la razón de momios ajustada de control
 fue 0,93 (ICr95%: 0,88-0,99) bajo ESH y 0,94 (0,88-1,01) bajo ACC/AHA; el intervalo excluyó 1 solo
 bajo ESH. Frente a 2021, las *odds* de diagnóstico en 2022 fueron menores (OR 0,84 y 0,88),
 mientras que en 2024 aumentaron las de diagnóstico y control y disminuyeron las de tratamiento
@@ -737,7 +737,7 @@ de WAIC de 0,14 y de Phi inferior a 0,01.
 El modelo alcanzó cobertura en 99,5-99,6% de los 2478 municipios (Figura 2), más allá de los
 558-596 con muestra directa. Bajo ESH, las medianas municipales fueron 55,7% en diagnóstico,
 60,2% en tratamiento y 62,6% en control. La sensibilidad a la matriz de vecindad, probada en
-tratamiento, fue mínima: 0,14 de diferencia de WAIC y menos de 0,01 de Phi.
+tratamiento, fue mínima (ΔWAIC 0,14; Phi<0,01).
 <!--/SOLO-->
 
 <!--SOLO:EXTENSA-->
@@ -763,8 +763,8 @@ local sí redujo la incertidumbre.
 
 <!--SOLO:BREVE-->
 El ancho del intervalo de credibilidad al 95% (Figura S2) tuvo una mediana de 46,7 pp en
-diagnóstico-ESH, 48,2 pp en tratamiento y 37,0 pp en control-ESH. El máximo fue 74,4 pp y
-correspondió a tratamiento. En diagnóstico-ESH, la mediana fue 38,0 pp con muestra directa y 47,3
+diagnóstico-ESH, 48,2 pp en tratamiento y 37,0 pp en control-ESH, con máximo de 74,4 pp en
+tratamiento. En diagnóstico-ESH, la mediana fue 38,0 pp con muestra directa y 47,3
 pp en municipios sintéticos.
 <!--/SOLO-->
 
@@ -781,7 +781,7 @@ denominador sin inflar el numerador.
 <!--SOLO:BREVE-->
 Bajo el criterio ACC/AHA la prevalencia suavizada baja una mediana de 23,1 pp en diagnóstico y
 24,9 pp en control (DE 2,7 pp en ambos): el umbral más bajo desplaza la cascada en la dirección
-esperada por definición. Las medianas fueron −22,4 frente a −23,2 pp con y sin muestra directa en
+esperada. Las medianas fueron −22,4 frente a −23,2 pp con y sin muestra directa en
 diagnóstico, y −24,9 pp en ambos grupos para control.
 <!--/SOLO-->
 
@@ -810,10 +810,10 @@ pequeñas y el ponderado se mantuvo como principal (Tabla S2).
 <!--SOLO:BREVE-->
 El modelo BYM2 superó a un promedio nacional simple en las 5 comparaciones, con reducciones de
 RMSE de 1,3% a 9,8%, más modestas en control (Figura S1). No hubo autocorrelación espacial
-residual (p≥0,169), pero el exceso de curtosis alcanzó 5,43 y el PIT se apartó de la uniformidad en
-los cinco modelos (p<0,001; Tabla S5). Frente al ajuste sin ponderar, las correlaciones fueron
+residual (p≥0,169), pero el exceso de curtosis alcanzó 5,43 y el PIT se apartó de la uniformidad
+(p<0,001; Tabla S5). Frente al ajuste sin ponderar, las correlaciones fueron
 0,88-0,93 y las diferencias absolutas medianas 2,28-3,50 pp; el criterio preespecificado se
-incumplió y la discrepancia persistió con n≥30, por lo que el ponderado se mantuvo como principal
+incumplió y la discrepancia persistió con n≥30; el ponderado se mantuvo como principal
 (Tabla S2).
 <!--/SOLO-->
 
@@ -855,7 +855,7 @@ representan una hipótesis plausible, pero no confirmada por nuestro trabajo.
 <!--/SOLO-->
 
 <!--SOLO:EXTENSA-->
-El cambio de criterio desplazó toda la cascada en la dirección prevista, pero los rangos de la
+El cambio de criterio desplazó toda la cascada en la dirección prevista (29), pero los rangos de la
 diferencia y la mayor dispersión en municipios con muestra desaconsejan presentar el ordenamiento
 municipal como estable. La implicación práctica robusta está en el agregado: el umbral ACC/AHA
 2025 reduce la cobertura aparente de diagnóstico y control, de modo que las metas absolutas —del
@@ -863,7 +863,7 @@ tipo 80-80-80— no son comparables con las cifras del criterio anterior.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-Cambiar el criterio modificó el diagnóstico y el control conforme a lo esperado teóricamente, pero
+Cambiar el criterio modificó el diagnóstico y el control conforme a lo esperado teóricamente (29), pero
 la dispersión de las diferencias y la sensibilidad ligada a los factores de ponderación impiden
 establecer clasificaciones municipales confiables. La certeza del análisis se observa a nivel
 población agrupada, demostrando que las cifras de cobertura dependen del umbral empleado y no
@@ -873,14 +873,14 @@ admiten comparaciones directas.
 <!--SOLO:EXTENSA-->
 La incertidumbre municipal es amplia —mediana de 46,7 pp— y es en sí un resultado: la muestra
 que ENSANUT asigna a cada municipio alcanza para describir el patrón regional y señalar dónde
-medir mejor, no para ordenar municipios. Declararla menor sería ocultarla, no reducirla.
+medir mejor, no para ordenar municipios (31). Declararla menor sería ocultarla, no reducirla.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
 La marcada incertidumbre en las estimaciones locales, con una mediana de dispersión de 46,7 pp,
 refleja los límites inherentes de la muestra municipal del ENSANUT y es, en sí misma, un resultado:
 sirve para delinear macrotendencias territoriales y priorizar esfuerzos futuros de mejor
-recolección de datos, no para ordenar municipios entre sí. Declararla menor sería ocultarla, no
+recolección de datos, no para ordenar municipios entre sí (31). Declararla menor sería ocultarla, no
 reducirla.
 <!--/SOLO-->
 
@@ -917,7 +917,7 @@ desde los márgenes censales, no desde la tabla conjunta, que no se publica por 
 los niveles bajos. Quinto, el componente no estructurado del BYM2 se aparta de la normalidad supuesta, con asimetría
 de −0,61 a 2,03 y exceso de curtosis de −0,21 a 5,43; el PIT tampoco fue uniforme, así que la
 calibración predictiva y los intervalos de efectos extremos requieren cautela.
-Sexto, no se intentó un modelo de componente compartido entre los 3 pasos. Séptimo, las asociaciones ecológicas no permiten inferencia
+Sexto, no se intentó un modelo de componente compartido entre los 3 pasos (32). Séptimo, las asociaciones ecológicas no permiten inferencia
 causal a nivel individual. Octavo, la búsqueda de brecha no fue una revisión sistemática.
 Noveno, los hallazgos son específicos de México; el patrón general —estructura espacial ausente en diagnóstico y clara en tratamiento— es
 plausible en otros sistemas con gobierno local de salud, pero no puede asumirse sin verificación.
@@ -939,7 +939,7 @@ los 15 años sesga la distribución hacia niveles bajos. El componente espacial 
 desviaciones de los supuestos de normalidad analítica (asimetría de −0,61 a 2,03, exceso de
 curtosis de −0,21 a 5,43 y PIT no uniforme), lo que exige cautela en la interpretación de los
 intervalos en municipios con estimaciones extremas. Los 3 eslabones de la cascada fueron estimados
-independientemente, sin una parametrización de efectos compartidos. Las asociaciones ecológicas no
+independientemente, sin una parametrización de efectos compartidos (32). Las asociaciones ecológicas no
 permiten inferencia causal a nivel individual y, finalmente, los hallazgos son específicos de
 México, y aunque el patrón general es coherente con otros sistemas sanitarios descentralizados,
 deben ser validados con datos locales.
@@ -1101,6 +1101,15 @@ por la exactitud, integridad y originalidad del trabajo.
 28. Servan-Mori E, Heredia-Pi I, Montañez-Hernandez J, Avila-Burgos L, Wirtz VJ. Access to
     medicines by Seguro Popular beneficiaries: pending tasks towards universal health coverage.
     PLoS One. 2015;10(9):e0136823. doi: 10.1371/journal.pone.0136823.
+29. Campos-Nonato I, Hernández-Barrera L, Oviedo-Solís C, Ramírez-Villalobos D, Hernández-Prado B,
+    Barquera S. Epidemiología de la hipertensión arterial en adultos mexicanos: diagnóstico,
+    control y tendencias. Ensanut 2020. Salud Publica Mex. 2021;63(6):692-704.
+    doi: 10.21149/12851.
+31. Goldstein H, Spiegelhalter DJ. League Tables and Their Limitations: Statistical Issues in
+    Comparisons of Institutional Performance. J R Stat Soc Ser A Stat Soc. 1996;159(3):385-409.
+    doi: 10.2307/2983325.
+32. Hogg J, Cameron JA, Cramb S, Baade PD, Mengersen K. A Two-stage Bayesian Small Area Estimation
+    Approach for Proportions. Int Stat Rev. 2024;92(3):455-482. doi: 10.1111/insr.12572.
 ## Tablas y figuras
 
 <!--SOLO:EXTENSA-->
