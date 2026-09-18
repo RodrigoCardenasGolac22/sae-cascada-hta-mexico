@@ -129,7 +129,7 @@ cumplió. La validación cruzada redujo el error 1,3-9,8%.
 **Resultados.** La prevalencia directa de hipertensión fue 27,3%; diagnóstico 65,9%, tratamiento
 81,0% y control 64,0% (ESH). El modelo cubrió 99,5-99,6% de los municipios, con Phi de 0,05 en
 diagnóstico, 0,45 en tratamiento y 0,21-0,23 en control. Solo en control entró la pobreza, cuyo
-coeficiente excluyó cero bajo ESH — el ajuste sin ponderar difirió por 2,3-3,5 puntos
+coeficiente excluyó cero bajo ESH; el ajuste sin ponderar difirió por 2,3-3,5 puntos
 porcentuales de mediana municipal, más de lo admitido. La validación cruzada bajó el error entre
 1,3% y 9,8%.
 <!--/SOLO-->
@@ -502,7 +502,7 @@ tienen se estima por estructura de vecindad.
 
 <!--SOLO:EXTENSA-->
 El censo publica por localidad los márgenes de sexo × edad y sexo × escolaridad, no la tabla
-conjunta; ésta se reconstruyó por ajuste iterativo proporcional (16), con la estructura conjunta
+conjunta; esta se reconstruyó por ajuste iterativo proporcional (16), con la estructura conjunta
 observada en ENSANUT dentro del mismo estrato como semilla. El estrato se obtiene exacto, porque el tabulado
 es por localidad y el estrato es función de su tamaño. Del margen de escolaridad, publicado para 15
 años y más, se usó solo su forma, aplicada al total de 20 y más; la categoría censal posbásica se
@@ -511,7 +511,7 @@ repartió entre preparatoria y superior con la proporción de la encuesta.
 
 <!--SOLO:BREVE-->
 El censo publica por localidad los márgenes de sexo × edad y sexo × escolaridad, no la tabla
-conjunta; ésta se reconstruyó por ajuste iterativo proporcional (16), con la estructura observada
+conjunta; esta se reconstruyó por ajuste iterativo proporcional (16), con la estructura observada
 en la encuesta dentro del mismo estrato como semilla.
 <!--/SOLO-->
 
@@ -540,7 +540,7 @@ aleatorizada (18).
 
 <!--SOLO:BREVE-->
 Se calculó la diferencia de prevalencia suavizada por municipio entre los criterios ESH y ACC/AHA
-para diagnóstico y control (el tratamiento es idéntico, pues su definición no depende del
+para diagnóstico y control (el tratamiento es idéntico, pues no depende del
 umbral). El modelo se validó con validación cruzada espacial de 5 pliegues municipales (17)
 —comparando RMSE y sesgo contra un promedio nacional simple— y con sensibilidad a la
 matriz de vecindad ("reina" vs. "torre"). Los mismos 5
@@ -707,8 +707,8 @@ diagnóstico o tratamiento, y ninguna mejora alcanzó dos errores estándar de �
 <!--SOLO:EXTENSA-->
 La evidencia de asociación la aporta el coeficiente. Por cada 10 puntos porcentuales más de
 pobreza municipal, la razón de momios ajustada de control fue 0,93 (ICr95%: 0,88-0,99) bajo ESH
-y 0,94 (0,88-1,01) bajo ACC/AHA; es una diferencia en *odds*, no en puntos porcentuales de
-probabilidad, y el intervalo excluyó 1 solo bajo ESH. Frente a 2021, las *odds* de diagnóstico en
+y 0,94 (0,88-1,01) bajo ACC/AHA; es una diferencia en razón de momios, no en puntos porcentuales de
+probabilidad, y el intervalo excluyó 1 solo bajo ESH. Frente a 2021, las razones de momios de diagnóstico en
 2022 fueron menores —OR 0,84 (0,72-0,96) bajo ESH y 0,88 (0,78-0,99) bajo ACC/AHA—. En 2024
 fueron mayores para diagnóstico y control (OR 1,29-1,57) y menores para tratamiento (0,74;
 0,58-0,94); todos esos intervalos excluyeron 1 (Tabla S3).
@@ -717,7 +717,7 @@ fueron mayores para diagnóstico y control (OR 1,29-1,57) y menores para tratami
 <!--SOLO:BREVE-->
 Por cada 10 pp más de pobreza municipal, la razón de momios ajustada de control
 fue 0,93 (ICr95%: 0,88-0,99) bajo ESH y 0,94 (0,88-1,01) bajo ACC/AHA; el intervalo excluyó 1 solo
-bajo ESH. Frente a 2021, las *odds* de diagnóstico en 2022 fueron menores (OR 0,84 y 0,88),
+bajo ESH. Frente a 2021, las razones de momios de diagnóstico en 2022 fueron menores (OR 0,84 y 0,88),
 mientras que en 2024 aumentaron las de diagnóstico y control y disminuyeron las de tratamiento
 (Tabla S3).
 <!--/SOLO-->
