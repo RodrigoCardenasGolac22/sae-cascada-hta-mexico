@@ -345,7 +345,9 @@ La presión arterial se mide en una submuestra del módulo de adultos, de modo q
 originales no re-expanden a la población adulta: sumaban entre 33,1 y 59,8 millones según el año, frente a los
 83,5-85,1 millones de adultos elegibles. Se calibraron por post-estratificación dentro de celdas de
 año, estrato de urbanidad, sexo y grupo quinquenal de edad (13), con factores de corrección de
-entre 1,12 y 3,67.
+entre 1,12 y 3,67. La ronda 2023, la única con ponderador propio del módulo de
+tensión arterial, validó la calibración: el calibrado reduce la diferencia media de 0,92 a
+0,48 puntos porcentuales.
 <!--/SOLO-->
 
 ### Definición operacional de la cascada
@@ -512,6 +514,10 @@ conjunta; esta se reconstruyó por ajuste iterativo proporcional (16), con la es
 encuesta en el mismo estrato como semilla.
 <!--/SOLO-->
 
+Los intervalos de credibilidad se obtuvieron con 1000 muestras de la posterior conjunta,
+post-estratificando cada una y reflejando la incertidumbre de los parámetros y la correlación
+entre celdas.
+
 ### Reclasificación y validación
 
 <!--SOLO:EXTENSA-->
@@ -676,7 +682,7 @@ errores estándar y en diagnóstico quedó dentro de uno (Tabla S1).
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-La fracción de varianza espacial
+Los 5 modelos finales ponderados convergieron sin fallos CPO. La fracción de varianza espacial
 estructurada (Phi) fue 0,05 en diagnóstico, 0,45 en tratamiento y 0,21-0,23 en control
 (Tabla S1). Frente al mismo modelo sin estructura espacial, el término espacial mejoró el ajuste
 de forma clara solo en tratamiento (ΔWAIC −32,8; 2,7 errores estándar); en control la mejora fue
