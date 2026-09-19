@@ -9,6 +9,9 @@
 library(writexl)
 
 TAB <- "TABLAS"
+# SPM rotula "Cuadro I/II"; la otra revista "Tabla 1/2". La ubicacion tiene que decir como se llama
+# en el manuscrito que el editor tiene en la mano.
+if (identical(Sys.getenv("REVISTA"), "SPM")) { T1 <- "Cuadro I"; T2 <- "Cuadro II" } else { T1 <- "Tabla 1"; T2 <- "Tabla 2" }
 if (!dir.exists(TAB)) dir.create(TAB)
 
 strobe <- data.frame(
@@ -66,32 +69,32 @@ strobe <- data.frame(
     "Indique la fuente de financiamiento y el papel de los financiadores en el presente estudio."
   ),
   `Ubicación en el manuscrito` = c(
-    "Resumen/Abstract: \"Estudio ecológico transversal, análisis secundario\"",
+    "Resumen (Materiales y métodos): \"Estudio transversal, análisis secundario de la ENSANUT Continua 2021-2024\"",
     "Resumen (español) y Abstract (inglés), estructurados en Objetivos/Materiales y métodos/Resultados/Conclusiones",
-    "Introducción, párrafos 1-3 (vacío de conocimiento, antecedente INEGI, cascada nacional-estatal ya documentada)",
+    "Introducción, párrafos 1-4 (vacío de conocimiento, antecedente INEGI, cascada nacional-estatal ya documentada)",
     "Introducción, párrafo final",
     "Materiales y métodos > Diseño y fuente de datos",
     "Materiales y métodos > Diseño y fuente de datos (ENSANUT Continua 2021-2024, México)",
     "Materiales y métodos > Diseño muestral complejo; Figura 1 (flujo STROBE)",
     "Materiales y métodos > Definición operacional de la cascada; Covariables",
-    "Materiales y métodos > Diseño y fuente de datos (metodología ENSANUT, referencia 12)",
-    "Discusión > Limitaciones (submuestra con presión arterial medida, 43,5% de los entrevistados); Materiales y métodos > Diseño muestral complejo (calibración del ponderador y validación contra el ponderador de tensión arterial de 2023)",
+    "Materiales y métodos > Diseño y fuente de datos (metodología de la ENSANUT)",
+    "Discusión > Limitaciones (submuestra con presión arterial medida, 43,5% de los entrevistados); Materiales y métodos > Diseño muestral complejo (calibración del ponderador); Tabla S2, panel A (validación de la calibración contra el ponderador publicado para 2023)",
     "Materiales y métodos > Diseño y fuente de datos; Resultados > Muestra (n=25 088)",
     "Materiales y métodos > Covariables; Modelo estadístico",
     "Materiales y métodos > Modelo estadístico (BYM2 vía INLA)",
     "No aplica — no se examinaron subgrupos por interacción en el modelo principal (declarado como alcance del estudio)",
-    "Resultados > Muestra (ninguna covariable demográfica tuvo dato faltante en la base analítica); Materiales y métodos > Covariables (definición del nivel 'sin escolaridad')",
+    "Resultados > Muestra y Figura 1 (exclusión de presión arterial no válida, embarazo y ponderador faltante, cada una con su n); Materiales y métodos > Covariables (definición del nivel 'sin escolaridad')",
     "Materiales y métodos > Diseño muestral complejo; Modelo estadístico (pseudo-verosimilitud con ponderador calibrado normalizado dentro de municipio)",
-    "Materiales y métodos > Reclasificación y validación (sensibilidades a ponderación y matriz de vecindad); Figura S1 (validación cruzada)",
+    "Materiales y métodos > Reclasificación y validación (sensibilidad a la matriz de vecindad y modelo sin ponderar); Tabla S2, panel B (ponderado frente a sin ponderar); Figura S1 (validación cruzada)",
     "Figura 1 (diagrama de flujo STROBE completo)",
     "Figura 1 (cada exclusión con su n)",
     "Figura 1",
-    "Resultados > Muestra; Tabla 1",
-    "Resultados > Muestra (0 registros con covariable demográfica faltante); Figura 1 (flujo con el n de cada exclusión)",
+    paste0("Resultados > Muestra; ", T1),
+    paste0("Resultados > Muestra; Figura 1 (flujo con el n de cada exclusión); ", T1),
     "Resultados > Prevalencia nacional y comparación con literatura",
-    "Resultados > Modelos municipales; Figura 2; Tabla 2 (IC95%/credibilidad)",
+    paste0("Resultados > Modelos municipales; Figura 2; ", T2, " (IC95%/credibilidad)"),
     "Materiales y métodos > Definición operacional de la cascada (umbrales ESH/ACC-AHA)",
-    "Resultados > Reclasificación ESH vs. ACC/AHA; Validación cruzada; Figura 3; Figura S1",
+    "Resultados > Reclasificación ESH vs. ACC/AHA; Validación cruzada; Figura 3; Figura S1; Tabla S2",
     "Discusión, primer párrafo",
     "Discusión > Limitaciones",
     "Discusión (interpretación general, cierre de cada hallazgo)",
@@ -111,6 +114,7 @@ strobe <- data.frame(
 # OBLIGATORIO del envio, asi que no puede llegar corrupto al editor.
 strobe_xlsx <- rbind(strobe,
                      setNames(data.frame("Fuente: STROBE Statement checklist v4, cross-sectional studies (von Elm et al. 2007), descargado de equator-network.org. *Dar información por separado para grupos expuestos y no expuestos, si aplica.", "", "", ""), names(strobe)))
+names(strobe_xlsx)[4] <- "Ubicación en el manuscrito"
 writexl::write_xlsx(list(STROBE = strobe_xlsx), file.path(TAB, "STROBE_checklist.xlsx"))
 
 write.csv(strobe, file.path(TAB, "STROBE_checklist.csv"), row.names = FALSE)
