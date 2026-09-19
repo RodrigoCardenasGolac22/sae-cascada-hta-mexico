@@ -345,9 +345,7 @@ La presión arterial se mide en una submuestra del módulo de adultos, de modo q
 originales no re-expanden a la población adulta: sumaban entre 33,1 y 59,8 millones según el año, frente a los
 83,5-85,1 millones de adultos elegibles. Se calibraron por post-estratificación dentro de celdas de
 año, estrato de urbanidad, sexo y grupo quinquenal de edad (13), con factores de corrección de
-entre 1,12 y 3,67. La ronda 2023, la única con ponderador propio del módulo de
-tensión arterial, validó la calibración: el calibrado reduce la diferencia media de 0,92 a
-0,48 puntos porcentuales. Los ponderadores sin calibrar se reportan como sensibilidad (Tabla S2).
+entre 1,12 y 3,67.
 <!--/SOLO-->
 
 ### Definición operacional de la cascada
@@ -375,8 +373,7 @@ referido. El diagnóstico previo se definió como respuesta afirmativa a la preg
 correspondiente, excluyendo el código exclusivo del embarazo. El tratamiento se definió como uso
 actual referido de medicación antihipertensiva entre los diagnosticados, y el control como
 presión por debajo del umbral vigente entre quienes referían tratamiento; ningún año de ENSANUT
-pregunta por el control, por lo que se deriva de la medición. Los tres pasos quedan
-anidados. La presión válida se exigió a toda la muestra analítica, no solo al desenlace de
+pregunta por el control, por lo que se deriva de la medición. La presión válida se exigió a toda la muestra analítica, no solo al desenlace de
 control (3).
 <!--/SOLO-->
 
@@ -515,10 +512,6 @@ conjunta; esta se reconstruyó por ajuste iterativo proporcional (16), con la es
 encuesta en el mismo estrato como semilla.
 <!--/SOLO-->
 
-Los intervalos de credibilidad se obtuvieron con 1000 muestras de la posterior conjunta,
-post-estratificando cada una y reflejando la incertidumbre de los parámetros y la correlación
-entre celdas.
-
 ### Reclasificación y validación
 
 <!--SOLO:EXTENSA-->
@@ -598,8 +591,7 @@ sin identificadores ni coordenadas: el municipio es la máxima resolución geogr
 El protocolo de 2021 fue aprobado por las Comisiones de Ética, Investigación y Bioseguridad del
 Instituto Nacional de Salud Pública bajo el proyecto CI-450-2021; los de rondas posteriores fueron
 aprobados por las comisiones del INSP según su documentación, sin atribuirles ese número (12). La
-documentación informa la obtención del consentimiento informado. Los autores no solicitaron una
-aprobación adicional para este análisis secundario.
+documentación informa la obtención del consentimiento informado.
 <!--/SOLO-->
 
 <!--SOLO:EXTENSA-->
@@ -639,8 +631,7 @@ los modelos no descartaron observaciones por ese motivo.
 De 45 011 adultos entrevistados en 2021-2024, 25 088 (599 municipios distintos) formaron la base
 analítica tras excluir presión arterial no válida (n=19 601), embarazo actual (n=321) y peso
 de diseño faltante (n=1) (Figura 1, Tabla 1). El tamaño muestral decreció en cada
-eslabón de la cascada, reflejo de su estructura. Ninguna de las cuatro covariables demográficas
-tuvo dato faltante.
+eslabón de la cascada, reflejo de su estructura.
 <!--/SOLO-->
 
 ### Prevalencia nacional y comparación con literatura
@@ -685,7 +676,7 @@ errores estándar y en diagnóstico quedó dentro de uno (Tabla S1).
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-Los 5 modelos finales ponderados convergieron sin fallos CPO. La fracción de varianza espacial
+La fracción de varianza espacial
 estructurada (Phi) fue 0,05 en diagnóstico, 0,45 en tratamiento y 0,21-0,23 en control
 (Tabla S1). Frente al mismo modelo sin estructura espacial, el término espacial mejoró el ajuste
 de forma clara solo en tratamiento (ΔWAIC −32,8; 2,7 errores estándar); en control la mejora fue
@@ -750,7 +741,7 @@ submuestra pequeña dentro de cada municipio.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-Por el umbral de control de divulgación (n<10, ver Métodos) quedaron sin reportar en la Figura 2,
+Por el umbral de control de divulgación (n<10) quedaron sin reportar en la Figura 2,
 entre los municipios con muestra directa, 351 de 589 (59,6%) en diagnóstico, 429 de 576 (74,5%) en
 tratamiento y 438 de 558 (78,5%) en control.
 <!--/SOLO-->
