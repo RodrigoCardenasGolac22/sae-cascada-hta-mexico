@@ -345,7 +345,7 @@ La presión arterial se mide en una submuestra del módulo de adultos, de modo q
 originales no re-expanden a la población adulta: sumaban entre 33,1 y 59,8 millones según el año, frente a los
 83,5-85,1 millones de adultos elegibles. Se calibraron por post-estratificación dentro de celdas de
 año, estrato de urbanidad, sexo y grupo quinquenal de edad (13), con factores de corrección de
-entre 1,12 y 3,67.
+entre 1,12 y 3,67 (Tabla S2).
 <!--/SOLO-->
 
 ### Definición operacional de la cascada
@@ -777,7 +777,7 @@ denominador sin inflar el numerador.
 
 <!--SOLO:BREVE-->
 Bajo el criterio ACC/AHA la prevalencia suavizada baja una mediana de 23,1 pp en diagnóstico y
-24,9 pp en control (DE 2,7 pp en ambos): el umbral más bajo desplaza la cascada en la dirección
+24,9 pp en control (DE 2,7 pp en ambos; Figura 3): el umbral más bajo desplaza la cascada en la dirección
 esperada por definición. Las medianas fueron −22,4 frente a −23,2 pp con y sin muestra directa en
 diagnóstico, y −24,9 pp en ambos grupos para control.
 <!--/SOLO-->
