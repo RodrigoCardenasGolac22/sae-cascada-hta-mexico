@@ -345,9 +345,7 @@ La presión arterial se mide en una submuestra del módulo de adultos, de modo q
 originales no re-expanden a la población adulta: sumaban entre 33,1 y 59,8 millones según el año, frente a los
 83,5-85,1 millones de adultos elegibles. Se calibraron por post-estratificación dentro de celdas de
 año, estrato de urbanidad, sexo y grupo quinquenal de edad (13), con factores de corrección de
-entre 1,12 y 3,67. La ronda 2023, la única con ponderador propio del módulo de
-tensión arterial, validó la calibración: el calibrado reduce la diferencia media de 0,92 a
-0,48 puntos porcentuales.
+entre 1,12 y 3,67.
 <!--/SOLO-->
 
 ### Definición operacional de la cascada
