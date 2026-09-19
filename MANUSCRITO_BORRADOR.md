@@ -971,7 +971,7 @@ Los microdatos de ENSANUT Continua son de acceso público en https://ensanut.ins
 redistribuyen. El código que reproduce íntegramente el análisis, desde
 los microdatos hasta las tablas y figuras, es público en
 https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico bajo licencia MIT. La versión
-exacta que produjo los resultados aquí presentados está etiquetada como `v1.3`. Las estimaciones de los 2478 municipios, con su intervalo de
+exacta que produjo los resultados aquí presentados está etiquetada como `v1.4`. Las estimaciones de los 2478 municipios, con su intervalo de
 credibilidad, se consultan en un mapa interactivo en https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/
 <!--/SOLO-->
 
@@ -981,7 +981,7 @@ credibilidad, se consultan en un mapa interactivo en https://rodrigocardenasgola
 Los microdatos de ENSANUT Continua son de acceso público en https://ensanut.insp.mx/ y no se
 redistribuyen. El código que reproduce íntegramente el análisis, desde los microdatos hasta las
 tablas y figuras, es público en https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico
-bajo licencia MIT; la versión que produjo estos resultados está etiquetada como `v1.3`. Las
+bajo licencia MIT; la versión que produjo estos resultados está etiquetada como `v1.4`. Las
 estimaciones de los 2478 municipios, con su intervalo de credibilidad, se consultan en
 https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/
 <!--/SOLO-->
@@ -1001,7 +1001,7 @@ trabajo.
 
 <!--SOLO:BREVE-->
 Los autores utilizaron el asistente de inteligencia artificial Claude (Anthropic, modelo Opus 5)
-entre el 29 de julio y el 16 de septiembre de 2026 para: (a) implementar y depurar el código de
+entre el 29 de julio y el 18 de septiembre de 2026 para: (a) implementar y depurar el código de
 análisis; (b) apoyo de redacción y edición de estilo sobre contenidos definidos por los autores; y
 (c) traducir al inglés el título y el resumen. El trabajo se realizó en sesiones de trabajo
 sucesivas y no mediante una red acotada de prompts; el registro auditable del proceso es el
