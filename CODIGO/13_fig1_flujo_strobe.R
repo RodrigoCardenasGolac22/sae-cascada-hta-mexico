@@ -39,7 +39,7 @@ stopifnot(n_final == pooled$n_final)  # verificacion aritmetica antes de dibujar
 pasos <- tibble::tibble(
   paso = c(
     "Entrevistados,\nadultos ENSANUT 2021-2024",
-    "PA válida por lectura\n(PAS≥80, PAD≥50 mmHg;\n28 lecturas invertidas anuladas)",
+    "PA válida por lectura\n(PAS 80-270, PAD 50-180 mmHg)",
     "Sin embarazo actual",
     "Base analítica final\n(con peso de diseño)",
     "Con HTA (criterio ESH:\n≥140/90 o Dx previo)",

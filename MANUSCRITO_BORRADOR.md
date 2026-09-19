@@ -367,7 +367,7 @@ previo con los mismos datos (3).
 
 <!--SOLO:BREVE-->
 La presión arterial se consideró válida si sistólica ≥80 y diastólica ≥50 mmHg
-(criterio ENSANUT), promediando la 2ª y 3ª lectura. La HTA se definió como presión
+(criterio ENSANUT) y ≤270/≤180 mmHg (techo fisiológico), promediando la 2ª y 3ª lectura. La HTA se definió como presión
 arterial medida ≥140/90 mmHg (ESH) o ≥130/80 mmHg (ACC/AHA), o diagnóstico médico previo
 referido. El diagnóstico previo se definió como respuesta afirmativa a la pregunta
 correspondiente, excluyendo el código exclusivo del embarazo. El tratamiento se definió como uso
@@ -1000,8 +1000,8 @@ trabajo.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-Los autores utilizaron el asistente de inteligencia artificial Claude (Anthropic, modelo Opus 5)
-entre el 29 de julio y el 18 de septiembre de 2026 para: (a) implementar y depurar el código de
+Los autores utilizaron el asistente de inteligencia artificial Claude (Anthropic): modelo Opus 5
+entre el 29 de julio y el 20 de agosto de 2026, y modelo Sonnet 5 hasta el 18 de septiembre de 2026, para: (a) implementar y depurar el código de
 análisis; (b) apoyo de redacción y edición de estilo sobre contenidos definidos por los autores; y
 (c) traducir al inglés el título y el resumen. El trabajo se realizó en sesiones de trabajo
 sucesivas y no mediante una red acotada de prompts; el registro auditable del proceso es el
