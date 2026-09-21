@@ -91,12 +91,20 @@ No moví la etiqueta `v1.4` ni mergeé el PR #1. Sigue el orden: Vicente termina
 `.gitignore` corregido, que actualmente en el PR deja de ignorar notas internas y PDF de
 terceros) → actualizo mis generadores a las rutas nuevas.
 
-## P7. Puntos editoriales — **pendiente de decisión/contacto con la revista**
+## P7. Puntos editoriales
 
-- **Resúmenes (195/197 palabras):** la incoherencia 150 vs 200 está en las propias
-  instrucciones de la revista (Normas dice 200 para artículo original; Envíos, en un
-  fragmento suelto, dice 150). No la puedo resolver por mi cuenta — o consultamos al editor,
-  o recortamos a 150 por seguridad. Decisión de Rodrigo.
+- **Resúmenes (195/197 palabras) — cerrado, no había discrepancia.** Corrijo algo que dije
+  mal en la ronda anterior: afirmé que la revista se contradecía entre 150 y 200 palabras.
+  Era un error mío, por leer un fragmento suelto sin su contexto. Releí el párrafo completo
+  de la página "Normas" (`_norma_normas.txt`, líneas 250-264): "La extensión máxima del
+  resumen es de 200 palabras para artículos originales **y de 150 para comunicaciones
+  breves**"; el abstract en inglés repite la misma distinción. El "150" de
+  `_norma_envios.txt` (líneas 45-50) pertenece al párrafo de "Artículo breve" (otra
+  sección, máximo 1200 palabras en total) — un tipo de trabajo que no es el nuestro. Verifiqué
+  además contra la versión 2012 de las normas (Salud Publica Mex 2012;54(1):68-77, misma
+  distinción: 150 para original, 100 para breve en ese entonces), así que no es un artefacto
+  de la página actual. Nuestros resúmenes, 195 y 197 palabras, están dentro del límite de
+  200. No hay nada que acortar ni que consultar con el editor.
 - **Nombres completos:** no encontré ninguna abreviatura deducida por iniciales en el
   manuscrito actual; si Vicente tiene un caso concreto, dime cuál.
 - **Firmas:** confirmado que las cinco declaraciones y la carta están firmadas (lo verifiqué
@@ -132,6 +140,173 @@ terceros) → actualizo mis generadores a las rutas nuevas.
 2. Confirmar si alguien tiene la base analítica vigente (post-techo fisiológico) para correr
    el parche de P2 y, si aplica, la Tabla S8 de P5.
 3. Decisión P4 (alcance de la supresión: solo pantalla, o también archivos descargables).
-4. Decisión P7 (resumen a 150 o consulta a la revista).
-5. Confirmación de que `MANUSCRITO_SPM_vU1_pobreza_S5_S7.docx` puede subirse a Turnitin antes
+4. Confirmación de que `MANUSCRITO_SPM_vU1_pobreza_S5_S7.docx` puede subirse a Turnitin antes
    de darlo por definitivo.
+
+---
+
+# Ronda 2 — respuesta a 04_REVISION_DE_RESPUESTA.md
+
+## P2 — corregido lo que señalaron con razón
+
+Tenían razón en dos cosas y las corregí:
+
+1. **El parche no era código revisable.** Vivía como `.diff` dentro de `_TRABAJO_INTERNO/`,
+   que está en `.gitignore` — nadie fuera de mi sesión podía verlo. Lo apliqué directamente
+   a `CODIGO/10_validacion_cruzada.R` (que sí está versionado) y lo comenté como "pendiente
+   de correr", con la fecha y el motivo. Confirmé que el R parsea sin error. **No lo
+   ejecuté** — sigo sin la base vigente. Commit de esta ronda.
+2. **La frase del manuscrito no describía completo el comparador actual.** Decía "sin
+   estructura espacial ni covariables" pero no decía que se calcula sobre toda la muestra,
+   incluidos los municipios evaluados. La corregí:
+
+   > "...sin estructura espacial ni covariables, que incluye los municipios evaluados: no
+   > es una predicción independiente del entrenamiento."
+
+   Repropagado al paquete: auditor 62/62, 3997/4000 palabras. Guardé la versión exacta como
+   `MANUSCRITO_SPM_vV1_comparador_completo.docx` en `PRUEBAS_2026-09-18/`. **Pendiente
+   Turnitin** antes de darla por definitiva.
+
+Sobre la comprobación independiente que hicieron (SHA-256 de la base y los pesos, 25 088
+personas, 599 municipios, denominadores 7735/11597/5203/4382/4382, discrepancia cero en
+las medias de PA): coincide exactamente con lo que yo mismo había calculado sobre mi copia
+desactualizada del 2 de agosto en un mensaje anterior de esta sesión (mismos denominadores).
+Eso sugiere que la base no cambió entre el 2 de agosto y el 17 de agosto en las columnas que
+importan para esto — pero no lo doy por cerrado solo por esa coincidencia: cuando se corra
+el parche de verdad, que la reducción de RMSE resultante coincida con la tabla que ya
+compartieron (6,53→6,69 en diagnóstico-ESH, etc.) es la prueba real.
+
+## P4 — sigue abierto, sin cambios
+
+De acuerdo en que la corrección de `.gitignore` no resuelve esto. Sigue pendiente de
+decisión de Rodrigo.
+
+## P6 — corrijo mi plan: crear `v1.5`, no mover `v1.4`
+
+Tenían razón. "Mover" una etiqueta ya publicada en GitHub es reescribir una referencia
+pública — evitable y evitado por norma en este proyecto. El plan correcto es crear una
+etiqueta nueva sobre el commit final, una vez integradas las fuentes y los generadores con
+las rutas de la reorganización y regenerado el paquete. Actualizo mi nota anterior.
+
+## P7 — nombres sin abreviar: hallazgo nuevo, se lo paso a Rodrigo tal cual
+
+Tienen razón en que hay iniciales de segundo nombre en la portada del manuscrito (Vicente
+**J.** Vílchez-Díaz, Samar **S.** Sifuentes-Vidigal, Miguel **A.** Velarde-Mera, Rodrigo
+**J.** Cárdenas-Golac) y que la norma pide "nombres no abreviados". **No es algo que yo
+pueda resolver**: no sé qué nombre completo corresponde a cada inicial, y no voy a
+inventarlo. Necesito que cada autor confirme cómo quiere que figure su nombre completo.
+
+## P8 — sin cambios
+
+Sigo de acuerdo en agruparlos en una sola ronda de prueba antes de congelar el contenido
+científico.
+
+## Repropagado en la ronda 2
+
+- `CODIGO/10_validacion_cruzada.R`: parche del comparador aplicado, sin correr.
+- `MANUSCRITO_BORRADOR.md`: frase del comparador completada.
+- Paquete regenerado: auditor 62/62, 3997/4000 palabras.
+- Pendiente: Turnitin de `MANUSCRITO_SPM_vV1_comparador_completo.docx`; nombres completos
+  de los cuatro autores con inicial de segundo nombre; P1 y P4 siguen siendo decisiones de
+  Rodrigo.
+
+---
+
+# Ronda 3 — decisión de Rodrigo sobre P1, y verificación del hallazgo de nombres
+
+## P1 — decidido: opción A (probabilidades condicionales estandarizadas)
+
+Rodrigo confirmó la opción A. Apliqué tu redacción de `02_PROPUESTAS_DE_TEXTO.md` tal cual,
+reemplazando la frase anterior ("La estimación describe así a los adultos censales del
+municipio, no a sus encuestados."):
+
+> "...se predijo la probabilidad del desenlace en cada celda y se promedió ponderando por
+> su población: son probabilidades condicionales estandarizadas a la composición adulta
+> censal, no proporciones dentro de los denominadores clínicos municipales."
+
+Repropagado al paquete: auditor 62/62, **4000/4000 palabras exactas** — sin margen, cualquier
+adición futura al cuerpo principal tendrá que recortar algo primero. Guardé la versión exacta
+como `MANUSCRITO_SPM_vW1_P1_estimando_condicional.docx` en `PRUEBAS_2026-09-18/`, verificada
+párrafo a párrafo contra la anterior: solo cambia ese párrafo. **Pendiente Turnitin.**
+
+No toqué el resto del manuscrito (Resumen, Objetivos, leyendas de figuras) para no arriesgar
+el margen de palabras ni el estado de Turnitin en la misma ronda; si tras confirmar el
+resultado quieren una pasada de consistencia terminológica ahí, la preparo aparte.
+
+## Verificación del hallazgo de nombres — confirmado con la norma descargada, cita literal
+
+Releí `_norma_normas.txt` (no de memoria). La frase existe tal cual, línea 245:
+
+> "A continuación, deberá ir la lista de autores con sus nombres no abreviados, grados
+> académicos específicos y el orden en el que deberán figurar en la publicación."
+
+Es la única mención de "abreviad-" en los dos archivos de normas descargados
+(`_norma_normas.txt`, `_norma_envios.txt`); no aparece en la página de Envíos/Directrices,
+solo en Normas, sección "Página frontal". No es un hallazgo inventado. Confirmado también
+que el manuscrito actual lista a cuatro autores con una sola inicial de segundo nombre
+(Vicente J., Samar S., Miguel A., Rodrigo J.), tal como decían.
+
+Sigo sin poder resolverlo yo: la norma exige el nombre completo, no dice cuál es. Necesito
+que cada autor confirme si ese segundo nombre existe y cómo quiere que se escriba (o que
+confirme que "J."/"S."/"A." es su forma legal de firma, en cuyo caso no habría nada que
+cambiar).
+
+---
+
+# Ronda 4 — nombres completos aplicados, más una tanda de P8 de bajo costo
+
+Rodrigo confirmó los cuatro nombres completos. Aplicados en la portada del manuscrito:
+
+- Vicente **Jesús** Vílchez-Díaz
+- Samar **Saraí** Sifuentes-Vidigal
+- Miguel **Ángel** Velarde-Mera
+- Rodrigo **Javier** Cárdenas-Golac
+
+Esto no afecta el conteo de 4000 palabras (la portada queda fuera del cuerpo contado, que va
+de Introducción a Referencias).
+
+## Aviso importante: la carta y las cinco declaraciones quedaron desincronizadas
+
+`CARTA_DE_SOMETIMIENTO.docx` y las cinco `CONFLICTO_INTERESES_*.docx` ya estaban firmadas
+(llevan imágenes incrustadas), así que el generador las conservó tal cual — siguen con los
+nombres abreviados ("Rodrigo J. Cárdenas-Golac", etc.), mientras que el manuscrito ya tiene
+los nombres completos. **No armonicé eso automáticamente**: no voy a tocar un documento que
+ya tiene una firma manuscrita encima.
+
+Generé versiones nuevas, sin firmar, con los nombres completos, en una carpeta aparte:
+`PARA_FIRMAR_NOMBRES_COMPLETOS_2026-09-20/` (6 archivos: la carta y las 5 declaraciones). Los
+documentos ya firmados en `0_ENVIO_SPM/` no se tocaron ni se sobrescribieron. **Para que el
+paquete quede consistente, los cinco autores tienen que volver a firmar estas versiones
+nuevas** antes del envío; cuando eso pase, reemplazo los archivos en `0_ENVIO_SPM/` por los
+firmados.
+
+## P8 — tres correcciones adicionales de bajo costo, aplicadas
+
+Aproveché que las tres salieron a costo cero en el conteo de palabras (el tokenizador del
+auditor compensó exactamente los cambios):
+
+1. **Resumen, Conclusiones:** "ausente en diagnóstico" → "**mínimo** en diagnóstico" (Phi=0,05
+   no es evidencia de agrupamiento cero, es evidencia débil de agrupamiento pequeño; "ausente"
+   sobreclaimaba un resultado nulo).
+2. **Validación cruzada:** "**No hubo** autocorrelación espacial residual (p≥0,168)" →
+   "**Sin** autocorrelación espacial residual **detectable** (p≥0,168)" — formulación más
+   cauta, como pedían.
+3. **Prevalencia nacional:** "con los mismos **datos**" → "con las mismas **rondas**" (de
+   ENSANUT) — atribuye la comparación a las rondas de la encuesta, no a "los mismos datos" sin
+   más, que sonaba a que ambos estudios usaron exactamente el mismo procesamiento.
+
+**No toqué en esta ronda:** la reubicación de la referencia 32/24 (efectos compartidos) —
+quitarla o moverla exige editar la lista de referencias y renumerar, un cambio de más
+superficie que prefiero hacer aparte y verificar solo; y la frase de "46,7 pp" en
+Limitaciones/Discusión (mediana de "dispersión" vs. mediana de "ancho del intervalo") — el
+único fraseo que encontré sin ese costo leía peor, y no quise forzarlo en la misma ronda que
+ya toca cuatro sitios distintos del texto.
+
+## Repropagado en la ronda 4
+
+Auditor 62/62, 4000/4000 palabras exactas. Guardé la versión exacta como
+`MANUSCRITO_SPM_vX1_nombres_y_precision_P8.docx` en `PRUEBAS_2026-09-18/`, comparada
+párrafo a párrafo contra la anterior (`vW1`): solo cambian los 4 nombres de la portada y las
+3 frases de arriba. **Pendiente Turnitin** — esta ronda junta varios cambios en un solo
+archivo para no alargar el intercambio; si el resultado sube, aviso para poder aislar cuál
+de los cuatro puntos lo causó.

@@ -1,0 +1,113 @@
+{
+  "public_commit": "d1a6e149cd5573b458c5604be777a5bad920ebec",
+  "base_rows": 25088,
+  "municipalities": 599,
+  "sha256_base": "4b913f06974e6b1ccf61e5a0e8882f1689d27af59bd02487ace373a43cc00169",
+  "sha256_calibrated_weights": "3c45fabdad6250e66958b4910fbfcd2d8eb2fd3092f43c0410fd2c586427f3a0",
+  "blood_pressure_average_mismatches": 0,
+  "raw_readings_excluded_by_ceiling_among_retained_rows": 32,
+  "cv_checks": [
+    {
+      "step": "AWARE_ESH",
+      "scheme": "aleatorio",
+      "individuals": 7735,
+      "municipalities": 589,
+      "max_observed_difference": 4.996003610813204e-16,
+      "max_effective_n_difference": 4.263256414560601e-13,
+      "reduction_original_pct": 6.5284976201216764,
+      "reduction_training_only_pct": 6.694454394724136
+    },
+    {
+      "step": "AWARE_ESH",
+      "scheme": "contiguo",
+      "individuals": 7735,
+      "municipalities": 589,
+      "max_observed_difference": 4.996003610813204e-16,
+      "max_effective_n_difference": 4.263256414560601e-13,
+      "reduction_original_pct": 5.906439180929912,
+      "reduction_training_only_pct": 6.256752914193598
+    },
+    {
+      "step": "AWARE_AHA",
+      "scheme": "aleatorio",
+      "individuals": 11597,
+      "municipalities": 596,
+      "max_observed_difference": 4.996003610813204e-16,
+      "max_effective_n_difference": 2.5579538487363607e-13,
+      "reduction_original_pct": 9.809648240113766,
+      "reduction_training_only_pct": 9.884486647511482
+    },
+    {
+      "step": "AWARE_AHA",
+      "scheme": "contiguo",
+      "individuals": 11597,
+      "municipalities": 596,
+      "max_observed_difference": 4.996003610813204e-16,
+      "max_effective_n_difference": 2.5579538487363607e-13,
+      "reduction_original_pct": 9.299282916739383,
+      "reduction_training_only_pct": 9.342624241426723
+    },
+    {
+      "step": "TRAT",
+      "scheme": "aleatorio",
+      "individuals": 5203,
+      "municipalities": 576,
+      "max_observed_difference": 4.996003610813204e-16,
+      "max_effective_n_difference": 4.973799150320701e-14,
+      "reduction_original_pct": 9.84033719199191,
+      "reduction_training_only_pct": 10.0718859496998
+    },
+    {
+      "step": "TRAT",
+      "scheme": "contiguo",
+      "individuals": 5203,
+      "municipalities": 576,
+      "max_observed_difference": 4.996003610813204e-16,
+      "max_effective_n_difference": 4.973799150320701e-14,
+      "reduction_original_pct": 8.368751054808243,
+      "reduction_training_only_pct": 8.982531571529206
+    },
+    {
+      "step": "CONTROL_ESH",
+      "scheme": "aleatorio",
+      "individuals": 4382,
+      "municipalities": 558,
+      "max_observed_difference": 5.551115123125783e-16,
+      "max_effective_n_difference": 4.973799150320701e-14,
+      "reduction_original_pct": 2.2944270394221644,
+      "reduction_training_only_pct": 2.352292450122051
+    },
+    {
+      "step": "CONTROL_ESH",
+      "scheme": "contiguo",
+      "individuals": 4382,
+      "municipalities": 558,
+      "max_observed_difference": 5.551115123125783e-16,
+      "max_effective_n_difference": 4.973799150320701e-14,
+      "reduction_original_pct": 1.728259918930064,
+      "reduction_training_only_pct": 1.9933949758854652
+    },
+    {
+      "step": "CONTROL_AHA",
+      "scheme": "aleatorio",
+      "individuals": 4382,
+      "municipalities": 558,
+      "max_observed_difference": 4.996003610813204e-16,
+      "max_effective_n_difference": 4.973799150320701e-14,
+      "reduction_original_pct": 1.3475447656072892,
+      "reduction_training_only_pct": 1.3127677037353735
+    },
+    {
+      "step": "CONTROL_AHA",
+      "scheme": "contiguo",
+      "individuals": 4382,
+      "municipalities": 558,
+      "max_observed_difference": 4.996003610813204e-16,
+      "max_effective_n_difference": 4.973799150320701e-14,
+      "reduction_original_pct": 1.5054534457878854,
+      "reduction_training_only_pct": 1.8557598357489047
+    }
+  ],
+  "inla_refitted": false,
+  "official_results_modified": false
+}
