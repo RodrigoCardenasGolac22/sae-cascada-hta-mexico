@@ -142,3 +142,70 @@ terceros) → actualizo mis generadores a las rutas nuevas.
 3. Decisión P4 (alcance de la supresión: solo pantalla, o también archivos descargables).
 4. Confirmación de que `MANUSCRITO_SPM_vU1_pobreza_S5_S7.docx` puede subirse a Turnitin antes
    de darlo por definitivo.
+
+---
+
+# Ronda 2 — respuesta a 04_REVISION_DE_RESPUESTA.md
+
+## P2 — corregido lo que señalaron con razón
+
+Tenían razón en dos cosas y las corregí:
+
+1. **El parche no era código revisable.** Vivía como `.diff` dentro de `_TRABAJO_INTERNO/`,
+   que está en `.gitignore` — nadie fuera de mi sesión podía verlo. Lo apliqué directamente
+   a `CODIGO/10_validacion_cruzada.R` (que sí está versionado) y lo comenté como "pendiente
+   de correr", con la fecha y el motivo. Confirmé que el R parsea sin error. **No lo
+   ejecuté** — sigo sin la base vigente. Commit de esta ronda.
+2. **La frase del manuscrito no describía completo el comparador actual.** Decía "sin
+   estructura espacial ni covariables" pero no decía que se calcula sobre toda la muestra,
+   incluidos los municipios evaluados. La corregí:
+
+   > "...sin estructura espacial ni covariables, que incluye los municipios evaluados: no
+   > es una predicción independiente del entrenamiento."
+
+   Repropagado al paquete: auditor 62/62, 3997/4000 palabras. Guardé la versión exacta como
+   `MANUSCRITO_SPM_vV1_comparador_completo.docx` en `PRUEBAS_2026-09-18/`. **Pendiente
+   Turnitin** antes de darla por definitiva.
+
+Sobre la comprobación independiente que hicieron (SHA-256 de la base y los pesos, 25 088
+personas, 599 municipios, denominadores 7735/11597/5203/4382/4382, discrepancia cero en
+las medias de PA): coincide exactamente con lo que yo mismo había calculado sobre mi copia
+desactualizada del 2 de agosto en un mensaje anterior de esta sesión (mismos denominadores).
+Eso sugiere que la base no cambió entre el 2 de agosto y el 17 de agosto en las columnas que
+importan para esto — pero no lo doy por cerrado solo por esa coincidencia: cuando se corra
+el parche de verdad, que la reducción de RMSE resultante coincida con la tabla que ya
+compartieron (6,53→6,69 en diagnóstico-ESH, etc.) es la prueba real.
+
+## P4 — sigue abierto, sin cambios
+
+De acuerdo en que la corrección de `.gitignore` no resuelve esto. Sigue pendiente de
+decisión de Rodrigo.
+
+## P6 — corrijo mi plan: crear `v1.5`, no mover `v1.4`
+
+Tenían razón. "Mover" una etiqueta ya publicada en GitHub es reescribir una referencia
+pública — evitable y evitado por norma en este proyecto. El plan correcto es crear una
+etiqueta nueva sobre el commit final, una vez integradas las fuentes y los generadores con
+las rutas de la reorganización y regenerado el paquete. Actualizo mi nota anterior.
+
+## P7 — nombres sin abreviar: hallazgo nuevo, se lo paso a Rodrigo tal cual
+
+Tienen razón en que hay iniciales de segundo nombre en la portada del manuscrito (Vicente
+**J.** Vílchez-Díaz, Samar **S.** Sifuentes-Vidigal, Miguel **A.** Velarde-Mera, Rodrigo
+**J.** Cárdenas-Golac) y que la norma pide "nombres no abreviados". **No es algo que yo
+pueda resolver**: no sé qué nombre completo corresponde a cada inicial, y no voy a
+inventarlo. Necesito que cada autor confirme cómo quiere que figure su nombre completo.
+
+## P8 — sin cambios
+
+Sigo de acuerdo en agruparlos en una sola ronda de prueba antes de congelar el contenido
+científico.
+
+## Repropagado en la ronda 2
+
+- `CODIGO/10_validacion_cruzada.R`: parche del comparador aplicado, sin correr.
+- `MANUSCRITO_BORRADOR.md`: frase del comparador completada.
+- Paquete regenerado: auditor 62/62, 3997/4000 palabras.
+- Pendiente: Turnitin de `MANUSCRITO_SPM_vV1_comparador_completo.docx`; nombres completos
+  de los cuatro autores con inicial de segundo nombre; P1 y P4 siguen siendo decisiones de
+  Rodrigo.

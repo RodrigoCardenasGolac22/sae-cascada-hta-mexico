@@ -1,3 +1,11 @@
+# PENDIENTE DE CORRER (2026-09-20): el comparador ahora se calcula con el promedio ponderado
+# SOLO de los pliegues de entrenamiento (fuga corregida, revision de cierre P2). Antes de este
+# cambio el comparador se calculaba sobre la muestra completa, incluidos los municipios evaluados.
+# Verificado de forma independiente por Vicente sobre datos privados: el efecto es pequeno y no
+# cambia la direccion (ver TEMPORAL/04_EVIDENCIA_BASE_Y_COMPARADOR.json). Falta correrlo con la base
+# vigente y regenerar cv_detalle_*, resumen_validacion_cruzada.csv, cv_rmse_estratificado.csv,
+# Tabla S1 y Figura S1 antes de que este script se considere aplicado al paquete de envio.
+#
 # Paso 10: validacion cruzada espacial. NO es dejar-un-municipio-fuera exhaustivo (con ~600
 # municipios y ~45s por ajuste, seria ~7.5 horas de computo por outcome) -- se usa validacion
 # cruzada de 5 pliegues POR GRUPO de municipios (20% de los municipios fuera a la vez, reajustado,
@@ -97,6 +105,9 @@ for (nombre in names(especificaciones)) {
   vecinos_m <- lapply(municipios_unicos, function(m) intersect(adj[[m]], municipios_unicos))
   names(vecinos_m) <- as.character(municipios_unicos)
 
+  # Promedio nacional sobre TODA la muestra, incluidos los municipios evaluados: solo referencia
+  # descriptiva (pred_naive_global). El comparador predictivo (pred_naive) es el promedio
+  # ponderado del ENTRENAMIENTO de cada pliegue, calculado abajo.
   promedio_nacional <- weighted.mean(sub$y_real, sub$ponde_cal)
 
   for (esquema in c("aleatorio", "contiguo")) {
@@ -116,10 +127,13 @@ for (nombre in names(especificaciones)) {
                   as.numeric(difftime(t1, t0, units = "secs"))))
 
       idx_out <- which(sub_k$fold == k)
+      # Comparador sin fuga: el promedio ponderado de los pliegues de entrenamiento.
+      naive_k <- weighted.mean(sub_k$y_real[-idx_out], sub_k$ponde_cal[-idx_out])
       preds_todas[[k]] <- data.frame(
         muni_idx = sub_k$muni_idx[idx_out],
         y_real = sub_k$y_real[idx_out],
         y_pred = m_k$summary.fitted.values$mean[idx_out],
+        y_naive = naive_k,
         ponde_cal = sub_k$ponde_cal[idx_out]
       )
     }
@@ -128,8 +142,9 @@ for (nombre in names(especificaciones)) {
     por_muni <- preds_df %>% group_by(muni_idx) %>%
       summarise(obs = weighted.mean(y_real, ponde_cal),
                 pred_bym2 = weighted.mean(y_pred, ponde_cal),
+                pred_naive = weighted.mean(y_naive, ponde_cal),
                 n = n(), n_efectivo = sum(ponde_cal)^2 / sum(ponde_cal^2), .groups = "drop") %>%
-      mutate(pred_naive = promedio_nacional)
+      mutate(pred_naive_global = promedio_nacional)
 
     # Cuantos vecinos muestreados CONSERVA dentro del ajuste cada municipio retenido: la variable
     # que separa el regimen facil (vecindario intacto) del que corresponde a los municipios sin
@@ -148,6 +163,7 @@ for (nombre in names(especificaciones)) {
 
     rmse_bym2  <- sqrt(mean((por_muni$obs - por_muni$pred_bym2)^2))
     rmse_naive <- sqrt(mean((por_muni$obs - por_muni$pred_naive)^2))
+    rmse_naive_global <- sqrt(mean((por_muni$obs - por_muni$pred_naive_global)^2))
     sesgo_bym2  <- mean(por_muni$pred_bym2 - por_muni$obs)
     sesgo_naive <- mean(por_muni$pred_naive - por_muni$obs)
     rmse_irreducible <- sqrt(mean(por_muni$var_comparador))
@@ -166,6 +182,7 @@ for (nombre in names(especificaciones)) {
       paso = nombre, esquema = esquema, n_municipios = nrow(por_muni),
       ponderacion_modelo = PONDERACION_MODELO,
       rmse_bym2 = round(rmse_bym2, 4), rmse_naive = round(rmse_naive, 4),
+      rmse_naive_global = round(rmse_naive_global, 4),
       reduccion_rmse_pct = round(100 * (1 - rmse_bym2 / rmse_naive), 1),
       sesgo_bym2 = round(sesgo_bym2, 4), sesgo_naive = round(sesgo_naive, 4),
       rmse_irreducible = round(rmse_irreducible, 4),
@@ -188,7 +205,7 @@ for (nombre in names(especificaciones)) {
     # El detalle del esquema aleatorio conserva el nombre historico (16_figS1 lo consume tal
     # cual); el contiguo lleva sufijo.
     sufijo <- if (esquema == "contiguo") "_contiguo" else ""
-    write.csv(por_muni %>% select(muni_idx, obs, pred_bym2, pred_naive, n, n_efectivo,
+    write.csv(por_muni %>% select(muni_idx, obs, pred_bym2, pred_naive, pred_naive_global, n, n_efectivo,
                                   vecinos_retenidos, estrato_vecinos),
               file.path(RES, paste0("cv_detalle_", nombre, sufijo, ".csv")), row.names = FALSE)
   }

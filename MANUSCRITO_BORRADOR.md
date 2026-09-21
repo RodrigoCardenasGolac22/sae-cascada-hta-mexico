@@ -542,7 +542,8 @@ para diagnóstico y control (el tratamiento es idéntico, pues su definición no
 umbral). El modelo se validó con validación cruzada espacial de 5 pliegues municipales (17)
 —comparando error cuadrático medio y sesgo contra un promedio nacional simple— y con una prueba
 de sensibilidad a la matriz de vecindad, "reina" contra "torre". El promedio nacional simple asigna a todo
-municipio el mismo valor ponderado, sin estructura espacial ni covariables. Los mismos 5
+municipio el mismo valor ponderado, sin estructura espacial ni covariables, que incluye los
+municipios evaluados: no es una predicción independiente del entrenamiento. Los mismos 5
 desenlaces se reajustaron sin ponderar, con idénticas filas, fórmulas y previas; para
 considerarse coherentes con el modelo principal tenían que quedar dentro de lo que el criterio
 fijado de antemano toleraba —mediana absoluta menor a 2 puntos porcentuales y correlación mayor a
