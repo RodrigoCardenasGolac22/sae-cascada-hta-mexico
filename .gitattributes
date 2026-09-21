@@ -1,0 +1,17 @@
+* text=auto
+*.R text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.cff text eol=lf
+*.csv -text
+*.json -text
+*.html -text
+*.svg -text
+*.eps -text
+*.graph -text
+*.docx binary
+*.xlsx binary
+*.pptx binary
+*.png binary
+*.gpkg binary

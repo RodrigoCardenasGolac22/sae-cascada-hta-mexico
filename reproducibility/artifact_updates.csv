@@ -1,0 +1,2 @@
+path,sha256_before,sha256_after,reason
+docs/index.html,1c0515793c18f5a841953f076f321a362c458c4fe14e7b9bdb5ec4c2725bd2bc,b4e1b8cdb6b907c3055f95370af842ec498b7689342797736daa4d11a2b95d4d,Rebuild HTML from existing template and unchanged JSON; correct stale sample count and restore template synchronization.
