@@ -82,3 +82,6 @@ Thumbs.db
 __pycache__/
 *.pyc
 .venv/
+
+# Comunicacion temporal de cierre: excluida de las versiones publicadas.
+/TEMPORAL/
