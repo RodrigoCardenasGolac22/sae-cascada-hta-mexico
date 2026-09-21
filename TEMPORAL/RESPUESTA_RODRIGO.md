@@ -91,12 +91,20 @@ No moví la etiqueta `v1.4` ni mergeé el PR #1. Sigue el orden: Vicente termina
 `.gitignore` corregido, que actualmente en el PR deja de ignorar notas internas y PDF de
 terceros) → actualizo mis generadores a las rutas nuevas.
 
-## P7. Puntos editoriales — **pendiente de decisión/contacto con la revista**
+## P7. Puntos editoriales
 
-- **Resúmenes (195/197 palabras):** la incoherencia 150 vs 200 está en las propias
-  instrucciones de la revista (Normas dice 200 para artículo original; Envíos, en un
-  fragmento suelto, dice 150). No la puedo resolver por mi cuenta — o consultamos al editor,
-  o recortamos a 150 por seguridad. Decisión de Rodrigo.
+- **Resúmenes (195/197 palabras) — cerrado, no había discrepancia.** Corrijo algo que dije
+  mal en la ronda anterior: afirmé que la revista se contradecía entre 150 y 200 palabras.
+  Era un error mío, por leer un fragmento suelto sin su contexto. Releí el párrafo completo
+  de la página "Normas" (`_norma_normas.txt`, líneas 250-264): "La extensión máxima del
+  resumen es de 200 palabras para artículos originales **y de 150 para comunicaciones
+  breves**"; el abstract en inglés repite la misma distinción. El "150" de
+  `_norma_envios.txt` (líneas 45-50) pertenece al párrafo de "Artículo breve" (otra
+  sección, máximo 1200 palabras en total) — un tipo de trabajo que no es el nuestro. Verifiqué
+  además contra la versión 2012 de las normas (Salud Publica Mex 2012;54(1):68-77, misma
+  distinción: 150 para original, 100 para breve en ese entonces), así que no es un artefacto
+  de la página actual. Nuestros resúmenes, 195 y 197 palabras, están dentro del límite de
+  200. No hay nada que acortar ni que consultar con el editor.
 - **Nombres completos:** no encontré ninguna abreviatura deducida por iniciales en el
   manuscrito actual; si Vicente tiene un caso concreto, dime cuál.
 - **Firmas:** confirmado que las cinco declaraciones y la carta están firmadas (lo verifiqué
@@ -132,6 +140,5 @@ terceros) → actualizo mis generadores a las rutas nuevas.
 2. Confirmar si alguien tiene la base analítica vigente (post-techo fisiológico) para correr
    el parche de P2 y, si aplica, la Tabla S8 de P5.
 3. Decisión P4 (alcance de la supresión: solo pantalla, o también archivos descargables).
-4. Decisión P7 (resumen a 150 o consulta a la revista).
-5. Confirmación de que `MANUSCRITO_SPM_vU1_pobreza_S5_S7.docx` puede subirse a Turnitin antes
+4. Confirmación de que `MANUSCRITO_SPM_vU1_pobreza_S5_S7.docx` puede subirse a Turnitin antes
    de darlo por definitivo.
