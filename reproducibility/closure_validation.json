@@ -1,0 +1,95 @@
+{
+  "reference_author_commit": "bbbc4fe",
+  "inla_refitted": false,
+  "cv_results_updated": true,
+  "input_sha256": {
+    "sha256_base": "4b913f06974e6b1ccf61e5a0e8882f1689d27af59bd02487ace373a43cc00169",
+    "sha256_calibrated_weights": "3c45fabdad6250e66958b4910fbfcd2d8eb2fd3092f43c0410fd2c586427f3a0"
+  },
+  "cv_checks": [
+    {
+      "step": "AWARE_ESH",
+      "scheme": "aleatorio",
+      "reduction_rmse_pct": 6.694454394724159,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    },
+    {
+      "step": "AWARE_ESH",
+      "scheme": "contiguo",
+      "reduction_rmse_pct": 6.256752914193586,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    },
+    {
+      "step": "AWARE_AHA",
+      "scheme": "aleatorio",
+      "reduction_rmse_pct": 9.884486647511492,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    },
+    {
+      "step": "AWARE_AHA",
+      "scheme": "contiguo",
+      "reduction_rmse_pct": 9.342624241426723,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    },
+    {
+      "step": "TRAT",
+      "scheme": "aleatorio",
+      "reduction_rmse_pct": 10.0718859496998,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    },
+    {
+      "step": "TRAT",
+      "scheme": "contiguo",
+      "reduction_rmse_pct": 8.982531571529218,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    },
+    {
+      "step": "CONTROL_ESH",
+      "scheme": "aleatorio",
+      "reduction_rmse_pct": 2.352292450122051,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    },
+    {
+      "step": "CONTROL_ESH",
+      "scheme": "contiguo",
+      "reduction_rmse_pct": 1.9933949758854652,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    },
+    {
+      "step": "CONTROL_AHA",
+      "scheme": "aleatorio",
+      "reduction_rmse_pct": 1.3127677037353958,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    },
+    {
+      "step": "CONTROL_AHA",
+      "scheme": "contiguo",
+      "reduction_rmse_pct": 1.8557598357489047,
+      "bym2_observed_n_neff_neighbours_unchanged": true,
+      "folds_unchanged": true
+    }
+  ],
+  "supplement_previous_tables_preserved_except_S1": true,
+  "new_S8_panels": 2,
+  "treated_eligible_missing_poverty_final_n": [
+    4388,
+    6,
+    4382
+  ],
+  "municipal_estimates_and_explorer_data_unchanged": true,
+  "review_word_counts": {
+    "total_including_references_and_annex_preamble": 3953,
+    "spanish_abstract": 196,
+    "english_abstract": 199
+  },
+  "review_word_is_not_final_signed_submission": true
+}

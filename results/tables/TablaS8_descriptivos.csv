@@ -1,0 +1,76 @@
+"grupo","n_denominador","variable","categoria","n","valor_ponderado","de_ponderada"
+"Total",25088,"edad","Media (DE), anios",25088,44.3492073532306,16.6261630394568
+"Total",25088,"sexo","Hombres",9361,48.391747211373,NA
+"Total",25088,"sexo","Mujeres",15727,51.608252788627,NA
+"Total",25088,"estrato","Rural",6679,19.8175209755854,NA
+"Total",25088,"estrato","Urbano",7642,29.3309251695797,NA
+"Total",25088,"estrato","Metropolitano",10767,50.851553854835,NA
+"Total",25088,"escolaridad","Sin escolaridad",1551,4.47042746062791,NA
+"Total",25088,"escolaridad","Primaria o menos",7010,21.9540507484621,NA
+"Total",25088,"escolaridad","Secundaria",7346,28.4346771199299,NA
+"Total",25088,"escolaridad","Preparatoria/tecnico",5209,24.4576098468454,NA
+"Total",25088,"escolaridad","Superior",3972,20.6832348241348,NA
+"Total",25088,"anio","2021",8066,24.839462892665,NA
+"Total",25088,"anio","2022",8639,25.0684655114354,NA
+"Total",25088,"anio","2023",3108,25.2690858919823,NA
+"Total",25088,"anio","2024",5275,24.8229857039173,NA
+"HTA_ESH",7735,"edad","Media (DE), anios",7735,55.5292930861321,15.9239499213705
+"HTA_ESH",7735,"sexo","Hombres",3000,50.9942597128977,NA
+"HTA_ESH",7735,"sexo","Mujeres",4735,49.0057402871023,NA
+"HTA_ESH",7735,"estrato","Rural",1999,19.7309180875701,NA
+"HTA_ESH",7735,"estrato","Urbano",2331,29.2734724087773,NA
+"HTA_ESH",7735,"estrato","Metropolitano",3405,50.9956095036527,NA
+"HTA_ESH",7735,"escolaridad","Sin escolaridad",801,7.55768434534156,NA
+"HTA_ESH",7735,"escolaridad","Primaria o menos",3063,32.8447258399818,NA
+"HTA_ESH",7735,"escolaridad","Secundaria",2009,28.3860723684181,NA
+"HTA_ESH",7735,"escolaridad","Preparatoria/tecnico",1109,17.7982606458879,NA
+"HTA_ESH",7735,"escolaridad","Superior",753,13.4132568003706,NA
+"HTA_ESH",7735,"anio","2021",2364,23.7809797559771,NA
+"HTA_ESH",7735,"anio","2022",2786,25.476844709848,NA
+"HTA_ESH",7735,"anio","2023",1017,27.6453527054403,NA
+"HTA_ESH",7735,"anio","2024",1568,23.0968228287346,NA
+"HTA_AHA",11597,"edad","Media (DE), anios",11597,51.3325165088711,16.5319648337181
+"HTA_AHA",11597,"sexo","Hombres",4864,53.9721411906753,NA
+"HTA_AHA",11597,"sexo","Mujeres",6733,46.0278588093247,NA
+"HTA_AHA",11597,"estrato","Rural",3046,19.7306139598157,NA
+"HTA_AHA",11597,"estrato","Urbano",3546,29.8817766201686,NA
+"HTA_AHA",11597,"estrato","Metropolitano",5005,50.3876094200157,NA
+"HTA_AHA",11597,"escolaridad","Sin escolaridad",1010,6.03723872317038,NA
+"HTA_AHA",11597,"escolaridad","Primaria o menos",4119,28.9957486902863,NA
+"HTA_AHA",11597,"escolaridad","Secundaria",3170,28.2567623080812,NA
+"HTA_AHA",11597,"escolaridad","Preparatoria/tecnico",1895,20.3339867253695,NA
+"HTA_AHA",11597,"escolaridad","Superior",1403,16.3762635530926,NA
+"HTA_AHA",11597,"anio","2021",3626,24.9123167326249,NA
+"HTA_AHA",11597,"anio","2022",4181,26.4303445249515,NA
+"HTA_AHA",11597,"anio","2023",1505,26.6229154861741,NA
+"HTA_AHA",11597,"anio","2024",2285,22.0344232562496,NA
+"Diagnosticados",5203,"edad","Media (DE), anios",5203,57.6543311565518,15.187789746502
+"Diagnosticados",5203,"sexo","Hombres",1667,43.8615623882374,NA
+"Diagnosticados",5203,"sexo","Mujeres",3536,56.1384376117626,NA
+"Diagnosticados",5203,"estrato","Rural",1290,18.5211200318468,NA
+"Diagnosticados",5203,"estrato","Urbano",1558,28.1910123708686,NA
+"Diagnosticados",5203,"estrato","Metropolitano",2355,53.2878675972846,NA
+"Diagnosticados",5203,"escolaridad","Sin escolaridad",544,7.8763400776977,NA
+"Diagnosticados",5203,"escolaridad","Primaria o menos",2126,33.6846253658652,NA
+"Diagnosticados",5203,"escolaridad","Secundaria",1324,27.4968647967481,NA
+"Diagnosticados",5203,"escolaridad","Preparatoria/tecnico",724,17.7350953648089,NA
+"Diagnosticados",5203,"escolaridad","Superior",485,13.2070743948801,NA
+"Diagnosticados",5203,"anio","2021",1607,23.345165605396,NA
+"Diagnosticados",5203,"anio","2022",1778,23.0353890102733,NA
+"Diagnosticados",5203,"anio","2023",692,27.233311279822,NA
+"Diagnosticados",5203,"anio","2024",1126,26.3861341045087,NA
+"Tratados",4388,"edad","Media (DE), anios",4388,60.0624184239519,14.1871182618043
+"Tratados",4388,"sexo","Hombres",1332,41.5114433845745,NA
+"Tratados",4388,"sexo","Mujeres",3056,58.4885566154255,NA
+"Tratados",4388,"estrato","Rural",1069,17.1960094093562,NA
+"Tratados",4388,"estrato","Urbano",1291,27.7417069623572,NA
+"Tratados",4388,"estrato","Metropolitano",2028,55.0622836282866,NA
+"Tratados",4388,"escolaridad","Sin escolaridad",485,8.21525579600403,NA
+"Tratados",4388,"escolaridad","Primaria o menos",1862,35.5679423186873,NA
+"Tratados",4388,"escolaridad","Secundaria",1068,25.5409261779658,NA
+"Tratados",4388,"escolaridad","Preparatoria/tecnico",575,17.3247875059762,NA
+"Tratados",4388,"escolaridad","Superior",398,13.3510882013667,NA
+"Tratados",4388,"anio","2021",1348,24.0352959054072,NA
+"Tratados",4388,"anio","2022",1529,23.4005250095479,NA
+"Tratados",4388,"anio","2023",568,27.0219863224947,NA
+"Tratados",4388,"anio","2024",943,25.5421927625503,NA

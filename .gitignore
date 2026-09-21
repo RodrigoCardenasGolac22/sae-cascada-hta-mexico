@@ -36,6 +36,7 @@ PLANTILLA_DJ_*
 /analysis/18b_*.py
 /analysis/19_*.R
 /analysis/21_*.R
+!/analysis/21_material_suplementario.R
 /analysis/22_*.R
 /analysis/23_*.py
 /analysis/24_*.py

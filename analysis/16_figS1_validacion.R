@@ -64,8 +64,8 @@ panel_a <- ggplot(detalle, aes(x = obs, y = pred_bym2)) +
 panel_b <- ggplot(resumen, aes(x = paso_label, y = reduccion_rmse_pct)) +
   geom_col(fill = "#2166ac", width = 0.6) +
   geom_text(aes(label = fmt_es_rango(sprintf("%.1f%%", reduccion_rmse_pct))), vjust = -0.4, size = 3.3) +
-  labs(x = NULL, y = "Reducción de RMSE\nBYM2 vs. promedio nacional simple (%)",
-       title = "B) Ganancia del modelo espacial sobre una línea base simple no ajustada, por paso") +
+  labs(x = NULL, y = "Reducción de RMSE\nBYM2 vs. promedio de entrenamiento (%)",
+       title = "B) Ganancia del modelo espacial sobre el promedio ponderado de entrenamiento, por paso") +
   scale_y_continuous(
     limits = c(0, max(resumen$reduccion_rmse_pct) * 1.25),
     labels = function(x) fmt_es_rango(format(x, nsmall = 1, trim = TRUE))

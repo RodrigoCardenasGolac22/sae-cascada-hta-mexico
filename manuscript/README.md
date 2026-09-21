@@ -1,9 +1,9 @@
 # Manuscrito y suplemento
 
-- `manuscript.md`: fuente pública de `origin/main` al 20 de septiembre de 2026 (`d1a6e14`). Conserva bloques `SOLO:BREVE` (SPM) y `SOLO:EXTENSA` (formato previo).
-- `supplement/MATERIAL_SUPLEMENTARIO.docx`: suplemento público con S2B, las correcciones de S3/S4 y las de notación KS/conectividad de `d1a6e14`. Estas últimas son posteriores al ZIP del 20 de septiembre inspeccionado durante la segunda ronda.
+- `manuscript.md`: incorpora las decisiones de los autores hasta `bbbc4fe` y la revisión de cierre: estimando estandarizado, comparador de entrenamiento, Tabla S8 y precisiones editoriales. Conserva bloques `SOLO:BREVE` (SPM) y `SOLO:EXTENSA` (formato previo).
+- `supplement/MATERIAL_SUPLEMENTARIO.docx`: reconstruido con el comparador corregido en S1, Figura S1 y nueva S8. Las celdas de S2-S7 conservan exactamente las correcciones publicadas anteriormente.
 
-El archivo fuente tiene referencias a generadores editoriales que no están publicados en el repositorio. Su mera presencia aquí no permite regenerar todo el paquete Word. Las copias locales de generadores de agosto deben contrastarse con la versión que produjo los documentos del 18 de septiembre antes de incorporarlas.
+El suplemento se reproduce con `analysis/21_material_suplementario.R`, incorporado y contrastado contra las tablas públicas. La fuente del manuscrito y los generadores privados de formularios son procesos distintos: esta rama no reconstruye las firmas ni acredita que el paquete de envío esté completo. Se generó un Word local de revisión con los generadores disponibles; su recuento se registra en `reproducibility/closure_validation.json`, sin sustituir la comprobación del Word final de los autores.
 
 Los documentos de envío, contactos, cartas y declaraciones firmadas se mantienen fuera de Git o en `private/` y `submission/`, rutas ignoradas. La correspondencia del manuscrito público utiliza un marcador; no deben incorporarse firmas ni datos personales de contacto como parte de la reorganización.
 

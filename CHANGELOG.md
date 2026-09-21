@@ -1,5 +1,14 @@
 # Historial de cambios
 
+## Sin publicar — 2026-09-21
+
+- Integradas las decisiones de los autores hasta `bbbc4fe`: estimando condicional estandarizado y nombres completos; actualizados también los metadatos de citación.
+- Ejecutada la corrección del comparador de validación con entrenamiento exclusivo en cada pliegue. Se conservan predicciones BYM2, observados y pliegues; no se reajusta INLA. Actualizados detalle, resumen, estratos, Tabla S1 y Figura S1.
+- Añadida la Tabla S8 de características y faltantes por denominador, con generador, CSV, Excel y referencias STROBE.
+- Publicado el generador del suplemento y reconstruido el Word. Verificadas celda a celda las tablas previas S2-S7; permanecen sin cambios.
+- Armonizada la interpretación en objetivos, resúmenes, texto, Figura 2 y explorador; corregida la descripción del ancho del intervalo y retirada la cita del análisis de efectos compartidos no realizado.
+- Actualizados manifiestos y registro `reproducibility/closure_validation.json`. La supresión descargable y el cierre del paquete firmado siguen pendientes; `v1.5` está prevista y no se ha creado.
+
 ## Sin publicar — 2026-09-20
 
 - Integradas las correcciones hasta `d1a6e14`: motivo de pobreza faltante en la fuente, precisión del checklist y notas de KS/conectividad en el suplemento. Se mantiene la comunicación temporal incorporada en `main`.

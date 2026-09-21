@@ -16,4 +16,4 @@ Las siglas `AWARE_ESH`, `AWARE_AHA`, `TRAT`, `CONTROL_ESH` y `CONTROL_AHA` ident
 
 En los CSV nacionales, `suprimir_privacidad=TRUE` identifica municipios con muestra directa menor que 10 para el desenlace. Las figuras y el explorador ocultan su estimación en pantalla; los CSV y el JSON del explorador actualmente conservan los valores. Por tanto, estos archivos no implementan supresión de datos en su contenido. Una política futura de supresión también en descargas requiere revisar CSV, JSON, HTML embebido y el historial público en conjunto.
 
-El cambio de estructura preserva los artefactos publicados: no añade una nueva validación metodológica ni altera la política existente de divulgación.
+El cierre conserva las estimaciones municipales y corrige el comparador de validación para calcularlo solo con entrenamiento. Se añade la Tabla S8 de características y faltantes. La política existente de divulgación no se modifica sin la decisión de los autores.

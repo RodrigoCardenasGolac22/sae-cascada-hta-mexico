@@ -5,7 +5,7 @@
 - `sessionInfo.txt`: registro original de R 4.6.0, INLA 25.10.19 y paquetes de la corrida disponible. Se conserva sin atribuirlo a una ejecución nueva.
 - `r-packages.csv`: extracción de versiones de ese registro; no es un `renv.lock` ni garantiza disponibilidad de todos los binarios.
 - `path_migration.csv`: equivalencia de cada archivo versionado antes y después de reorganizarlo, con el SHA-256 de su contenido original en Git (`af9aacc`). La referencia usa los blobs de Git, independientes de la conversión automática LF/CRLF de Windows.
-- `artifact_updates.csv`: excepciones explícitas a la conservación del hash. Registra la reconstrucción del HTML y las correcciones de suplemento/checklist de los autores del 20 de septiembre, con hash anterior, posterior y motivo. Los hashes originales de `path_migration.csv` permanecen como referencia histórica.
+- `artifact_updates.csv`: cambios documentados respecto de la migración, incluidos el comparador corregido, las figuras, el suplemento y STROBE; registra hash anterior, posterior y motivo. Los hashes de `path_migration.csv` permanecen como referencia histórica.
 - `verify_repository.py`: comprobación de integridad de artefactos conservados y rutas del repositorio, sin dependencias externas.
 
 ## Ejecutar y verificar
@@ -26,8 +26,28 @@ El registro `sessionInfo.txt` solo se actualiza tras una corrida completa. La co
 
 ## Límites conocidos
 
-La rama de cierre cambia rutas y ejecución de artefactos; conserva los resultados de la corrida disponible. No se realizó un nuevo ajuste completo de INLA durante esa reorganización. Las versiones exactas de las descargas externas y el preprocesamiento original de CONEVAL no están completamente documentados. El cálculo opcional de altitud requiere `terra` y `geodata`, que no figuran en la sesión original del análisis principal.
+La rama de cierre conserva los modelos y las predicciones BYM2 de la corrida disponible. Corrige el comparador de validación, recalculado exclusivamente en entrenamiento, y añade descriptivos y faltantes. No se realizó un nuevo ajuste de INLA. Las versiones exactas de las descargas externas y el preprocesamiento original de CONEVAL no están completamente documentados. El cálculo opcional de altitud requiere `terra` y `geodata`, que no figuran en la sesión original del análisis principal.
 
 En Windows se había documentado que INLA puede fallar bajo rutas con caracteres acentuados. Para reproducir los ajustes, use una ruta local ASCII y PowerShell. Esta precaución proviene del entorno del estudio, no de una nueva prueba de todas las versiones de INLA.
 
-Los generadores editoriales completos no forman parte de esta rama; la reproducción de los análisis y la construcción del paquete de envío son procesos distintos.
+El generador público `analysis/21_material_suplementario.R` reconstruye el suplemento completo desde las tablas y figuras, incluida S8. Los generadores privados de cartas, firmas y del paquete de envío no forman parte de esta rama.
+
+## Corrección del comparador sin reajustar INLA
+
+Con la misma base, pesos, especificación, pliegues y predicciones guardadas de la corrida verificada, ejecutar en PowerShell:
+
+```powershell
+$env:CV_REUTILIZAR_BYM2 = "1"
+Rscript analysis/10_validacion_cruzada.R
+Remove-Item Env:CV_REUTILIZAR_BYM2
+Rscript analysis/16_figS1_validacion.R
+Rscript analysis/18_tablas.R
+Rscript analysis/18c_descriptivos_muestra.R
+$env:REVISTA = "SPM"
+Rscript analysis/20_checklist_strobe.R
+Rscript analysis/21_material_suplementario.R
+```
+
+El modo de reutilización valida coincidencia municipal de observados, conteos y tamaños efectivos antes de recalcular el promedio de entrenamiento. Conserva `pred_bym2` y añade `pred_naive_global` como referencia descriptiva. Debe usarse únicamente para esta corrección del comparador sobre los mismos ajustes guardados, no después de cambiar el modelo. Sin la variable se ejecuta la validación completa con INLA. Los insumos individuales permanecen excluidos de Git.
+
+`TablaS8_descriptivos.csv` y `TablaS8_faltantes.csv` describen las poblaciones elegibles antes de excluir covariables faltantes; sus columnas se superponen. Los conteos no están ponderados. Medias, dispersión descriptiva y porcentajes usan el ponderador calibrado; no son errores estándar ni intervalos del diseño de encuesta.

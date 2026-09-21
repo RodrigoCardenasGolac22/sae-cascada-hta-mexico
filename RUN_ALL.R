@@ -47,7 +47,9 @@ pasos <- c(
   "20_checklist_strobe.R",        # checklist STROBE
   "24_datos_explorador.R",        # docs/datos.json para el explorador municipal
   "05b_conectividad_grafo.R",     # Tabla S7; conserva posiciones historicas 1-25
-  "25_explorador_html.py"         # embeber JSON e idiomas en docs/index.html
+  "25_explorador_html.py",        # embeber JSON e idiomas en docs/index.html
+  "18c_descriptivos_muestra.R",   # Tabla S8; requiere base y ponderadores privados
+  "21_material_suplementario.R"   # suplemento completo, incluidas S1 y S8 actualizadas
 )
 
 args  <- commandArgs(trailingOnly = TRUE)

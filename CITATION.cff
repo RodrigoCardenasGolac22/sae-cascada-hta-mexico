@@ -4,19 +4,19 @@ title: "Estimación bayesiana de área pequeña de la cascada de atención de la
 type: software
 authors:
   - family-names: "Vílchez-Díaz"
-    given-names: "Vicente J."
+    given-names: "Vicente Jesús"
     orcid: "https://orcid.org/0009-0007-3755-8226"
   - family-names: "García-Ruiz"
     given-names: "Oriana"
     orcid: "https://orcid.org/0000-0002-7233-9703"
   - family-names: "Sifuentes-Vidigal"
-    given-names: "Samar S."
+    given-names: "Samar Saraí"
     orcid: "https://orcid.org/0009-0006-8564-8317"
   - family-names: "Velarde-Mera"
-    given-names: "Miguel A."
+    given-names: "Miguel Ángel"
     orcid: "https://orcid.org/0009-0009-6073-9767"
   - family-names: "Cárdenas-Golac"
-    given-names: "Rodrigo J."
+    given-names: "Rodrigo Javier"
     orcid: "https://orcid.org/0009-0005-4444-1523"
 license: MIT
 repository-code: "https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico"

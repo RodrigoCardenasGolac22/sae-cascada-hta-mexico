@@ -118,7 +118,7 @@ hacer_mapa <- function(d, titulo, con_norte_escala = FALSE) {
   p <- ggplot(mm) +
     geom_sf(aes(fill = relleno, alpha = fuente), color = "grey40", linewidth = 0.04) +
     geom_sf(data = contorno_pais, fill = NA, color = "black", linewidth = 0.35) +
-    scale_fill_manual(name = "Prevalencia", values = valores_relleno,
+    scale_fill_manual(name = "Probabilidad\nestandarizada", values = valores_relleno,
                       breaks = names(colores_clase), labels = names(colores_clase),
                       drop = FALSE) +
     # Todos a 1: la escala se conserva SOLO para que siga existiendo la leyenda

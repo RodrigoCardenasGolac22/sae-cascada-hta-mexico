@@ -1,6 +1,6 @@
-"paso","n_municipios","ponderacion_modelo","rmse_bym2","rmse_naive","reduccion_rmse_pct","sesgo_bym2","sesgo_naive","rmse_irreducible","n_municipios_n30","rmse_n30","rmse_naive_n30","pct_retenidos_sin_vecinos","rmse_bym2_contiguo","rmse_naive_contiguo","reduccion_rmse_pct_contiguo","sesgo_bym2_contiguo","rmse_n30_contiguo","pct_retenidos_sin_vecinos_contiguo"
-"AWARE_ESH",589,"ponde_cal/media_municipal",0.2308,0.2469,6.5,-0.0026,0.0162,0.1692,50,0.109,0.1103,18.5,0.2323,0.2469,5.9,-0.0017,0.1076,72.5
-"AWARE_AHA",596,"ponde_cal/media_municipal",0.1949,0.2161,9.8,0.0035,0.0157,0.1571,94,0.119,0.1292,18.3,0.196,0.2161,9.3,0.0071,0.1185,70.6
-"TRAT",576,"ponde_cal/media_municipal",0.2218,0.246,9.8,-0.0025,0.0094,0.152,32,0.1023,0.1185,17.7,0.2254,0.246,8.4,7e-04,0.115,85.2
-"CONTROL_ESH",558,"ponde_cal/media_municipal",0.2928,0.2997,2.3,0.0034,0.0153,0.1862,27,0.1011,0.1066,20.3,0.2945,0.2997,1.7,0.0071,0.1026,71.9
-"CONTROL_AHA",558,"ponde_cal/media_municipal",0.2984,0.3024,1.3,0.0222,0.0194,0.1838,27,0.1378,0.1449,20.3,0.2979,0.3024,1.5,0.0211,0.1442,71.9
+"paso","n_municipios","ponderacion_modelo","rmse_bym2","rmse_naive","rmse_naive_global","reduccion_rmse_pct","sesgo_bym2","sesgo_naive","rmse_irreducible","n_municipios_n30","rmse_n30","rmse_naive_n30","pct_retenidos_sin_vecinos","rmse_bym2_contiguo","rmse_naive_contiguo","reduccion_rmse_pct_contiguo","sesgo_bym2_contiguo","rmse_n30_contiguo","pct_retenidos_sin_vecinos_contiguo"
+"AWARE_ESH",589,"ponde_cal/media_municipal",0.2308,0.2474,0.2469,6.7,-0.0026,0.0162,0.1692,50,0.109,0.1109,18.5,0.2323,0.2479,6.3,-0.0017,0.1076,72.5
+"AWARE_AHA",596,"ponde_cal/media_municipal",0.1949,0.2163,0.2161,9.9,0.0035,0.0157,0.1571,94,0.119,0.1296,18.3,0.196,0.2162,9.3,0.0071,0.1185,70.6
+"TRAT",576,"ponde_cal/media_municipal",0.2218,0.2466,0.246,10.1,-0.0025,0.0093,0.152,32,0.1023,0.1188,17.7,0.2254,0.2476,9,7e-04,0.115,85.2
+"CONTROL_ESH",558,"ponde_cal/media_municipal",0.2928,0.2999,0.2997,2.4,0.0034,0.0153,0.1862,27,0.1011,0.1063,20.3,0.2945,0.3005,2,0.0071,0.1026,71.9
+"CONTROL_AHA",558,"ponde_cal/media_municipal",0.2984,0.3023,0.3024,1.3,0.0222,0.0195,0.1838,27,0.1378,0.1461,20.3,0.2979,0.3035,1.9,0.0211,0.1442,71.9

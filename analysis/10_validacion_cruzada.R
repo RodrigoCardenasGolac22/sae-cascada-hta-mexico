@@ -1,10 +1,7 @@
-# PENDIENTE DE CORRER (2026-09-20): el comparador ahora se calcula con el promedio ponderado
-# SOLO de los pliegues de entrenamiento (fuga corregida, revision de cierre P2). Antes de este
-# cambio el comparador se calculaba sobre la muestra completa, incluidos los municipios evaluados.
-# Verificado de forma independiente por Vicente sobre datos privados: el efecto es pequeno y no
-# cambia la direccion (ver TEMPORAL/04_EVIDENCIA_BASE_Y_COMPARADOR.json). Falta correrlo con la base
-# vigente y regenerar cv_detalle_*, resumen_validacion_cruzada.csv, cv_rmse_estratificado.csv,
-# Tabla S1 y Figura S1 antes de que este script se considere aplicado al paquete de envio.
+# El comparador se estima SOLO con entrenamiento en cada pliegue.
+# CV_REUTILIZAR_BYM2=1 recalcula ese comparador y sus metricas conservando las
+# predicciones y pliegues publicados; valida antes observados, n y n efectivo.
+# No equivale a reajustar INLA. Sin esa variable se realiza el ajuste completo.
 #
 # Paso 10: validacion cruzada espacial. NO es dejar-un-municipio-fuera exhaustivo (con ~600
 # municipios y ~45s por ajuste, seria ~7.5 horas de computo por outcome) -- se usa validacion
@@ -46,6 +43,7 @@ GEO <- "data/processed/geography"
 COV <- "data/processed/covariates"
 set.seed(20260728)
 N_FOLDS <- 5
+reutilizar_bym2 <- identical(Sys.getenv("CV_REUTILIZAR_BYM2"), "1")
 
 base <- read_csv(file.path(RES, "base_analitica_adultos_2021_2024.csv"),
                   col_types = cols(
@@ -91,6 +89,18 @@ for (nombre in names(especificaciones)) {
   # Los dos esquemas de pliegues sobre el MISMO universo de municipios. El contiguo es
   # determinista (semilla propia dentro de asignar_pliegues_contiguos); el aleatorio depende de la
   # semilla global fijada arriba.
+  if (reutilizar_bym2) {
+    guardados <- read_csv(file.path(RES, paste0("cv_pliegues_", nombre, ".csv")),
+                          show_col_types = FALSE)
+    stopifnot(!anyDuplicated(guardados$muni_idx),
+              setequal(guardados$muni_idx, municipios_unicos),
+              all(guardados$fold_aleatorio %in% 1:N_FOLDS),
+              all(guardados$fold_contiguo %in% 1:N_FOLDS),
+              setequal(guardados$fold_aleatorio, 1:N_FOLDS),
+              setequal(guardados$fold_contiguo, 1:N_FOLDS))
+    fold_ale <- setNames(guardados$fold_aleatorio, guardados$muni_idx)
+    fold_con <- setNames(guardados$fold_contiguo, guardados$muni_idx)
+  } else {
   fold_ale <- setNames(sample(rep(1:N_FOLDS, length.out = length(municipios_unicos))),
                        municipios_unicos)
   fold_con <- asignar_pliegues_contiguos(municipios_unicos, adj, g$n, N_FOLDS)
@@ -100,6 +110,7 @@ for (nombre in names(especificaciones)) {
                        fold_aleatorio = as.integer(fold_ale[as.character(municipios_unicos)]),
                        fold_contiguo  = as.integer(fold_con[as.character(municipios_unicos)])),
             file.path(RES, paste0("cv_pliegues_", nombre, ".csv")), row.names = FALSE)
+  }
 
   # Vecinos MUESTREADOS de cada municipio (dentro del universo de este paso).
   vecinos_m <- lapply(municipios_unicos, function(m) intersect(adj[[m]], municipios_unicos))
@@ -115,6 +126,29 @@ for (nombre in names(especificaciones)) {
     sub$fold <- fold_de_municipio[as.character(sub$muni_idx)]
     stopifnot(!any(is.na(sub$fold)))
 
+    if (reutilizar_bym2) {
+      sufijo <- if (esquema == "contiguo") "_contiguo" else ""
+      por_muni <- read_csv(file.path(RES, paste0("cv_detalle_", nombre, sufijo, ".csv")),
+                           show_col_types = FALSE) %>% arrange(muni_idx)
+      actual <- sub %>% group_by(muni_idx) %>%
+        summarise(obs = weighted.mean(y_real, ponde_cal), n = n(),
+                  n_efectivo = sum(ponde_cal)^2 / sum(ponde_cal^2), .groups = "drop") %>%
+        arrange(muni_idx)
+      stopifnot(identical(por_muni$muni_idx, actual$muni_idx),
+                all(por_muni$n == actual$n),
+                max(abs(por_muni$obs - actual$obs)) < 1e-12,
+                max(abs(por_muni$n_efectivo - actual$n_efectivo)) < 1e-8,
+                all(is.finite(por_muni$pred_bym2)),
+                all(por_muni$pred_bym2 >= 0 & por_muni$pred_bym2 <= 1))
+      naive_entrenamiento <- vapply(1:N_FOLDS, function(k) {
+        entrenamiento <- sub[sub$fold != k, ]
+        stopifnot(nrow(entrenamiento) > 0)
+        weighted.mean(entrenamiento$y_real, entrenamiento$ponde_cal)
+      }, numeric(1))
+      por_muni$pred_naive <- naive_entrenamiento[fold_de_municipio[as.character(por_muni$muni_idx)]]
+      por_muni$pred_naive_global <- promedio_nacional
+      cat(sprintf("[%s | %s] BYM2 guardado validado; comparador recalculado en entrenamiento.\n", nombre, esquema))
+    } else {
     preds_todas <- list()
     for (k in 1:N_FOLDS) {
       sub_k <- sub %>% mutate(y = ifelse(fold == k, NA_real_, y_real))
@@ -145,6 +179,7 @@ for (nombre in names(especificaciones)) {
                 pred_naive = weighted.mean(y_naive, ponde_cal),
                 n = n(), n_efectivo = sum(ponde_cal)^2 / sum(ponde_cal^2), .groups = "drop") %>%
       mutate(pred_naive_global = promedio_nacional)
+    }
 
     # Cuantos vecinos muestreados CONSERVA dentro del ajuste cada municipio retenido: la variable
     # que separa el regimen facil (vecindario intacto) del que corresponde a los municipios sin
