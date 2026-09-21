@@ -4,7 +4,7 @@ Repositorio de investigación del estudio **Estimación bayesiana de área peque
 
 Incluye el análisis en R, los resultados agregados, las figuras, la fuente del manuscrito y un [explorador municipal](https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/). Los modelos BYM2 se ajustan con INLA mediante pseudo-verosimilitud ponderada; se consideran los umbrales ESH 2023 y ACC/AHA 2025.
 
-**Estado:** preparación del envío a *Salud Pública de México*. La organización actual parte del commit `af9aacc` del 18 de septiembre de 2026. El [historial](CHANGELOG.md) distingue esta instantánea de las etiquetas anteriores. Este repositorio no acredita aceptación ni envío a una revista.
+**Estado:** preparación del envío a *Salud Pública de México*. La organización actual parte del commit `af9aacc` del 18 de septiembre de 2026 e incorpora las correcciones de los autores hasta `23d0ccd` del 20 de septiembre. El [historial](CHANGELOG.md) distingue estas actualizaciones de las etiquetas anteriores. Este repositorio no acredita aceptación ni envío a una revista.
 
 ## Organización
 

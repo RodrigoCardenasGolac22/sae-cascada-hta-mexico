@@ -2,12 +2,13 @@
 
 ## Sin publicar — 2026-09-20
 
+- Integradas las correcciones de los autores de `147d9ef` y `23d0ccd`: panel B de S2, etiquetas y nota de S4, años de S3, p de Moran, ubicaciones STROBE y dos aclaraciones del manuscrito. Se conserva exactamente el contenido publicado por los autores; la integración no acredita el cierre de las observaciones metodológicas.
 - Organización en `analysis/`, `data/`, `results/`, `manuscript/` y `reproducibility/`; `docs/` conserva el explorador de GitHub Pages.
 - Actualización de rutas y eliminación de las rutas personales del cálculo opcional de altitud.
 - Incorporación al ejecutor de la Tabla S7 y de la construcción del HTML del explorador; validación de argumentos y listado de pasos.
 - Documentación de insumos, límites de reproducción, migración e integridad.
-- Los resultados numéricos, figuras, suplemento y JSON del explorador conservan el contenido de `af9aacc`. No se reajustaron los modelos.
-- Se reconstruyó el HTML desde la plantilla vigente: la página conservaba el recuento antiguo de 25 089 participantes, mientras la plantilla ya indicaba 25 088. La única actualización de artefacto está registrada en `reproducibility/artifact_updates.csv`.
+- Los resultados numéricos, figuras y JSON del explorador conservan el contenido de `af9aacc`. El suplemento y el checklist incorporan las correcciones de `23d0ccd`, registradas como actualizaciones explícitas. No se reajustaron los modelos.
+- Se reconstruyó el HTML desde la plantilla vigente: la página conservaba el recuento antiguo de 25 089 participantes, mientras la plantilla ya indicaba 25 088. Esta actualización y las del suplemento/checklist están registradas en `reproducibility/artifact_updates.csv`.
 
 ## Referencia de la entrega de septiembre de 2026
 

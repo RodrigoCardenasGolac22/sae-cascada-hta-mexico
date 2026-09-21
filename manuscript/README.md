@@ -1,7 +1,7 @@
 # Manuscrito y suplemento
 
-- `manuscript.md`: fuente pública recibida de `origin/main` al 18 de septiembre de 2026. Conserva bloques `SOLO:BREVE` (SPM) y `SOLO:EXTENSA` (formato previo).
-- `supplement/MATERIAL_SUPLEMENTARIO.docx`: suplemento público de esa misma instantánea. El documento recibido en el ZIP coincide en su contenido con este archivo; cambian únicamente metadatos de creación del contenedor.
+- `manuscript.md`: fuente pública de `origin/main` al 20 de septiembre de 2026 (`23d0ccd`). Conserva bloques `SOLO:BREVE` (SPM) y `SOLO:EXTENSA` (formato previo).
+- `supplement/MATERIAL_SUPLEMENTARIO.docx`: suplemento público actualizado con el panel B de S2 y las correcciones de S3/S4. Su contenido coincide con el ZIP del 20 de septiembre; solo difieren metadatos de creación del contenedor Word.
 
 El archivo fuente tiene referencias a generadores editoriales que no están publicados en el repositorio. Su mera presencia aquí no permite regenerar todo el paquete Word. Las copias locales de generadores de agosto deben contrastarse con la versión que produjo los documentos del 18 de septiembre antes de incorporarlas.
 

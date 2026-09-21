@@ -5,7 +5,7 @@
 - `sessionInfo.txt`: registro original de R 4.6.0, INLA 25.10.19 y paquetes de la corrida disponible. Se conserva sin atribuirlo a una ejecución nueva.
 - `r-packages.csv`: extracción de versiones de ese registro; no es un `renv.lock` ni garantiza disponibilidad de todos los binarios.
 - `path_migration.csv`: equivalencia de cada archivo versionado antes y después de reorganizarlo, con el SHA-256 de su contenido original en Git (`af9aacc`). La referencia usa los blobs de Git, independientes de la conversión automática LF/CRLF de Windows.
-- `artifact_updates.csv`: excepciones explícitas a la conservación del hash. Registra la reconstrucción del HTML desde la plantilla y los datos versionados, con hash anterior, posterior y motivo.
+- `artifact_updates.csv`: excepciones explícitas a la conservación del hash. Registra la reconstrucción del HTML y las correcciones de suplemento/checklist de los autores del 20 de septiembre, con hash anterior, posterior y motivo. Los hashes originales de `path_migration.csv` permanecen como referencia histórica.
 - `verify_repository.py`: comprobación de integridad de artefactos conservados y rutas del repositorio, sin dependencias externas.
 
 ## Ejecutar y verificar
