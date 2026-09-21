@@ -1,0 +1,23 @@
+{
+  "unprotected_rows_preserved": 18964,
+  "aggregate_analysis_files_unchanged": [
+    "resumen_validacion_cruzada.csv",
+    "cv_rmse_estratificado.csv",
+    "resumen_modelos_finales.csv",
+    "sensibilidad_ponderada.csv",
+    "resumen_cobertura_nacional.csv"
+  ],
+  "signatures_confirmed_by_project_owner": true,
+  "temporal_excluded": true,
+  "inla_refitted": false,
+  "word_counts": {
+    "total": 3949,
+    "spanish_abstract": 196,
+    "english_abstract": 199
+  },
+  "privacy_checks": {
+    "municipal_csv_files_checked": 29,
+    "suppressed_rows_checked": 10969,
+    "figure_workbooks_checked": 2
+  }
+}
