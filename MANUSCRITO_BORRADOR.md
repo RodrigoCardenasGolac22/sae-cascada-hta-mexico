@@ -492,7 +492,8 @@ La prevalencia de cada municipio se obtuvo post-estratificando las predicciones 
 la composición de su población adulta (10), no evaluándolas en un individuo representativo. Se
 construyó una tabla de celdas definidas por sexo, grupo quinquenal de edad, escolaridad y estrato
 de urbanidad, con la población que el Censo 2020 cuenta en cada celda; se predijo la probabilidad
-del desenlace en cada celda y se promedió ponderando por su población. El mismo procedimiento se
+del desenlace en cada celda y se promedió ponderando por su población. La estimación describe así a los
+adultos censales del municipio, no a sus encuestados. El mismo procedimiento se
 aplicó a todos los municipios, tuvieran o no muestra directa; el efecto BYM2 de los que no la
 tienen se estima por estructura de vecindad.
 <!--/SOLO-->
@@ -540,7 +541,8 @@ Se calculó la diferencia de prevalencia suavizada por municipio entre los crite
 para diagnóstico y control (el tratamiento es idéntico, pues su definición no depende del
 umbral). El modelo se validó con validación cruzada espacial de 5 pliegues municipales (17)
 —comparando error cuadrático medio y sesgo contra un promedio nacional simple— y con una prueba
-de sensibilidad a la matriz de vecindad, "reina" contra "torre". Los mismos 5
+de sensibilidad a la matriz de vecindad, "reina" contra "torre". El promedio nacional simple asigna a todo
+municipio el mismo valor ponderado, sin estructura espacial ni covariables. Los mismos 5
 desenlaces se reajustaron sin ponderar, con idénticas filas, fórmulas y previas; para
 considerarse coherentes con el modelo principal tenían que quedar dentro de lo que el criterio
 fijado de antemano toleraba —mediana absoluta menor a 2 puntos porcentuales y correlación mayor a
