@@ -471,8 +471,8 @@ filtro.
 
 Los tamaños de los modelos finales fueron 7735 para diagnóstico-ESH, 11 597 para
 diagnóstico-AHA, 5203 para tratamiento y 4382 para ambos modelos de control. En control se
-excluyeron seis de 4388 registros elegibles porque la pobreza no estaba disponible en tres
-municipios creados después del marco CONEVAL 2020 (Tabla S1).
+excluyeron seis de 4388 registros por falta de pobreza municipal publicada; CONEVAL carece de
+esta estimación en tres municipios del marco (Tabla S1).
 
 ### Post-estratificación censal y cobertura nacional
 

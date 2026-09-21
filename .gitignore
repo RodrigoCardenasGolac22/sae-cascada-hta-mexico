@@ -43,6 +43,30 @@ PLANTILLA_DJ_*
 /CONSTRUIR_*.R
 /_MD_*.md
 
+# Archivos privados heredados que permanecen al actualizar una copia antigua.
+/_TRABAJO_INTERNO/
+/4_HISTORICO/
+/DATOS_ENSANUT/
+/DATOS_GEO_MEXICO/
+/COVARIABLES/
+/RESULTADOS/
+/CODIGO/
+/ESTADO.md
+/ADAPTACION_*.md
+/PLAN_*.md
+/LEEME_*.md
+/LEEME_*.txt
+/INFORME_*.md
+/AUDITORIA_*.md
+/BITACORA_*.md
+/COMPARACION_*.md
+/MANUSCRITO_BORRADOR_*.docx
+
+# Referencias PDF heredadas en la raiz; los documentos propios pueden ir en manuscript/.
+/*.pdf
+/adminojs*
+/1726-4642-*
+
 # Entornos, caches y respaldos.
 .venv/
 .Rproj.user/

@@ -2,6 +2,8 @@
 
 ## Sin publicar — 2026-09-20
 
+- Integradas las correcciones hasta `d1a6e14`: motivo de pobreza faltante en la fuente, precisión del checklist y notas de KS/conectividad en el suplemento. Se mantiene la comunicación temporal incorporada en `main`.
+- Restauradas las exclusiones de `_TRABAJO_INTERNO/`, notas internas, insumos y generadores heredados que pueden permanecer al actualizar una copia antigua. Los PDF heredados en la raíz se ignoran; se permiten documentos propios bajo `manuscript/`.
 - Integradas las correcciones de los autores de `147d9ef` y `23d0ccd`: panel B de S2, etiquetas y nota de S4, años de S3, p de Moran, ubicaciones STROBE y dos aclaraciones del manuscrito. Se conserva exactamente el contenido publicado por los autores; la integración no acredita el cierre de las observaciones metodológicas.
 - Organización en `analysis/`, `data/`, `results/`, `manuscript/` y `reproducibility/`; `docs/` conserva el explorador de GitHub Pages.
 - Actualización de rutas y eliminación de las rutas personales del cálculo opcional de altitud.
