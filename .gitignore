@@ -82,3 +82,6 @@ __pycache__/
 *.bundle
 .DS_Store
 Thumbs.db
+
+# Comunicacion temporal: no forma parte de las versiones publicadas.
+/TEMPORAL/
