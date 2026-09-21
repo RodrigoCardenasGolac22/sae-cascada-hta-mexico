@@ -250,3 +250,63 @@ Sigo sin poder resolverlo yo: la norma exige el nombre completo, no dice cuál e
 que cada autor confirme si ese segundo nombre existe y cómo quiere que se escriba (o que
 confirme que "J."/"S."/"A." es su forma legal de firma, en cuyo caso no habría nada que
 cambiar).
+
+---
+
+# Ronda 4 — nombres completos aplicados, más una tanda de P8 de bajo costo
+
+Rodrigo confirmó los cuatro nombres completos. Aplicados en la portada del manuscrito:
+
+- Vicente **Jesús** Vílchez-Díaz
+- Samar **Saraí** Sifuentes-Vidigal
+- Miguel **Ángel** Velarde-Mera
+- Rodrigo **Javier** Cárdenas-Golac
+
+Esto no afecta el conteo de 4000 palabras (la portada queda fuera del cuerpo contado, que va
+de Introducción a Referencias).
+
+## Aviso importante: la carta y las cinco declaraciones quedaron desincronizadas
+
+`CARTA_DE_SOMETIMIENTO.docx` y las cinco `CONFLICTO_INTERESES_*.docx` ya estaban firmadas
+(llevan imágenes incrustadas), así que el generador las conservó tal cual — siguen con los
+nombres abreviados ("Rodrigo J. Cárdenas-Golac", etc.), mientras que el manuscrito ya tiene
+los nombres completos. **No armonicé eso automáticamente**: no voy a tocar un documento que
+ya tiene una firma manuscrita encima.
+
+Generé versiones nuevas, sin firmar, con los nombres completos, en una carpeta aparte:
+`PARA_FIRMAR_NOMBRES_COMPLETOS_2026-09-20/` (6 archivos: la carta y las 5 declaraciones). Los
+documentos ya firmados en `0_ENVIO_SPM/` no se tocaron ni se sobrescribieron. **Para que el
+paquete quede consistente, los cinco autores tienen que volver a firmar estas versiones
+nuevas** antes del envío; cuando eso pase, reemplazo los archivos en `0_ENVIO_SPM/` por los
+firmados.
+
+## P8 — tres correcciones adicionales de bajo costo, aplicadas
+
+Aproveché que las tres salieron a costo cero en el conteo de palabras (el tokenizador del
+auditor compensó exactamente los cambios):
+
+1. **Resumen, Conclusiones:** "ausente en diagnóstico" → "**mínimo** en diagnóstico" (Phi=0,05
+   no es evidencia de agrupamiento cero, es evidencia débil de agrupamiento pequeño; "ausente"
+   sobreclaimaba un resultado nulo).
+2. **Validación cruzada:** "**No hubo** autocorrelación espacial residual (p≥0,168)" →
+   "**Sin** autocorrelación espacial residual **detectable** (p≥0,168)" — formulación más
+   cauta, como pedían.
+3. **Prevalencia nacional:** "con los mismos **datos**" → "con las mismas **rondas**" (de
+   ENSANUT) — atribuye la comparación a las rondas de la encuesta, no a "los mismos datos" sin
+   más, que sonaba a que ambos estudios usaron exactamente el mismo procesamiento.
+
+**No toqué en esta ronda:** la reubicación de la referencia 32/24 (efectos compartidos) —
+quitarla o moverla exige editar la lista de referencias y renumerar, un cambio de más
+superficie que prefiero hacer aparte y verificar solo; y la frase de "46,7 pp" en
+Limitaciones/Discusión (mediana de "dispersión" vs. mediana de "ancho del intervalo") — el
+único fraseo que encontré sin ese costo leía peor, y no quise forzarlo en la misma ronda que
+ya toca cuatro sitios distintos del texto.
+
+## Repropagado en la ronda 4
+
+Auditor 62/62, 4000/4000 palabras exactas. Guardé la versión exacta como
+`MANUSCRITO_SPM_vX1_nombres_y_precision_P8.docx` en `PRUEBAS_2026-09-18/`, comparada
+párrafo a párrafo contra la anterior (`vW1`): solo cambian los 4 nombres de la portada y las
+3 frases de arriba. **Pendiente Turnitin** — esta ronda junta varios cambios en un solo
+archivo para no alargar el intercambio; si el resultado sube, aviso para poder aislar cuál
+de los cuatro puntos lo causó.

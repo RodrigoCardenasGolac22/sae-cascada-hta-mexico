@@ -64,15 +64,15 @@ municipalities
 
 **Autores:**
 
-Vicente J. Vílchez-Díaz^1,a^ https://orcid.org/0009-0007-3755-8226
+Vicente Jesús Vílchez-Díaz^1,a^ https://orcid.org/0009-0007-3755-8226
 
 Oriana García-Ruiz^2,b^ https://orcid.org/0000-0002-7233-9703
 
-Samar S. Sifuentes-Vidigal^2,b^ https://orcid.org/0009-0006-8564-8317
+Samar Saraí Sifuentes-Vidigal^2,b^ https://orcid.org/0009-0006-8564-8317
 
-Miguel A. Velarde-Mera^2,b^ https://orcid.org/0009-0009-6073-9767
+Miguel Ángel Velarde-Mera^2,b^ https://orcid.org/0009-0009-6073-9767
 
-Rodrigo J. Cárdenas-Golac^2,c^ https://orcid.org/0009-0005-4444-1523
+Rodrigo Javier Cárdenas-Golac^2,c^ https://orcid.org/0009-0005-4444-1523
 
 ^1^ Universidad Nacional de Ingeniería (UNI), Lima, Perú. ^2^ Universidad Nacional de la Amazonía
 Peruana (UNAP), Iquitos, Perú. ^a^ Bachiller en ciencia de la computación. ^b^ Estudiante de
@@ -143,7 +143,7 @@ la desplaza de forma amplia y bastante uniforme, no desigual según el lugar.
 <!--SOLO:BREVE-->
 **Conclusiones.** Existe una cascada con brechas municipales, cuantificable mediante estimación
 bayesiana de área pequeña post-estratificada. El agrupamiento geográfico fue claro en tratamiento,
-intermedio en control y ausente en diagnóstico.
+intermedio en control y mínimo en diagnóstico.
 <!--/SOLO-->
 
 **Palabras clave:** hipertensión; atención a la salud; análisis de área pequeña; teorema de Bayes;
@@ -661,7 +661,7 @@ el suavizado y la post-estratificación no distorsionan el agregado nacional.
 
 <!--SOLO:BREVE-->
 La prevalencia directa nacional de HTA-ESH fue 27,3% (intervalo de confianza al 95% [IC95%]:
-26,2-28,4), frente al 29,1-29,4% reportado por Campos-Nonato et al. con los mismos datos (3)
+26,2-28,4), frente al 29,1-29,4% reportado por Campos-Nonato et al. con las mismas rondas (3)
 (Tabla S6). El diagnóstico previo (65,9%, 63,8-68,1) y el control-ESH (64,0%, 61,3-66,7) fueron 3,0
 y 3,9 puntos porcentuales (pp) más altos que en ese estudio, y la prevalencia 1,8-2,1 pp más baja.
 El sentido de las brechas lo explican tres decisiones metodológicas declaradas en Métodos y en
@@ -810,8 +810,8 @@ pequeñas y el ponderado se mantuvo como principal (Tabla S2).
 
 <!--SOLO:BREVE-->
 El modelo BYM2 superó al promedio nacional simple en 5 comparaciones, con reducciones de
-RMSE de 1,3% a 9,8%, más modestas en control (Figura S1). No hubo autocorrelación espacial
-residual (p≥0,168), pero el exceso de curtosis alcanzó 5,43 y el PIT se apartó de la uniformidad en
+RMSE de 1,3% a 9,8%, más modestas en control (Figura S1). Sin autocorrelación espacial
+residual detectable (p≥0,168), pero el exceso de curtosis alcanzó 5,43 y el PIT se apartó de la uniformidad en
 los cinco modelos (p<0,001; Tabla S5). Frente al ajuste sin ponderar, las correlaciones fueron
 0,88-0,93 y las diferencias absolutas medianas 2,28-3,50 pp; el criterio preespecificado se
 incumplió y la discrepancia persistió con n≥30, por lo que el ponderado se mantuvo como principal
