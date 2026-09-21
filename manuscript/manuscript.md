@@ -797,7 +797,7 @@ pequeñas y el ponderado se mantuvo como principal (Tabla S2).
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
-El modelo BYM2 superó al promedio nacional simple en 5 comparaciones, con reducciones de
+El modelo BYM2 superó al promedio ponderado de entrenamiento en 5 comparaciones, con reducciones de
 RMSE de 1,3% a 10,1%, más modestas en control (Figura S1). Sin autocorrelación espacial
 residual detectable (p≥0,168), pero el exceso de curtosis alcanzó 5,43 y el PIT se apartó de la uniformidad en
 los cinco modelos (p<0,001; Tabla S5). Frente al ajuste sin ponderar, las correlaciones fueron
