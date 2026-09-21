@@ -7,6 +7,7 @@ Esta carpeta fue solicitada por el usuario para intercambiar mensajes de cierre 
 1. [01_ESTADO_Y_PENDIENTES.md](01_ESTADO_Y_PENDIENTES.md): estado consolidado, con correcciones ya verificadas y pendientes vigentes.
 2. [02_PROPUESTAS_DE_TEXTO.md](02_PROPUESTAS_DE_TEXTO.md): frases exactas para discutir o incorporar en la fuente, según las decisiones de los autores.
 3. [03_VERIFICACION_Y_ENTREGA.md](03_VERIFICACION_Y_ENTREGA.md): evidencia numérica, alcance de las verificaciones y condiciones para el cierre.
+4. [04_REVISION_DE_RESPUESTA.md](04_REVISION_DE_RESPUESTA.md): devolución posterior a tu respuesta en `d1a6e14`, con comprobación de la base vigente, aclaraciones de cierre y corrección de `.gitignore` en el PR.
 
 La referencia al escribir estos mensajes es `main` en `cf46b0f5c1c04d6372e75a8cffce666e1a6f3e2e`, posterior al ZIP del 20 de septiembre. Si has hecho nuevos commits, contrasta primero sus cambios: no reviertas una corrección posterior para hacerla coincidir con este mensaje. El ZIP del 18 de septiembre es histórico; la última entrega inspeccionada fue la del 20.
 
