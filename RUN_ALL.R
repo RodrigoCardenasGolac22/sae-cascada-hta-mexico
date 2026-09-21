@@ -49,7 +49,8 @@ pasos <- c(
   "05b_conectividad_grafo.R",     # Tabla S7; conserva posiciones historicas 1-25
   "25_explorador_html.py",        # embeber JSON e idiomas en docs/index.html
   "18c_descriptivos_muestra.R",   # Tabla S8; requiere base y ponderadores privados
-  "21_material_suplementario.R"   # suplemento completo, incluidas S1 y S8 actualizadas
+  "21_material_suplementario.R",  # suplemento completo, incluidas S1 y S8 actualizadas
+  "26_publicar_datos.py"          # supresion en archivos, JSON y HTML; siempre al final
 )
 
 args  <- commandArgs(trailingOnly = TRUE)

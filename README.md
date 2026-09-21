@@ -4,7 +4,7 @@ Repositorio de investigación del estudio **Estimación bayesiana de área peque
 
 Incluye el análisis en R, los resultados agregados, las figuras, la fuente del manuscrito y un [explorador municipal](https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/). Los modelos BYM2 se ajustan con INLA mediante pseudo-verosimilitud ponderada; se consideran los umbrales ESH 2023 y ACC/AHA 2025.
 
-**Estado:** preparación del envío a *Salud Pública de México*. La organización parte del commit `af9aacc` e incorpora las decisiones de los autores hasta `bbbc4fe`, la corrección ejecutada del comparador de validación y la Tabla S8. La versión final prevista es `v1.5`; todavía no se ha creado la etiqueta. El [historial](CHANGELOG.md) distingue estos cambios de las versiones anteriores.
+**Versión de cierre: `v1.5`.** Incorpora las decisiones de los autores, la corrección del comparador de validación, la Tabla S8 y la supresión de celdas pequeñas en archivos y descargas. Los materiales están preparados para el envío a *Salud Pública de México*; el repositorio no acredita que el artículo haya sido enviado o aceptado. El [historial](CHANGELOG.md) distingue estos cambios de las versiones anteriores.
 
 Los mapas representan probabilidades condicionales estandarizadas a la composición adulta censal, no proporciones dentro de los denominadores clínicos municipales. Las estimaciones directas de encuesta se identifican por separado.
 
@@ -48,10 +48,10 @@ Rscript RUN_ALL.R
 Para reconstruir únicamente artefactos después de disponer de las bases e intermedios del análisis:
 
 ```sh
-Rscript RUN_ALL.R 18 29
+Rscript RUN_ALL.R 18 30
 ```
 
-Los argumentos son **posiciones de la lista**, no números del nombre de archivo. Las posiciones 1–25 conservan el orden histórico; 26 calcula la Tabla S7, 27 construye el HTML, 28 genera la Tabla S8 y 29 reconstruye el suplemento. El paso 25 por sí solo genera `docs/datos.json`. Para reconstruir solo el HTML con el JSON versionado:
+Los argumentos son **posiciones de la lista**, no números del nombre de archivo. Las posiciones 1–25 conservan el orden histórico; 26 calcula la Tabla S7, 27 construye el HTML, 28 genera S8, 29 reconstruye el suplemento y 30 aplica la supresión a los archivos públicos y reconstruye el explorador. Toda regeneración de resultados debe terminar en el paso 30 antes de publicarse. Para reconstruir solo el HTML con el JSON ya suprimido:
 
 ```sh
 python analysis/25_explorador_html.py

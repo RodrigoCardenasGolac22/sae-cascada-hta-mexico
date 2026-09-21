@@ -85,3 +85,4 @@ Thumbs.db
 
 # Comunicacion temporal: no forma parte de las versiones publicadas.
 /TEMPORAL/
+/results/private/

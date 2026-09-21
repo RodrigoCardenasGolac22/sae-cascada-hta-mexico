@@ -20,7 +20,7 @@ Rscript RUN_ALL.R
 
 `RUN_ALL.R` necesita R y Python 3.10 o posterior. La variable `PYTHON` permite indicar el ejecutable de Python. ITER puede ubicarse fuera del repositorio mediante `ITER_CSV`.
 
-Una corrida parcial `Rscript RUN_ALL.R 18 27` presupone que ya existen los intermedios que consume: por ejemplo, `18_tablas.R` necesita la base analítica individual y `24_datos_explorador.R` necesita `postestratificacion_censal.csv`. Esos archivos no se redistribuyen. La construcción aislada del HTML sí funciona con el JSON versionado: `python analysis/25_explorador_html.py`.
+Una corrida parcial `Rscript RUN_ALL.R 18 30` presupone que ya existen los intermedios que consume: por ejemplo, `18_tablas.R` necesita la base analítica individual y `24_datos_explorador.R` necesita `postestratificacion_censal.csv`. Esos archivos no se redistribuyen. La construcción aislada del HTML sí funciona con el JSON ya suprimido: `python analysis/25_explorador_html.py`.
 
 El registro `sessionInfo.txt` solo se actualiza tras una corrida completa. La comprobación automática de GitHub verifica organización e integridad, no ejecuta modelos INLA, no descarga microdatos y no evalúa la validez de los supuestos científicos.
 
@@ -46,8 +46,25 @@ Rscript analysis/18c_descriptivos_muestra.R
 $env:REVISTA = "SPM"
 Rscript analysis/20_checklist_strobe.R
 Rscript analysis/21_material_suplementario.R
+python analysis/26_publicar_datos.py
 ```
 
 El modo de reutilización valida coincidencia municipal de observados, conteos y tamaños efectivos antes de recalcular el promedio de entrenamiento. Conserva `pred_bym2` y añade `pred_naive_global` como referencia descriptiva. Debe usarse únicamente para esta corrección del comparador sobre los mismos ajustes guardados, no después de cambiar el modelo. Sin la variable se ejecuta la validación completa con INLA. Los insumos individuales permanecen excluidos de Git.
 
+Después de la publicación con supresión, el detalle completo para ese modo se lee de `results/private/publication_inputs/results/estimates/`, si existe. Una descarga pública no contiene esas copias. Para recalcular métricas con todos los municipios hay que disponer de esos insumos privados o reproducir la corrida completa; no interpretar los blancos públicos como ceros.
+
 `TablaS8_descriptivos.csv` y `TablaS8_faltantes.csv` describen las poblaciones elegibles antes de excluir covariables faltantes; sus columnas se superponen. Los conteos no están ponderados. Medias, dispersión descriptiva y porcentajes usan el ponderador calibrado; no son errores estándar ni intervalos del diseño de encuesta.
+
+## Publicar con supresión
+
+`analysis/26_publicar_datos.py` es el último paso obligatorio antes de publicar una regeneración. Omite todos los campos numéricos de las filas municipales protegidas en 29 CSV, conserva identificadores y marcas, suprime valores/intervalos/n en el JSON y reconstruye el HTML. Las reclasificaciones se protegen si lo requiere cualquiera de sus desenlaces. Los originales locales se guardan bajo `results/private/publication_inputs/`, excluido de Git.
+
+Las figuras aplican el umbral también en su código de construcción. Figura S1 muestra solo puntos con n≥10, pero las métricas de su panel B mantienen todos los municipios evaluados; Figura S2 omite anchos de celdas protegidas. Los datos de figuras en Excel se verifican junto con los CSV y el explorador. No se cambian los modelos ni los resúmenes agregados del análisis por este control de publicación.
+
+```sh
+python reproducibility/publication_privacy.py --check
+python reproducibility/test_publication_privacy.py
+python reproducibility/verify_repository.py
+```
+
+CI ejecuta estas comprobaciones para impedir la reintroducción accidental de cifras o tamaños exactos. El alcance es el árbol de publicación: las versiones históricas anteriores a `v1.5` no se reescriben. La comunicación temporal y las firmas no forman parte del árbol de la versión.

@@ -128,7 +128,10 @@ for (nombre in names(especificaciones)) {
 
     if (reutilizar_bym2) {
       sufijo <- if (esquema == "contiguo") "_contiguo" else ""
-      por_muni <- read_csv(file.path(RES, paste0("cv_detalle_", nombre, sufijo, ".csv")),
+      detalle <- file.path(RES, paste0("cv_detalle_", nombre, sufijo, ".csv"))
+      privado <- file.path("results/private/publication_inputs", detalle)
+      if (file.exists(privado)) detalle <- privado
+      por_muni <- read_csv(detalle,
                            show_col_types = FALSE) %>% arrange(muni_idx)
       actual <- sub %>% group_by(muni_idx) %>%
         summarise(obs = weighted.mean(y_real, ponde_cal), n = n(),

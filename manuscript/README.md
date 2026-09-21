@@ -7,4 +7,4 @@ El suplemento se reproduce con `analysis/21_material_suplementario.R`, incorpora
 
 Los documentos de envío, contactos, cartas y declaraciones firmadas se mantienen fuera de Git o en `private/` y `submission/`, rutas ignoradas. La correspondencia del manuscrito público utiliza un marcador; no deben incorporarse firmas ni datos personales de contacto como parte de la reorganización.
 
-La revisión de cierre del paquete es independiente de la reorganización: antes de fijar una versión citada en el artículo, deberán resolverse las observaciones sobre concordancia entre texto, tablas suplementarias y archivos de datos. La etiqueta histórica `v1.4` no incluye el último commit de correcciones de septiembre; no se ha movido esa etiqueta.
+La versión citada es `v1.5`: incluye el comparador corregido, S8 y la supresión en archivos, descargas y figuras. El responsable confirmó que las firmas están completadas; esos documentos permanecen en el paquete privado y no se redistribuyen aquí. La etiqueta histórica `v1.4` se conserva intacta.

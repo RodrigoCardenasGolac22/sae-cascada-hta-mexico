@@ -264,7 +264,7 @@ def check_private_files(paths: set[str]) -> None:
     for name in sorted(paths):
         path = PurePosixPath(name)
         if (known_private.search(name) or path.suffix.lower() == ".rds"
-                or any(part.startswith("0_ENVIO") or part in {".venv", "_TRABAJO_INTERNO", "private"}
+                or any(part.startswith("0_ENVIO") or part in {".venv", "_TRABAJO_INTERNO", "private", "TEMPORAL"}
                        for part in path.parts)
                 or (name.startswith("data/raw/") and path.name not in {"README.md", ".gitkeep"})):
             error(f"Private/raw artifact is tracked or not ignored: {name}")
@@ -284,6 +284,8 @@ def check_private_files(paths: set[str]) -> None:
         "LEEME_CORRESPONDENCIA.txt",
         "_MD_BREVE.md",
         "0_ENVIO_SPM/MANUSCRITO_SPM.docx",
+        "TEMPORAL/CLAUDE.md",
+        "results/private/publication_inputs/results/estimates/NACIONAL_AWARE_ESH.csv",
     ]
     result = subprocess.run(
         ["git", "check-ignore", "--no-index", "--stdin", "-z"], cwd=ROOT,
@@ -309,6 +311,8 @@ def main() -> int:
         check_sources(public_paths)
         check_site()
         check_private_files(public_paths)
+        from publication_privacy import check as check_publication_privacy
+        COUNTS.update(check_publication_privacy(ROOT))
     except (OSError, ValueError, RuntimeError, KeyError, csv.Error) as exc:
         error(str(exc))
     for label, count in COUNTS.items():
@@ -317,7 +321,7 @@ def main() -> int:
         print("FAIL " + message)
     print("LIMIT: static paths, current publication candidates, artifact hashes and site consistency only.")
     print("LIMIT: no INLA refit, external-input validation, R execution, editorial approval or Git-history scan.")
-    print("LIMIT: aggregate small-cell disclosure policy is not assessed by this individual-file check.")
+    print("LIMIT: suppression checks cover municipal CSV, explorer data and figure workbooks; no historical Git-object scan.")
     print("FAIL" if ERRORS else "PASS")
     return 1 if ERRORS else 0
 

@@ -1,13 +1,17 @@
 # Historial de cambios
 
-## Sin publicar — 2026-09-21
+## v1.5 — 2026-09-21
+
+- Confirmado por el responsable el alcance de la supresión: se omiten estimación, intervalos, ancho y n exacto en todas las salidas municipales con denominador menor que 10. Aplicado a 29 CSV, JSON/HTML, datos de figuras y figuras de validación/incertidumbre. Se conservan identificadores y marcas de supresión.
+- Los originales analíticos se conservan localmente en una ruta privada ignorada; los modelos y los resúmenes estadísticos agregados no cambian. El paso final del pipeline aplica la política y CI detecta regresiones.
+- Retirada la comunicación temporal del árbol publicado e incorporada `/TEMPORAL/` a `.gitignore`. No forma parte de `v1.5`. Las firmas fueron confirmadas por el responsable; no se publican formularios privados.
 
 - Integradas las decisiones de los autores hasta `bbbc4fe`: estimando condicional estandarizado y nombres completos; actualizados también los metadatos de citación.
 - Ejecutada la corrección del comparador de validación con entrenamiento exclusivo en cada pliegue. Se conservan predicciones BYM2, observados y pliegues; no se reajusta INLA. Actualizados detalle, resumen, estratos, Tabla S1 y Figura S1.
 - Añadida la Tabla S8 de características y faltantes por denominador, con generador, CSV, Excel y referencias STROBE.
 - Publicado el generador del suplemento y reconstruido el Word. Verificadas celda a celda las tablas previas S2-S7; permanecen sin cambios.
 - Armonizada la interpretación en objetivos, resúmenes, texto, Figura 2 y explorador; corregida la descripción del ancho del intervalo y retirada la cita del análisis de efectos compartidos no realizado.
-- Actualizados manifiestos y registro `reproducibility/closure_validation.json`. La supresión descargable y el cierre del paquete firmado siguen pendientes; `v1.5` está prevista y no se ha creado.
+- Actualizados manifiestos, registro de validación técnica y `reproducibility/publication_privacy.json`. Se conservan las etiquetas históricas; los cambios de publicación no reescriben objetos Git anteriores.
 
 ## Sin publicar — 2026-09-20
 

@@ -412,14 +412,14 @@ function detalle(m){
   const b = document.getElementById('dBadge');
   if(!e0){ b.className='badge'; b.textContent=t('bNada'); }
   else if(e0.f===0){ b.className='badge dir'; b.textContent = t('bDirecta')+e0.n; }
-  else if(e0.f===2){ b.className='badge sup'; b.textContent = t('bSup')+e0.n+t('bSupFin'); }
+  else if(e0.f===2){ b.className='badge sup'; b.textContent = t('bSup'); }
   else { b.className='badge'; b.textContent=t('bPred'); }
 
   document.getElementById('dRows').innerHTML = Object.keys(ETQ_K).map(k=>{
     const e = m.est[k];
     if(!e) return '';
     if(e.f===2) return `<div class="row"><div class="k"><span>${t(ETQ_K[k])}</span></div>
-      <div class="v" style="color:var(--ink-muted);font-size:15px">${t('noRep')} <small>n = ${e.n}</small></div></div>`;
+      <div class="v" style="color:var(--ink-muted);font-size:15px">${t('noRep')} <small>n &lt; 10</small></div></div>`;
     const L=Math.max(0,e.lo), Hh=Math.min(100,e.hi);
     return `<div class="row">
       <div class="k"><span>${t(ETQ_K[k])}</span><span>${t('ic')} ${pc(e.lo)}–${pc(e.hi)}</span></div>

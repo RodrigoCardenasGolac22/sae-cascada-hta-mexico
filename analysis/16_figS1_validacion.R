@@ -39,7 +39,8 @@ pasos_nombres <- c(AWARE_ESH = "Diagnóstico (ESH)", AWARE_AHA = "Diagnóstico (
 detalle <- bind_rows(lapply(names(pasos_nombres), function(p) {
   read_csv(file.path(RES, paste0("cv_detalle_", p, ".csv")), col_types = cols()) %>%
     mutate(paso = pasos_nombres[p])
-})) %>% mutate(paso = factor(paso, levels = pasos_nombres))
+})) %>% filter(!is.na(n), n >= 10, !is.na(obs), !is.na(pred_bym2)) %>%
+  mutate(paso = factor(paso, levels = pasos_nombres))
 
 resumen <- read_csv(file.path(RES, "resumen_validacion_cruzada.csv"), col_types = cols()) %>%
   mutate(paso_label = factor(pasos_nombres[paso], levels = pasos_nombres))
@@ -77,7 +78,7 @@ panel_b <- ggplot(resumen, aes(x = paso_label, y = reduccion_rmse_pct)) +
 figS1 <- panel_a / panel_b +
   plot_layout(heights = c(1.1, 1)) +
   plot_annotation(
-    caption = "Compromiso computacional declarado: 5 pliegues por grupo de municipios, no dejar-un-municipio-fuera exhaustivo (~7,5 h estimadas).\n\"Observado\" y predicción = promedios municipales con el ponderador calibrado; BYM2 e IID usan las mismas filas, pesos y pliegues.",
+    caption = "Panel A: se muestran únicamente municipios con n≥10; las celdas pequeñas se suprimen.\nPanel B: RMSE agregado de todos los municipios evaluados; observados y predicciones ponderados. Cinco pliegues municipales.",
     theme = theme(plot.caption = element_text(hjust = 0.5, size = 7.5))
   )
 

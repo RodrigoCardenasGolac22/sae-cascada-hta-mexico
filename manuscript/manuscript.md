@@ -554,23 +554,13 @@ probabilidad aleatorizada (18) completan los supuestos verificados (Tabla S5).
 <!--SOLO:EXTENSA-->
 ### Control de divulgación y comunicación de incertidumbre
 
-Se aplicaron dos protecciones para riesgos distintos. Primero, un umbral de control de divulgación:
-en los municipios con muestra directa, ninguna estimación basada en menos de 10 encuestados para el
-denominador de ese paso se reporta en los mapas ni en las cifras resumen, para evitar la
-identificación indirecta desde celdas muy pequeñas; no aplica donde no hay dato individual que
-proteger. Segundo, para comunicar la confianza de las
-estimaciones —cuyo riesgo no es de identificación sino de sobreinterpretar una predicción
-incierta— se generó un mapa con el ancho del intervalo de credibilidad al 95% de cada municipio
-(Figura S2), siguiendo la práctica de The DHS Program para superficies modeladas (19).
+En municipios con muestra directa y n<10 se omiten estimación, intervalo, ancho y n exacto en mapas, archivos y descargas. Se conservan identificadores y marcas de supresión. El umbral no aplica a municipios sin muestra directa. Los análisis y resúmenes agregados utilizan la muestra completa. La Figura S2 comunica la incertidumbre de las estimaciones reportables.
 <!--/SOLO-->
 
 <!--SOLO:BREVE-->
 ### Control de divulgación y comunicación de incertidumbre
 
-Se adoptaron dos medidas de protección. Se omitió toda estimación basada en menos de 10 encuestados
-en el denominador de ese paso, para evitar la identificación indirecta; no aplica donde no hay dato
-individual que proteger. Un mapa del ancho del intervalo de credibilidad al 95% por municipio (Figura S2) comunica el
-grado de certidumbre de cada estimación.
+En municipios con muestra directa y n<10 se omiten estimación, intervalo, ancho y n exacto en mapas, archivos y descargas. Se conservan identificadores y marcas de supresión. El umbral no aplica a municipios sin muestra directa. Los análisis y resúmenes agregados utilizan la muestra completa. La Figura S2 comunica la incertidumbre de las estimaciones reportables.
 <!--/SOLO-->
 
 <!--SOLO:EXTENSA-->
@@ -969,7 +959,7 @@ Los microdatos de ENSANUT Continua son de acceso público en https://ensanut.ins
 redistribuyen. El código que reproduce íntegramente el análisis, desde
 los microdatos hasta las tablas y figuras, es público en
 https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico bajo licencia MIT. La versión
-prevista para el cierre de estos materiales es `v1.5`. Las estimaciones de los 2478 municipios, con su intervalo de
+de estos materiales es `v1.5`. Las estimaciones de los 2478 municipios, con su intervalo de
 credibilidad, se consultan en un mapa interactivo en https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/
 <!--/SOLO-->
 
@@ -979,7 +969,7 @@ credibilidad, se consultan en un mapa interactivo en https://rodrigocardenasgola
 Los microdatos de ENSANUT Continua son de acceso público en https://ensanut.insp.mx/ y no se
 redistribuyen. El código que reproduce íntegramente el análisis, desde los microdatos hasta las
 tablas y figuras, es público en https://github.com/RodrigoCardenasGolac22/sae-cascada-hta-mexico
-bajo licencia MIT; la versión prevista para el cierre es `v1.5`. Las
+bajo licencia MIT; la versión de estos materiales es `v1.5`. Las
 estimaciones de los 2478 municipios, con su intervalo de credibilidad, se consultan en
 https://rodrigocardenasgolac22.github.io/sae-cascada-hta-mexico/
 <!--/SOLO-->

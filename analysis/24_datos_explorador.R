@@ -46,10 +46,10 @@ for (p in names(pasos)) {
                  cve_ent = col_character(), cve_mun = col_character())) %>%
     transmute(id = paste0(cve_ent, cve_mun),
               paso = pasos[[p]],
-              v  = round(100 * prev, 1),
-              lo = round(100 * prev_q025, 1),
-              hi = round(100 * prev_q975, 1),
-              n  = ifelse(is.na(n_directo), 0L, as.integer(n_directo)),
+              v  = ifelse(suprimir_privacidad, NA_real_, round(100 * prev, 1)),
+              lo = ifelse(suprimir_privacidad, NA_real_, round(100 * prev_q025, 1)),
+              hi = ifelse(suprimir_privacidad, NA_real_, round(100 * prev_q975, 1)),
+              n  = ifelse(suprimir_privacidad, NA_integer_, ifelse(is.na(n_directo), 0L, as.integer(n_directo))),
               f  = ifelse(fuente == "muestra_directa", ifelse(suprimir_privacidad, 2L, 0L), 1L))
   est <- bind_rows(est, d)
 }
@@ -90,6 +90,6 @@ salida <- list(
   n_muni = nrow(mp),
   munis = munis
 )
-write_json(salida, file.path(OUT, "datos.json"), auto_unbox = TRUE, digits = NA)
+write_json(salida, file.path(OUT, "datos.json"), auto_unbox = TRUE, digits = NA, na = "null")
 cat("Guardado:", file.path(OUT, "datos.json"),
     sprintf("(%.2f MB, %d municipios)\n", file.size(file.path(OUT, "datos.json"))/1024^2, nrow(mp)))

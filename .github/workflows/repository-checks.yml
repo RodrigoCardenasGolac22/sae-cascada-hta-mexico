@@ -16,3 +16,5 @@ jobs:
           python-version: '3.12'
       - name: Verify paths and preserved research artifacts
         run: python reproducibility/verify_repository.py
+      - name: Prevent re-publication of suppressed municipal cells
+        run: python reproducibility/test_publication_privacy.py

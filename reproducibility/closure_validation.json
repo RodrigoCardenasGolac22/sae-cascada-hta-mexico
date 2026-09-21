@@ -85,11 +85,12 @@
     6,
     4382
   ],
-  "municipal_estimates_and_explorer_data_unchanged": true,
   "review_word_counts": {
     "total_including_references_and_annex_preamble": 3953,
     "spanish_abstract": 196,
     "english_abstract": 199
   },
-  "review_word_is_not_final_signed_submission": true
+  "review_word_is_not_final_signed_submission": true,
+  "validation_phase": "Technical validation before publication suppression; see publication_privacy.json for final public outputs.",
+  "pre_suppression_municipal_estimates_and_explorer_data_unchanged": true
 }

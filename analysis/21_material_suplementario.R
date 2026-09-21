@@ -278,12 +278,12 @@ doc <- body_add_fpar(doc, fpar(ftext("Figura S1. Validación cruzada espacial (5
 doc <- body_add_img(doc, src = file.path(FIG, "FigS1_validacion_cruzada.png"),
                      width = ANCHO_UTIL, height = ANCHO_UTIL * 9 / 12)
 doc <- body_add_fpar(doc, fpar(ftext(
-  "Validación cruzada espacial de 5 pliegues: observado y predicción se agregan con el ponderador calibrado dentro del municipio; BYM2 e IID usan exactamente las mismas filas, pesos y pliegues. Se muestra la reducción de RMSE frente al promedio ponderado de los municipios de entrenamiento de cada pliegue.",
+  "Validación cruzada espacial de 5 pliegues: observado y predicción se agregan con el ponderador calibrado dentro del municipio; BYM2 e IID usan exactamente las mismas filas, pesos y pliegues. El panel A omite municipios con n<10. El panel B muestra la reducción de RMSE agregada de todos los municipios frente al promedio ponderado del entrenamiento de cada pliegue.",
   fp_text(font.size = 9, font.family = "Arial")), fp_p = fp_parrafo))
 
 # --- Figura S2 ---
 doc <- body_add_break(doc)
-doc <- body_add_fpar(doc, fpar(ftext("Figura S2. Ancho del intervalo de credibilidad al 95% (criterio ESH).", fp_h3),
+doc <- body_add_fpar(doc, fpar(ftext("Figura S2. Ancho del intervalo de credibilidad al 95% (criterio ESH; celdas con n<10 suprimidas).", fp_h3),
                                 fp_p = fp_par(padding.top = 8, padding.bottom = 4)))
 doc <- body_add_img(doc, src = file.path(FIG, "FigS2_incertidumbre_ESH.png"),
                      width = ANCHO_UTIL, height = ANCHO_UTIL * 6.3 / 14)

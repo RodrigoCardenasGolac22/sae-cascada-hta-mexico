@@ -8,9 +8,7 @@
 # estimates the indicator value in that location, while less uncertainty indicates that the model
 # is better able to estimate the indicator value in that location."
 #
-# A diferencia de Fig 2/3 (donde se SUPRIME el valor si n<10 por riesgo de privacidad), este mapa
-# de incertidumbre NO se suprime: el ancho del IC95% no revela el valor puntual de ninguna persona
-# real, solo que tan seguro esta el modelo -- no hay riesgo de identificacion que proteger aqui.
+# La supresion por n<10 se aplica tambien al ancho del intervalo y sus derivados.
 
 library(sf)
 library(dplyr)
@@ -33,7 +31,8 @@ contorno_pais <- st_union(m)
 
 leer_incertidumbre <- function(nombre) {
   read_csv(file.path(RES, paste0("NACIONAL_", nombre, ".csv")), col_types = cols()) %>%
-    transmute(cve_ent = cve_ent, cve_mun = cve_mun, ancho_ic95,
+    transmute(cve_ent = cve_ent, cve_mun = cve_mun,
+              ancho_ic95 = ifelse(suprimir_privacidad, NA_real_, ancho_ic95),
               fuente = ifelse(fuente == "muestra_directa", "Muestra directa", "Sin muestra directa"))
 }
 
@@ -52,17 +51,17 @@ clasificar_cuantiles <- function(x, n_clases = 6) {
   clase <- cut(x, breaks = breaks, include.lowest = TRUE,
                labels = paste0(scales::percent(head(breaks, -1), accuracy = 1), "-",
                                 scales::percent(breaks[-1], accuracy = 1)))
-  clase <- factor(clase, levels = c(levels(clase), "Sin dato"))
-  clase[is.na(clase)] <- "Sin dato"
+  clase <- factor(clase, levels = c(levels(clase), "Sin dato / suprimido"))
+  clase[is.na(clase)] <- "Sin dato / suprimido"
   clase
 }
 
 hacer_mapa <- function(d, titulo, con_norte_escala = FALSE) {
   mm <- m %>% left_join(d, by = c("cve_ent", "cve_mun"))
   mm$clase <- clasificar_cuantiles(mm$ancho_ic95)
-  niveles_ic <- setdiff(levels(mm$clase), "Sin dato")
+  niveles_ic <- setdiff(levels(mm$clase), "Sin dato / suprimido")
   colores_clase <- setNames(c(RColorBrewer::brewer.pal(length(niveles_ic), "Greys"), "#FDF0D5"),
-                             c(niveles_ic, "Sin dato"))
+                             c(niveles_ic, "Sin dato / suprimido"))
   p <- ggplot(mm) +
     geom_sf(aes(fill = clase, alpha = fuente), color = "grey40", linewidth = 0.04) +
     geom_sf(data = contorno_pais, fill = NA, color = "black", linewidth = 0.35) +
