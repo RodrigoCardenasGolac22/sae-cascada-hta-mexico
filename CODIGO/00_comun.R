@@ -384,7 +384,7 @@ poblacion_adulta_municipal <- function(iter_csv = Sys.getenv("ITER_CSV",
 # post-estratificacion, ni muestra). Los log1p del conteo se conservan como referencia/diagnostico,
 # pero ninguna formula debe usarlos.
 #
-# pobreza_pct: CONEVAL trae el texto "n.d" en tres municipios creados despues de 2020
+# pobreza_pct: CONEVAL 2020 trae el texto "n.d" en tres municipios (04012, 07125 y 29048)
 # (04012 Seybaplaya, 07125 Honduras de la Sierra, 29048 La Magdalena Tlaltelulco); as.numeric()
 # los deja NA en silencio. Se dejan NA a proposito y se DECLARAN en el manuscrito (decision A3
 # opcion 1, tomada por el autor el 2026-08-06).
