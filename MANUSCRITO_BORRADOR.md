@@ -492,8 +492,9 @@ La prevalencia de cada municipio se obtuvo post-estratificando las predicciones 
 la composición de su población adulta (10), no evaluándolas en un individuo representativo. Se
 construyó una tabla de celdas definidas por sexo, grupo quinquenal de edad, escolaridad y estrato
 de urbanidad, con la población que el Censo 2020 cuenta en cada celda; se predijo la probabilidad
-del desenlace en cada celda y se promedió ponderando por su población. La estimación describe así a los
-adultos censales del municipio, no a sus encuestados. El mismo procedimiento se
+del desenlace en cada celda y se promedió ponderando por su población: son probabilidades condicionales
+estandarizadas a la composición adulta censal, no proporciones dentro de los denominadores clínicos
+municipales. El mismo procedimiento se
 aplicó a todos los municipios, tuvieran o no muestra directa; el efecto BYM2 de los que no la
 tienen se estima por estructura de vecindad.
 <!--/SOLO-->

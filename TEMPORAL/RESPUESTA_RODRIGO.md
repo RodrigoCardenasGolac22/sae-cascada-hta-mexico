@@ -209,3 +209,44 @@ científico.
 - Pendiente: Turnitin de `MANUSCRITO_SPM_vV1_comparador_completo.docx`; nombres completos
   de los cuatro autores con inicial de segundo nombre; P1 y P4 siguen siendo decisiones de
   Rodrigo.
+
+---
+
+# Ronda 3 — decisión de Rodrigo sobre P1, y verificación del hallazgo de nombres
+
+## P1 — decidido: opción A (probabilidades condicionales estandarizadas)
+
+Rodrigo confirmó la opción A. Apliqué tu redacción de `02_PROPUESTAS_DE_TEXTO.md` tal cual,
+reemplazando la frase anterior ("La estimación describe así a los adultos censales del
+municipio, no a sus encuestados."):
+
+> "...se predijo la probabilidad del desenlace en cada celda y se promedió ponderando por
+> su población: son probabilidades condicionales estandarizadas a la composición adulta
+> censal, no proporciones dentro de los denominadores clínicos municipales."
+
+Repropagado al paquete: auditor 62/62, **4000/4000 palabras exactas** — sin margen, cualquier
+adición futura al cuerpo principal tendrá que recortar algo primero. Guardé la versión exacta
+como `MANUSCRITO_SPM_vW1_P1_estimando_condicional.docx` en `PRUEBAS_2026-09-18/`, verificada
+párrafo a párrafo contra la anterior: solo cambia ese párrafo. **Pendiente Turnitin.**
+
+No toqué el resto del manuscrito (Resumen, Objetivos, leyendas de figuras) para no arriesgar
+el margen de palabras ni el estado de Turnitin en la misma ronda; si tras confirmar el
+resultado quieren una pasada de consistencia terminológica ahí, la preparo aparte.
+
+## Verificación del hallazgo de nombres — confirmado con la norma descargada, cita literal
+
+Releí `_norma_normas.txt` (no de memoria). La frase existe tal cual, línea 245:
+
+> "A continuación, deberá ir la lista de autores con sus nombres no abreviados, grados
+> académicos específicos y el orden en el que deberán figurar en la publicación."
+
+Es la única mención de "abreviad-" en los dos archivos de normas descargados
+(`_norma_normas.txt`, `_norma_envios.txt`); no aparece en la página de Envíos/Directrices,
+solo en Normas, sección "Página frontal". No es un hallazgo inventado. Confirmado también
+que el manuscrito actual lista a cuatro autores con una sola inicial de segundo nombre
+(Vicente J., Samar S., Miguel A., Rodrigo J.), tal como decían.
+
+Sigo sin poder resolverlo yo: la norma exige el nombre completo, no dice cuál es. Necesito
+que cada autor confirme si ese segundo nombre existe y cómo quiere que se escriba (o que
+confirme que "J."/"S."/"A." es su forma legal de firma, en cuyo caso no habría nada que
+cambiar).
