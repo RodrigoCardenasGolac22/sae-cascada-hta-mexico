@@ -794,7 +794,7 @@ interpretación en ordenamientos municipales finos.
 <!--SOLO:EXTENSA-->
 El modelo BYM2 superó a un promedio nacional simple no ajustado en las 5 comparaciones, con reducciones de RMSE de 1,3% a 9,8%, mayores en diagnóstico y tratamiento y más modestas en
 control (Figura S1, material suplementario). No hubo colinealidad ni autocorrelación espacial residual (I de Moran −0,06 a 0,04;
-p≥0,169), pero el componente no estructurado mostró asimetría de −0,61 a 2,03 y exceso de
+p≥0,168), pero el componente no estructurado mostró asimetría de −0,61 a 2,03 y exceso de
 curtosis de −0,21 a 5,43; además, el PIT se apartó de la uniformidad en los cinco modelos
 (p<0,001), señal de calibración predictiva imperfecta (Tabla S5).
 
@@ -807,7 +807,7 @@ pequeñas y el ponderado se mantuvo como principal (Tabla S2).
 <!--SOLO:BREVE-->
 El modelo BYM2 superó al promedio nacional simple en 5 comparaciones, con reducciones de
 RMSE de 1,3% a 9,8%, más modestas en control (Figura S1). No hubo autocorrelación espacial
-residual (p≥0,169), pero el exceso de curtosis alcanzó 5,43 y el PIT se apartó de la uniformidad en
+residual (p≥0,168), pero el exceso de curtosis alcanzó 5,43 y el PIT se apartó de la uniformidad en
 los cinco modelos (p<0,001; Tabla S5). Frente al ajuste sin ponderar, las correlaciones fueron
 0,88-0,93 y las diferencias absolutas medianas 2,28-3,50 pp; el criterio preespecificado se
 incumplió y la discrepancia persistió con n≥30, por lo que el ponderado se mantuvo como principal
